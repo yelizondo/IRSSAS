@@ -9,15 +9,28 @@ const app = express();
 const PORT = process.env.PORT || 3000
 
 //llamar funciones de controller.js
-const {getHomePage, login, getMain, getAsada, getVisor, getComponente, logout, getnewAsada, postnewAsada, getDatosAsada, getSites} = require('./routes/controller');
 
+const {getCrudComponente, saveComponente, getCrudSubcomponente, saveSubComponente, getCrudIndicador, getIndicador, deleteIndicador, updateIndicador, newIndicador, createIndicador, getCrudAsadasR,getCrudAsadasU, getPresentAsada, saveAsada, newAsada, createAsada, deleteAsada, crudFormularios, sendForm, getCrudUsuario, saveUsuario, getUsuariosAsadas,setUsuariosAsada} = require('./routes/cruds');
+const {getHomePage, login, getMain, getVisor, getComponente, logout, getSites, grafico, getRiesgo, getAsada, getInfoGeneral, generarInforme, histFormulario, getAnno, getRespuestas, comparaMapas, statsComponentes,statsSubcomponentes, getCantones, getDistritos, getEstadisticas} = require('./routes/controller');
 
 //conexion de BD
+/*
+  host     : process.env.RDS_HOSTNAME,
+  user     : process.env.RDS_USERNAME,
+  password : process.env.RDS_PASSWORD,
+  port     : process.env.RDS_PORT
+    host     : 'aa1p73vf0lmbvdr.cyzdjp7x4zfl.us-east-2.rds.amazonaws.com',
+    user     : 'joseph',
+    password : '12345678',
+    database : 'ebdb',
+    port : '3306'
+*/
 const db = mysql.createConnection ({
-    host     : '127.0.0.1',
+    host     : 'localhost',
     user     : 'userasada',
     password : 'asada',
-    database : 'proyecto_asada'
+    database : 'proyecto_asada',
+    port : '3306'
 });
 
 db.connect((err) => {
@@ -52,19 +65,49 @@ app.use(require('express-session')({
 // rutas con sus respectivas funciones
 app.get('/', getHomePage);
 app.post('/', [login, getMain]);
-
 app.get('/visor', getVisor);
 app.get('/main', getMain);
 app.get('/logout', logout);
 app.get('/getSites', getSites);
 app.get('/getComponente', getComponente);
-
-app.get('/asada/response', getDatosAsada);
-app.get('/asada/add', getnewAsada);
-app.post('/asada/add', postnewAsada);
-app.get('/asada/:id', getAsada);
-
-
+app.get('/componente', getCrudComponente);
+app.get('/subcomponente', getCrudSubcomponente);
+app.get('/indicador', getCrudIndicador);
+app.get('/asadas', getCrudAsadasR);
+app.get('/asadas/:id', getCrudAsadasU);
+app.get('/presentacionAsadas', getPresentAsada);
+app.get('/saveasada', saveAsada);
+app.get('/usuario', getCrudUsuario);
+app.get('/saveUsuario', saveUsuario);
+app.get('/saveComponente', saveComponente);
+app.get('/savesubcomponente', saveSubComponente);
+app.get('/indicador/:id', getIndicador);
+app.get('/deleteindicador', deleteIndicador);
+app.get('/updateindicador', updateIndicador);
+app.get('/newindicador', newIndicador);
+app.post('/createindicador', createIndicador);
+app.get('/usuario', getCrudUsuario);
+app.get('/newasada',newAsada);
+app.post('/createasada',createAsada);
+app.get('/deleteasada', deleteAsada);
+app.get('/grafico', grafico);
+app.get('/getRiesgo', getRiesgo);
+app.get('/getAsada', getAsada);
+app.get('/crudFormularios', crudFormularios);
+app.get('/infoGeneral', getInfoGeneral);
+app.get('/generarInforme', generarInforme);
+app.post('/sendForm', sendForm);
+app.get('/changeAsadaUser', getUsuariosAsadas);
+app.get('/setUsuariosAsada',setUsuariosAsada);
+app.get('/histFormulario', histFormulario);
+app.get('/getAnno', getAnno);
+app.get('/getRespuestas',getRespuestas);
+app.get('/comparaMapas', comparaMapas);
+app.get('/statsComponentes',statsComponentes);
+app.get('/statsSubcomponentes/:id',statsSubcomponentes);
+app.get('/getCantones', getCantones);
+app.get('/getDistritos', getDistritos);
+app.get('/getEstadisticas',getEstadisticas);
 // llamada al puerto 
 app.listen(PORT, () => {
     console.log(`Server running on port: ${PORT}`);

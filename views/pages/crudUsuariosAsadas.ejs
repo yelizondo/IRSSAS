@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <% include ../partials/header %>
+    </head>
+
+    <body>
+        <script type="text/javascript">
+            var asada="0";
+            var id="0";
+        </script>
+        <div class="wrapper">
+            <!-- Sidebar Holder -->
+            <% include ../partials/latAdmin %>
+            <!-- Page Content Holder -->
+            <div id="content">
+
+                <nav class="navbar navbar-default">
+                    <div class="container-fluid">
+
+                        <div class="navbar-header">
+                                                        <div class="row-group">
+                                <div class="form-group col-md-5">
+                                    <button type="button" id="sidebarCollapse" class="btn btn-info navbar-btn">
+                                        <i class="glyphicon glyphicon-leaf"></i>
+                                        <span></span>
+                                    </button>  
+                                </div>
+                                <div class="form-group col-md-5">
+                                    <button type="button" onclick="location.href='/usuario';" class="btn btn-info navbar-btn">
+                                        <i class="glyphicon glyphicon-arrow-left"></i>
+                                        <span></span>
+                                    </button>
+                                </div>
+                            </div>
+                            <form action="/changeAsadaUser" onsubmit=" return saveUserAsada();" id="usersub">
+                                <button type="submit" style="visibility: hidden;"  id="savebutton" class="btn btn-info navbar-btn" >Guardar cambios</button>
+                                <p style="color: #f00;" id="error"></p>
+                            </form>
+                        </div>
+
+                        <div style="float: right;">
+                            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                                <form action="/logout">
+                                    <button type="submit" class="btn btn-info navbar-btn">Cerrar Sesión</button>
+                                </form>
+                            </div>                           
+                        </div>
+                    </div>
+                    <div style="margin: 20px;">
+                        <label>Asadas</label>
+                        <select id="selector" class="form-control hideinput" onclick="seleccionarAsada();">
+                            <%asadas.forEach(function(asada, index) {%>
+                            <option value="<%=asada.ID%>"><%=asada.Nombre%></option>
+                            <%});%>
+                        </select>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">ID</th>
+                                    <th scope="col">Nombre</th>
+                                    <th scope="col">Asada ID</th>
+                                    <th scope="col">Asada</th>
+                                    <th scope="col">Seleccionar</th>
+                                </tr>
+                            </thead>
+                        <tbody id="usertable">
+                                <%usuarios.forEach(function(user, index) {%>
+                                <tr>
+                                    <td><%=user.ID%></td>
+                                    <td><%=user.Nombre%></td>
+                                    <%if(user.Asada === null){%>
+                                    <td id="asadaID-<%=user.ID%>"></td>
+                                    <td id="asada-<%=user.ID%>"></td>
+                                    <td><i class="glyphicon glyphicon-remove-circle" id="mark-<%=user.ID%>" onclick="seleccionarUsuario(0, <%=user.ID%>);"></i></td>
+                                    <%}else{%>
+                                    <td id="asadaID-<%=user.ID%>"><%=user.Asada_ID%></td>
+                                    <td id="asada-<%=user.ID%>"><%=user.Asada%></td>
+                                    <td><i class="glyphicon glyphicon-remove-circle" id="mark-<%=user.ID%>" onclick="seleccionarUsuario(<%=user.Asada_ID%>, <%=user.ID%>);"></i></td>
+                                    <%}%>
+                                </tr>
+                                <%});%>
+                        </tbody>
+                        </table>
+                    </div>
+                </nav>
+            </div>
+        </div>
+
+
+        <!-- jQuery CDN -->
+        <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+        <!-- Bootstrap Js CDN -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <!-- jQuery Custom Scroller CDN -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
+
+        <script type="text/javascript">
+            $(document).ready(function () {
+               
+
+                $('#sidebarCollapse').on('click', function () {
+                    $('#sidebar, #content').toggleClass('active');
+                    $('.collapse.in').toggleClass('in');
+                    $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+                });
+
+                $("#divrisk").click(function(){
+                     $("#divrisk").toggle("slow","linear");
+                });
+
+                $("#buttonrisk").click(function(){
+                     $("#divrisk").toggle("slow","linear");
+                });
+
+
+            });
+        </script>
+        <script src="scripts/crud.js"></script>
+    </body>
+</html>
+
