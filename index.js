@@ -30,8 +30,7 @@ const db = mysql.createConnection ({
     user     : 'root',
     password : 'mysql',
     database : 'asadas',
-    port : '3306',
-    socketPath: '/cloudsql/sigma-outlook-247800:us-central1:emjironal-mysql'
+    port : '3306'
 });
 
 db.connect((err) => {
