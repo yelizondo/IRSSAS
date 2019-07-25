@@ -6,7 +6,7 @@ const bodyParser = require('body-parser');
 const mysql = require('mysql');
 const path = require('path');
 const app = express();
-const PORT = process.env.PORT || 3000
+const PORT = process.env.PORT || 8000
 
 //llamar funciones de controller.js
 
