@@ -149,7 +149,7 @@ module.exports = {
         }
 
         db.query("update INDICADOR i, SUBCOMPONENTE s, COMPONENTE c  set i.valor=(c.Valor*s.valor)/(s.cantpreguntas*10000) where i.ID>0 and i.Subcomponente_ID=s.ID and s.Componente_ID=c.ID;");
-
+        res.redirect('/componente');
         }
     },
 

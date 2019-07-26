@@ -30,7 +30,7 @@
                             </div>                           
                         </div>
                     </div>
-                    <form action="/sendForm" method="POST" onsubmit="return valoresForm();">
+                    <form action="/sendForm" method="POST" >
                     <div style="margin: 20px;">
                         <div class="form-group">
                             
@@ -91,7 +91,7 @@
 
                     </div>
                     <div id="divbutton" style=" position: absolute; bottom: 6px; right: 8px;">
-                        <button type="submit" class="btn btn-info navbar-btn">Guardar Formulario</button>
+                        <button type="submit" onclick="return valoresForm();"class="btn btn-info navbar-btn">Guardar Formulario</button>
                     </div>
                     </form>
                 </nav>

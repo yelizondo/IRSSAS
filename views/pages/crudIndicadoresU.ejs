@@ -20,8 +20,8 @@
                                 <i class="glyphicon glyphicon-leaf"></i>
                                 <span></span>
                             </button>
-                            <form action="/indicador" onsubmit=" return updateIndicador(<%=indicador.ID%>);" id="compsub">
-                                <button type="submit" style="visibility: hidden;"  id="savebutton" class="btn btn-info navbar-btn" >Guardar cambios</button>
+                            <form action="/indicador" id="compsub">
+                                <button type="submit" onclick=" return updateIndicador(<%=indicador.ID%>);" style="visibility: hidden;"  id="savebutton" class="btn btn-info navbar-btn" >Guardar cambios</button>
                                 <p style="color: #f00;" id="error"></p>
                             </form>
                         </div>
