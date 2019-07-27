@@ -62,18 +62,18 @@ function subcontador(){
 	var vals=[];
 	var conts=[];
 	var table = document.getElementById("componenttable");
-	for (var i = table.rows.length - 1; i >= 0; i--) {
-
-		if(vals.includes(table.rows[i].cells[2].childNodes[0].value)){
-			conts[vals.indexOf(table.rows[i].cells[2].childNodes[0].value)]+= parseInt(table.rows[i].cells[3].childNodes[0].value);
+	for (var i = 0; i < table.rows.length; i++) {
+		if(vals.includes(table.rows[i].cells[2].childNodes[0].selectedOptions[0].label)){
+			conts[vals.indexOf(table.rows[i].cells[2].childNodes[0].selectedOptions[0].label)]+= parseInt(table.rows[i].cells[3].childNodes[0].value);
 		}else{
-			vals.push(table.rows[i].cells[2].childNodes[0].value);
+			vals.push(table.rows[i].cells[2].childNodes[0].selectedOptions[0].label);
 			conts.push(parseInt(table.rows[i].cells[3].childNodes[0].value));
 		}
 	}
-	for (var i = conts.length - 1; i >= 0; i--) {
-		if(conts[i]!=100)
+	for (var i = 0; i < conts.length; i++) {
+		if(conts[i]!=100){
 			return false;
+		}
 	}
 	return true;
 }

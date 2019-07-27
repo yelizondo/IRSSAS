@@ -52,9 +52,9 @@
                                     <td><%=componente.ID%></td>
                                     <td><input type="text" class="form-control hideinput" onchange="updateComponent(<%= componente.ID%>)" name="name-<%=componente.ID%>" value="<%=componente.Nombre%>"></td>
                                     <td><select class="form-control hideinput" onchange="updateComponent(<%= componente.ID%>)" name="comp-<%=componente.ID%>">
-                                        <option selected="" value="<%=componente.Componente_ID%>"><%=componente.Componente%></option>
+                                        <option selected="" value="<%=componente.COMPONENTE_ID%>"><%=componente.Componente%></option>
                                         <%comps.forEach(function(comp){%>
-                                            <%if(comp.ID != componente.Componente_ID){%>
+                                            <%if(comp.ID != componente.COMPONENTE_ID){%>
                                             <option value="<%=comp.ID%>"><%=comp.Nombre%></option>
                                             <%}%>
                                         <%});%>
