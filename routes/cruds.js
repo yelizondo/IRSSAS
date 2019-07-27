@@ -543,14 +543,14 @@ module.exports = {
                     if(x != -1){
                         var exp= parseFloat(req.body[keys[i]])*parseFloat(rows[x].Pendiente) + parseFloat(rows[x].Ordenada)
                         db.query("delete from HISTORICORESPUESTA where Indicador_ID="+keys[i]+" and Asada_ID="+req.body.asada+" and año='"+req.body.anno+"' limit 1 ;");
-                        db.query("insert into HISTORICORESPUESTA select * from indicadorxasada where Indicador_ID="+keys[i]+" and Asada_ID="+req.body.asada+"  ;");
+                        db.query("insert into HISTORICORESPUESTA select * from INDICADORXASADA where Indicador_ID="+keys[i]+" and Asada_ID="+req.body.asada+"  ;");
                         db.query("delete from INDICADORXASADA where Indicador_ID="+keys[i]+" and Asada_ID="+req.body.asada+" limit 1 ;");
                         db.query("insert into INDICADORXASADA(año,Indicador_ID,Asada_ID,Valor,Texto) values('"+req.body.anno+"','"+keys[i]+"','"+req.body.asada+"','"+(1/(1 + Math.pow(Math.E,exp)))+"','"+lista[i+1]+"');");
                             
                     }
                     else{
                         db.query("delete from HISTORICORESPUESTA where Indicador_ID="+keys[i]+" and Asada_ID="+req.body.asada+" and año='"+req.body.anno+"' limit 1 ;");
-                        db.query("insert into HISTORICORESPUESTA select * from indicadorxasada where Indicador_ID="+keys[i]+" and Asada_ID="+req.body.asada+"  ;");
+                        db.query("insert into HISTORICORESPUESTA select * from INDICADORXASADA where Indicador_ID="+keys[i]+" and Asada_ID="+req.body.asada+"  ;");
                         db.query("delete from INDICADORXASADA where Indicador_ID="+keys[i]+" and Asada_ID="+req.body.asada+" limit 1 ;");
                         db.query("insert into INDICADORXASADA(año,Indicador_ID,Asada_ID,Valor,Texto) values('"+req.body.anno+"','"+keys[i]+"','"+req.body.asada+"','"+req.body[keys[i]]+"','"+lista[i+1]+"');");
 

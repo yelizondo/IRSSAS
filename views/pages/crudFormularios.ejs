@@ -59,26 +59,26 @@
                                 <%indicadores.forEach(function(indicador, index) {%>
                                 <tr>
                                     <td><%=indicador.Nombre%></td>
-                                    <%if(indicador.Medida_ID==1){%>
+                                    <%if(indicador.MEDIDA_ID==1){%>
                                     <td><select class="form-control hideinput" name="<%=indicador.ID%>">
                                         <option value="0">SI</option>    
                                         <option value="1">NO</option>
                                     </select>
                                     </td>
-                                    <%}else if(indicador.Medida_ID==2){%>
+                                    <%}else if(indicador.MEDIDA_ID==2){%>
                                     <td><select class="form-control hideinput" name="<%=indicador.ID%>">
                                         <option value="1">SI</option>    
                                         <option value="0">NO</option>
                                     </select>
                                     </td>
-                                    <%}else if(indicador.Medida_ID==3){%>
+                                    <%}else if(indicador.MEDIDA_ID==3){%>
                                     <td><input type="number" step="any" min="0" max="100" required class="form-control hideinput" placeholder="0-100" name="<%=indicador.ID%>"></td>
-                                    <%}else if(indicador.Medida_ID==4){%>
+                                    <%}else if(indicador.MEDIDA_ID==4){%>
                                     <td><input type="number" step="any" min="0" required class="form-control hideinput" placeholder="" name="<%=indicador.ID%>"></td>
                                     <%}else{%>
                                         <td><select class="form-control hideinput"  name="<%=indicador.ID%>">
                                         <%nominales.forEach(function(nominal,index){%>
-                                            <%if(nominal.Indicador_ID==indicador.ID){%>
+                                            <%if(nominal.INDICADOR_ID==indicador.ID){%>
                                                 <option value="<%=nominal.Porcentaje%>"><%=nominal.Simbolo%> <%=nominal.Valor%></option>
                                             <%}%>
                                         <%});%>
