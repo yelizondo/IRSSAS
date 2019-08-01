@@ -192,7 +192,6 @@ module.exports = {
 
         if(!(borrados === undefined)){
         borrados.forEach(function(element) {
-            console.log("delete from SUBCOMPONENTE where id="+element+" ;")
             db.query("delete from SUBCOMPONENTE where id="+element+" ;");
         });
         }
@@ -200,14 +199,12 @@ module.exports = {
         if(!(actualizados === undefined)){
 
             actualizados.forEach(function(element) {
-                console.log("update SUBCOMPONENTE set nombre='"+element.nombre+"', valor="+element.valor+", componente_ID="+element.componente+", siglas='"+element.siglas+"' where id= "+element.id+";")
             db.query("update SUBCOMPONENTE set nombre='"+element.nombre+"', valor="+element.valor+", componente_ID="+element.componente+", siglas='"+element.siglas+"' where id= "+element.id+";");
         });
         }
 
         if(!(nuevos === undefined)){
         nuevos.forEach(function(element) {
-            console.log("insert into SUBCOMPONENTE(nombre, valor, componente_ID, siglas, cantpreguntas) values('"+element.nombre+"',"+element.valor+", "+element.componente+", '"+element.siglas+"', 0  );")
             db.query("insert into SUBCOMPONENTE(nombre, valor, componente_ID, siglas, cantpreguntas) values('"+element.nombre+"',"+element.valor+", "+element.componente+", '"+element.siglas+"', 0  );");
         });
         }
@@ -278,7 +275,7 @@ module.exports = {
         if(!(borrados === undefined)){            
         borrados.forEach(function(element) {
             db.query("update SUBCOMPONENTE, INDICADOR i inner join SUBCOMPONENTE s on s.ID=i.Subcomponente_ID  set s.CantPreguntas=s.CantPreguntas-1 where i.ID="+element+" ;");
-            db.query("delete from indicador where id="+element+" ;");
+            db.query("delete from INDICADOR where id="+element+" ;");
         });
         }
 
