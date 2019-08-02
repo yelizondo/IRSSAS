@@ -213,13 +213,13 @@ module.exports = {
 
         if(tipo == "IRSSAS"){
             s= "select s.Asada_ID, SUM(s.valor*i.valor)*100 as valor from INDICADORXASADA s, INDICADOR i where s.Indicador_ID=i.ID  group by (s.Asada_ID)";
-            k= "select s.Asada_ID, SUM(s.valor*i.valor)*100 as valor, a.Latitud, a.Longitud from INDICADORXASADA s, INDICADOR i, ASADA a where s.Indicador_ID=i.ID and s.Asada_ID=a.ID  group by (s.Asada_ID)";
+            k= "select s.Asada_ID, a.Nombre, SUM(s.valor*i.valor)*100 as valor, a.Latitud, a.Longitud from INDICADORXASADA s, INDICADOR i, ASADA a where s.Indicador_ID=i.ID and s.Asada_ID=a.ID  group by (s.Asada_ID)";
         }
         else if(tipo == "SubComponente"){
             s = "SELECT s.Asada_ID, (SUM(s.valor * i.valor) * 1000000) / (d.valor * c.valor) as valor FROM INDICADORXASADA s, INDICADOR i, "+
                 "SUBCOMPONENTE d, COMPONENTE c WHERE s.Indicador_ID = i.ID and i.Subcomponente_ID=d.ID and d.Componente_ID= c.ID "+
                 "and d.id= "+id+" GROUP BY (s.Asada_ID) ";
-            k = "SELECT s.Asada_ID, (SUM(s.valor * i.valor) * 1000000) / (d.valor * c.valor) as valor, a.Latitud, a.Longitud FROM INDICADORXASADA s, INDICADOR i, "+
+            k = "SELECT s.Asada_ID, a.Nombre, (SUM(s.valor * i.valor) * 1000000) / (d.valor * c.valor) as valor, a.Latitud, a.Longitud FROM INDICADORXASADA s, INDICADOR i, "+
                 "SUBCOMPONENTE d, COMPONENTE c, ASADA a WHERE s.Indicador_ID = i.ID and i.Subcomponente_ID=d.ID and d.Componente_ID= c.ID "+
                 "and d.id= "+id+" and s.Asada_ID=a.ID GROUP BY (s.Asada_ID) ";
         }
@@ -227,7 +227,7 @@ module.exports = {
             s = "SELECT s.Asada_ID, (SUM(s.valor * i.valor) * 10000) / c.valor  AS valor FROM INDICADORXASADA s, INDICADOR i, "+
                 "SUBCOMPONENTE d, COMPONENTE c WHERE s.Indicador_ID = i.ID  and i.Subcomponente_ID=d.ID and d.Componente_ID= c.ID "+
                 "and d.Componente_ID= "+id+" GROUP BY (s.Asada_ID)";
-            k = "SELECT s.Asada_ID, (SUM(s.valor * i.valor) * 10000) / c.valor  AS valor, a.Latitud, a.Longitud FROM INDICADORXASADA s, INDICADOR i, "+
+            k = "SELECT s.Asada_ID, a.Nombre, (SUM(s.valor * i.valor) * 10000) / c.valor  AS valor, a.Latitud, a.Longitud FROM INDICADORXASADA s, INDICADOR i, "+
                 "SUBCOMPONENTE d, COMPONENTE c, ASADA a WHERE s.Indicador_ID = i.ID  and i.Subcomponente_ID=d.ID and d.Componente_ID= c.ID "+
                 "and d.Componente_ID= "+id+" and s.Asada_ID=a.ID GROUP BY (s.Asada_ID)";
         }
@@ -251,14 +251,8 @@ module.exports = {
 
             }
             db.query(k, function(err2,rows2,fields2){
-
-                for (var i = rows2.length - 1; i >= 0; i--) {
-                x= 4-(Math.floor(rows2[i].valor/20));
-                if(x > 4) x=4;
-                if(x < 0) x=0;
-                rows2[i].valor = x;
-                }
                 var jsonsites = { "sitios": dictionary, "valores": values, "asadas": rows2 }
+                
                 res.send(jsonsites);
             });
         }

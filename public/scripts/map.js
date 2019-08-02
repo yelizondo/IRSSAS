@@ -33,7 +33,34 @@ var styles = [new ol.style.Style({
 
                     })
                 })];
+//en proceso
 
+
+var style1 = [
+  new ol.style.Style({
+      image: new ol.style.Icon(({
+          scale: 0.4,
+          rotateWithView: false,
+          anchor: [0.5, 1],
+          anchorXUnits: 'fraction',
+          anchorYUnits: 'fraction',
+          opacity: 1,
+          src: '/images/mark.png'
+      })),
+      zIndex: 5
+  })/*,
+  new ol.style.Style({
+      image: new ol.style.Circle({
+          radius: 4,
+          fill: new ol.style.Fill({
+              color: 'rgba(255,255,255,0.5)'
+          }),
+          stroke: new ol.style.Stroke({
+              color: 'rgba(0,0,0,1)'
+          })
+      })
+  })*/
+];
 // Función toma codigo de distrito y busca en jsonsites si existe riesgo en el, de no ser asi lo pinta transparente
 var styleFunction = function(feature) {
         var id =parseInt(feature.get('CODIGO'));
@@ -111,34 +138,7 @@ layers.push(new ol.layer.Tile({
                 })
               }))
 
-//en proceso
 
-
-var style1 = [
-    new ol.style.Style({
-        image: new ol.style.Icon(({
-            scale: 0.4,
-            rotateWithView: false,
-            anchor: [0.5, 1],
-            anchorXUnits: 'fraction',
-            anchorYUnits: 'fraction',
-            opacity: 1,
-            src: '/images/mark.png'
-        })),
-        zIndex: 5
-    })/*,
-    new ol.style.Style({
-        image: new ol.style.Circle({
-            radius: 4,
-            fill: new ol.style.Fill({
-                color: 'rgba(255,255,255,0.5)'
-            }),
-            stroke: new ol.style.Stroke({
-                color: 'rgba(0,0,0,1)'
-            })
-        })
-    })*/
-];
 
 puntos = [];
 var x;
@@ -207,7 +207,6 @@ map.on('click', function(evt) {
         var coord = geometry.getCoordinates();
         content.innerHTML = '<p><b>'+f.get("name")+'</b></p><p><b>ID: </b> '+f.get("id")+' <b>Riesgo: </b>'+f.get("riesgo")+'% <b>Nivel de Riesgo: </b>'+f.get("color")+' </p>';        
         overlay.setPosition(coord);
-        
     }
     
 });
@@ -226,12 +225,42 @@ function checkear(id){
     }
   }
 
-
+function loadPoints()
+{
+  map.removeLayer(layers[6]);
+  puntos=[];
+  for(var i= 0; i< jsonsites.asadas.length; i++){
+    x= 4-(Math.floor(jsonsites.asadas[i].valor/20));
+    if(x > 4) x=4;
+    if(x < 0) x=0;
+    
+    puntos.push(new ol.Feature({
+          type: 'click',
+          geometry: new ol.geom.Point(ol.proj.fromLonLat([parseFloat(jsonsites.asadas[i].Latitud),parseFloat(jsonsites.asadas[i].Longitud)])),
+          name: jsonsites.asadas[i].Nombre,
+          id: jsonsites.asadas[i].Asada_ID,
+          riesgo: jsonsites.asadas[i].valor,
+          color: (["Muy Alto", "Alto", "Intermedio", "Bajo", "Nulo"])[x]
+    }));
+    puntos[i].setStyle(style1);
+      
+    var vectorSource = new ol.source.Vector({
+     features: puntos
+    });
+    var vectorLayer = new ol.layer.Vector({
+     source: vectorSource
+    });
+   layers[6]= vectorLayer;
+   
+   map.addLayer(layers[6]);
+  }
+}
 function changeComp(){
 	layers[2].setStyle(null);
 	var parameters = { "id": thisid, "tipo": thistipo, "provincia": provincia, "canton": canton, "distrito": distrito};
 	$.get('/getComponente',parameters,function(data) {
       jsonsites = data;
+      loadPoints();
      }).done(function(res){
 		layers[2].setStyle(styleFunction);
 		if(thistipo=="SubComponente"){
@@ -263,31 +292,6 @@ function filtrarMap(){
     thisasadas = data.jsonsites1;
        }).done(function(res){
 
-        var style1 = [
-          new ol.style.Style({
-              image: new ol.style.Icon(({
-                  scale: 0.4,
-                  rotateWithView: false,
-                  anchor: [0.5, 1],
-                  anchorXUnits: 'fraction',
-                  anchorYUnits: 'fraction',
-                  opacity: 1,
-                  src: '/images/mark.png'
-              })),
-              zIndex: 5
-          })/*,
-          new ol.style.Style({
-              image: new ol.style.Circle({
-                  radius: 4,
-                  fill: new ol.style.Fill({
-                      color: 'rgba(255,255,255,0.5)'
-                  }),
-                  stroke: new ol.style.Stroke({
-                      color: 'rgba(0,0,0,1)'
-                  })
-              })
-          })*/
-      ];
         puntos = [];
         var x;
         for(var i= 0; i< thisasadas.asadas.length; i++){
