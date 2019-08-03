@@ -243,17 +243,16 @@ function loadPoints()
           color: (["Muy Alto", "Alto", "Intermedio", "Bajo", "Nulo"])[x]
     }));
     puntos[i].setStyle(style1);
-      
-    var vectorSource = new ol.source.Vector({
-     features: puntos
-    });
-    var vectorLayer = new ol.layer.Vector({
-     source: vectorSource
-    });
-   layers[6]= vectorLayer;
-   
-   map.addLayer(layers[6]);
   }
+      
+  var vectorSource = new ol.source.Vector({
+   features: puntos
+  });
+  var vectorLayer = new ol.layer.Vector({
+   source: vectorSource
+  });
+  layers[6] = vectorLayer;
+  map.addLayer(layers[6]);
 }
 function changeComp(){
 	layers[2].setStyle(null);
