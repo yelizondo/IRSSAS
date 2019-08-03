@@ -3,7 +3,7 @@
 // se utiliza por el menu lateral
 
 function aranna(value, tipo, anno){
-    var parameters = { "id": value, "tipo": tipo, "anno": anno};
+	var parameters = { "id": value, "tipo": tipo, "anno": anno};
     $.get('/getRiesgo',parameters,function(data) {
         new Chart(document.getElementById("radar-chart"), {
 			type: 'radar',
@@ -21,6 +21,12 @@ function aranna(value, tipo, anno){
 				data: data.valores
 				}]
 
+			},
+			options: {
+				title: {
+					display: true,
+					text: 'Nivel de Riesgo de la ASADA'
+				}
 			}});
 	});
 };
@@ -121,35 +127,12 @@ function generarPDF(){
 
         if (incluirGraf != null){
 
-			var parameters = { "id": parseInt(values_list[0])};
-			$.get('/getRiesgo',parameters,function(data) {
-				new Chart(document.getElementById("radar-chart"), {
-					type: 'radar',
-					data: {
-						labels: data.componentes,
-						datasets: [{
-								label: data.nombre,
-								fill: true,
-								backgroundColor: "rgba(25,61,102,0.2)",
-								borderColor: "rgba(25,61,102,1)",
-								pointBorderColor: "#fff",
-								pointBackgroundColor: "rgba(179,181,198,1)",
-								data: data.valores
-						}]
-					},
-					options: {
-						title: {
-							display: true,
-							text: 'Nivel de Riesgo de la ASADA'
-						}
-					}
-				});
-			});
+			aranna(parseInt(values_list[0]),"INDICADORXASADA",0);
 
 			var canvas = document.getElementById("radar-chart");
-			
 			var canvasImg = canvas.toDataURL('image/jpeg', 1.0);
-			pdfdoc.addImage(canvasImg, 'JPEG', 10, 110, 100, 100);
+			console.log(canvasImg);
+			//pdfdoc.addImage(canvas, 'JPEG', 10, 110, 100, 100);
 		
 		}
 
@@ -204,30 +187,7 @@ function generarPDF(){
 			var incluirHist = $("input[name='hist']:checked")[0];
 
 			if (incluirGraf != null){
-				var parameters = { "id": parseInt(values_list[0])};
-				$.get('/getRiesgo',parameters,function(data) {
-					new Chart(document.getElementById("radar-chart"), {
-						type: 'radar',
-						data: {
-							labels: data.componentes,
-							datasets: [{
-									label: data.nombre,
-									fill: true,
-									backgroundColor: "rgba(25,61,102,0.2)",
-									borderColor: "rgba(25,61,102,1)",
-									pointBorderColor: "#fff",
-									pointBackgroundColor: "rgba(179,181,198,1)",
-									data: data.valores
-							}]
-						},
-						options: {
-							title: {
-								display: true,
-								text: 'Nivel de Riesgo de la ASADA'
-							}
-						}
-					});
-				});
+				aranna(parseInt(values_list[0]),"INDICADORXASADA",0);
 
 				var canvas = document.getElementById("radar-chart");
 				var canvasImg = canvas.toDataURL('image/jpeg', 1.0);

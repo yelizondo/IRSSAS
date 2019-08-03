@@ -88,11 +88,9 @@
         <script type="text/javascript">
             function download(){
             html2canvas($("#radar-chart"), {
-                onrendered: function(canvas) {         
-                    var imgData = canvas.toDataURL(
-                        'image/png');              
+                onrendered: function(canvas) {
                     var doc = new jsPDF('p', 'mm');
-                    doc.addImage(imgData, 'PNG', 10, 10);
+                    doc.addImage(canvas, 'PNG', 10, 10, 190, 277);
                     doc.save('sample-file.pdf');
                 }
             });}
