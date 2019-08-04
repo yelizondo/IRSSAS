@@ -66,11 +66,11 @@ module.exports = {
         let k="";
 
         var l="";
-        if(req.query.provincia!=0){
+        if(req.query.provincia != undefined && req.query.provincia!=0){
             l+=" and C.Provincia_ID="+req.query.provincia+" ";
-            if(req.query.canton!=0){
+            if(req.query.canton != undefined && req.query.canton!=0){
                 l+=" and C.Canton_ID="+req.query.canton+" ";
-                if(req.query.distrito!=0){
+                if(req.query.distrito != undefined && req.query.distrito!=0){
                     l+=" and C.ID="+req.query.distrito+" ";
                 }
             }
