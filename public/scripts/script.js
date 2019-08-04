@@ -190,7 +190,13 @@ function downloadPDF()
 			'width': 190,
 			'elementHandlers': specialElementHandlers
 		});
-		pdfdoc.addImage(element.lastChild, "PNG", 10, 110, 190, 190);
+		//Cambiar el fondo a blanco para el jpeg
+		var ctx = element.lastChild.getContext("2d");
+		ctx.globalCompositeOperation = "destination-over";
+		ctx.fillStyle = "#FFFFFF";
+		ctx.fillRect(0, 0, element.lastChild.width, element.lastChild.height);
+		
+		pdfdoc.addImage(element.lastChild, "JPEG", 10, 110, 190, 190);
 		file_name += " - " + element.id;
 	});
 	pdfdoc.save(file_name + '.pdf');

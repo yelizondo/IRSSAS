@@ -90,7 +90,7 @@
             html2canvas($("#radar-chart"), {
                 onrendered: function(canvas) {
                     var doc = new jsPDF('p', 'mm');
-                    doc.addImage(canvas, 'PNG', 10, 10, 190, 277);
+                    doc.addImage(canvas, 'PNG', 10, 10, 190, 190);
                     doc.save('sample-file.pdf');
                 }
             });}
