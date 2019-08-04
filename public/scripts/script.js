@@ -2,10 +2,10 @@
 //refresca el mapa 
 // se utiliza por el menu lateral
 
-function aranna(value, tipo, anno){
+function aranna(value, tipo, anno, idchart = ""){
 	var parameters = { "id": value, "tipo": tipo, "anno": anno};
     $.get('/getRiesgo',parameters,function(data) {
-        new Chart(document.getElementById("radar-chart"), {
+        new Chart(document.getElementById("radar-chart"+idchart), {
 			type: 'radar',
 			data: {
 			labels: data.componentes,
@@ -66,7 +66,8 @@ function cambiarTipoInforme(){
         $("#borrarAsada").show();
         $("#asadasInforme").show();
     }
-    
+    $("#prueba").hide();
+	$("#downloadpdf").hide();
 };
 
 function addAsadaToList(){
@@ -100,7 +101,7 @@ function deleteAsadaFromList(){
 };
 
 function generarPDF(){
-	
+	$("#prueba").show();
     var esGlobal = $("input[value='global']:checked")[0];
     
     if (esGlobal != null){
@@ -109,6 +110,7 @@ function generarPDF(){
         var values_list = asada.split(",");
 
         $("#prueba").html(
+			'<div id="'+values_list[0]+'">'+
             "<h2>ASADA #" + values_list[0] + ": " + values_list[1] + "</h2><br>" + 
             "<p>Ubicación: " + values_list[2] + ", " + values_list[3] + ", " + values_list[4] + "</p><br>" + 
             "<p>Punto en el mapa: (" + values_list[6] + ", " + values_list[7] + ")</p><br>" + 
@@ -117,45 +119,21 @@ function generarPDF(){
             "<p>Cantidad de abonados: " + values_list[9] + "</p><br>" +
             "<p>Teléfono: " + values_list[10] + "</p><br>" + 
             "<p>URL: " + values_list[11] + "</p><br>" +
-            "<div id=\"ID_DIV\"> <canvas id=\"radar-chart\"></canvas></div>"
+            "<canvas id=\"radar-chart"+values_list[0]+"\"></canvas></div>"
         );
 
         var incluirGraf = $("input[name='grafico']:checked")[0];
         var incluirHist = $("input[name='hist']:checked")[0];
 
-        var pdfdoc = new jsPDF();
 
         if (incluirGraf != null){
-
-			aranna(parseInt(values_list[0]),"INDICADORXASADA",0);
-
-			var canvas = document.getElementById("radar-chart");
-			var canvasImg = canvas.toDataURL('image/jpeg', 1.0);
-			console.log(canvasImg);
-			//pdfdoc.addImage(canvas, 'JPEG', 10, 110, 100, 100);
-		
+			aranna(parseInt(values_list[0]),"INDICADORXASADA",0, values_list[0]);
 		}
 
         /*
         if (incluirHist != null)
             pdfdoc.addImage(canvasImg, 'JPEG', 10, 110, 100, 100);    
         */
-
-
-        var specialElementHandlers = {
-            '#ignoreContent': function (element, renderer) {
-                return true;
-            }
-        };
-
-        $(document).ready(function(){
-        pdfdoc.fromHTML($("#prueba").html(), 10, 10, {
-            'width': 500,
-            'elementHandlers': specialElementHandlers
-        });
-
-        pdfdoc.save('Informe - ASADA ' + values_list[0] +'.pdf');
-        });
     }
     else{
 		var lista = $("#listaAsadas").val().split("|");
@@ -170,6 +148,7 @@ function generarPDF(){
 			}
 
 			$("#prueba").append(
+				'<div id="'+values_list[0]+'">'+
 				"<h2>ASADA #" + values_list[0] + ": " + values_list[1] + "</h2><br>" + 
 				"<p>Ubicación: " + values_list[2] + ", " + values_list[3] + ", " + values_list[4] + "</p><br>" + 
 				"<p>Punto en el mapa: (" + values_list[6] + ", " + values_list[7] + ")</p><br>" + 
@@ -178,51 +157,44 @@ function generarPDF(){
 				"<p>Cantidad de abonados: " + values_list[9] + "</p><br>" +
 				"<p>Teléfono: " + values_list[10] + "</p><br>" + 
 				"<p>URL: " + values_list[11] + "</p><br>" +
-				"<div id=\"ID_DIV\"> <canvas id=\"radar-chart\"></canvas></div>"
+				"<canvas id=\"radar-chart"+values_list[0]+"\"></canvas></div>"
 			);
-			
-			var pdfdoc = new jsPDF();
 
 			var incluirGraf = $("input[name='grafico']:checked")[0];
 			var incluirHist = $("input[name='hist']:checked")[0];
 
 			if (incluirGraf != null){
-				aranna(parseInt(values_list[0]),"INDICADORXASADA",0);
-
-				var canvas = document.getElementById("radar-chart");
-				var canvasImg = canvas.toDataURL('image/jpeg', 1.0);
-				pdfdoc.addImage(canvasImg, 'JPEG', 10, 110, 100, 100);
+				aranna(parseInt(values_list[0]),"INDICADORXASADA",0, values_list[0]);
 			}
-
-			var specialElementHandlers = {
-				'#ignoreContent': function (element, renderer) {
-					return true;
-				}
-			};
-
-			$(document).ready(function(){
-				pdfdoc.fromHTML($("#prueba").html(), 10, 10, {
-					'width': 500,
-					'elementHandlers': specialElementHandlers
-				});
-			});	
-		
 		}
-		
-		var file_name = 'Informe - ASADAS ';
-		
-		for (var i = 0; i < lista.length; i++){
-			var temp = lista[i].split(",");
-			if (i != lista.length - 1)
-				file_name += temp[0] + ", ";
-			else
-				file_name += temp[0];				
-		}
-
-		pdfdoc.save(file_name + '.pdf');
-		
 	}
+	$("#downloadpdf").show();
 };
+
+function downloadPDF()
+{
+	var pdfdoc = new jsPDF();
+
+	var specialElementHandlers = {
+		'#ignoreContent': function (element, renderer) {
+			return true;
+		}
+	};
+
+	var asadas = document.getElementById("prueba");
+	var file_name = 'Informe - ASADAS'
+	asadas.childNodes.forEach((element,key) => {
+		if(key < asadas.childNodes.length && key > 0) pdfdoc.addPage();
+
+		pdfdoc.fromHTML(element.innerHTML, 10, 10, {
+			'width': 190,
+			'elementHandlers': specialElementHandlers
+		});
+		pdfdoc.addImage(element.lastChild, "PNG", 10, 110, 190, 190);
+		file_name += " - " + element.id;
+	});
+	pdfdoc.save(file_name + '.pdf');
+}
 
 function getAnnos(object){
     var val= object.value
