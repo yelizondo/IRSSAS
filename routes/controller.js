@@ -164,18 +164,18 @@ module.exports = {
     login: (req, res, next) => {
         let query = "select u.*,ua.Asada_ID from USUARIO u left join USUARIOXASADA ua on u.ID=ua.Usuario_ID where usuario= '"+ req.body.usr+"' and contrasenna= '"+req.body.pwd+"'";
         db.query(query, function(err, rows, fields) {
-        if (!err){
-            if(rows.length > 0){
-                req.session.value= 1;
-                req.session.usuario = rows[0];
-                next();
-            }
-            else{
-                res.render('pages/index.ejs', {"var1":"error","var2":[], "error":"Usuario o contraseña invalidos"});
-            }
+        if (!err && rows.length > 0){
+            req.session.value= 1;
+            req.session.usuario = rows[0];
+            next();
         }
         else{
-            res.render('pages/index.ejs', {"var1":"error","var2":[], "error":"Usuario o contraseña invalidos"})
+            let query= "SELECT p.* from PROVINCIA p;"
+            db.query(query,function(err,rows,fields){
+            if(!err){
+                res.render('pages/index.ejs', {"rows":rows, "error":"Usuario o contraseña invalidos"});
+            }
+            });
         }
         });
     },
