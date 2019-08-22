@@ -10,7 +10,7 @@ module.exports = {
         if (!err){
             res.render('pages/crudAsadasR.ejs', {"rows":rows, "usuario": req.session.usuario})}
         else{
-            console.log('Error while performing Query.');
+            console.log('getCrudAsadasR. Error while performing Query.');
             res.redirect('/');
             }
 
@@ -39,7 +39,7 @@ module.exports = {
 
             }
             else{
-                console.log('Error while performing Query.');
+                console.log('getCrudAsadasU. Error while performing Query.');
                 res.redirect('/');
                 }
 
@@ -48,7 +48,7 @@ module.exports = {
 
         }
         else{
-            console.log('Error while performing Query.');
+            console.log('getCrudAsadasU. Error while performing Query.');
             res.redirect('/');
             }
 
@@ -69,7 +69,7 @@ module.exports = {
                 res.render('pages/presentacionAsadas.ejs', {"rows":[], "asadas":rows, "usuario": req.session.usuario})
             }
             else{
-                console.log('Error while performing Query.');
+                console.log('getPresentAsada. Error while performing Query.');
                 res.redirect('/');
             }
         });
@@ -110,7 +110,7 @@ module.exports = {
         if (!err){
             res.render('pages/crudComponentes.ejs', {"rows":rows, "usuario": req.session.usuario})}
         else{
-            console.log('Error while performing Query.');
+            console.log('getCrudComponente. Error while performing Query.');
             res.redirect('/');
             }
 
@@ -165,13 +165,13 @@ module.exports = {
                 if(!err){
                     res.render('pages/crudSubcomponentes.ejs', {"rows":rows, "usuario": req.session.usuario, "comps": rows2});}
                 else{
-                    console.log('Error while performing Query.');
+                    console.log('getCrudSubcomponente. Error while performing Query.');
                     res.redirect('/');
                 }        
             });
         }
         else{
-            console.log('Error while performing Query.');
+            console.log('getCrudSubcomponente. Error while performing Query.');
             res.redirect('/');
             }
 
@@ -225,7 +225,7 @@ module.exports = {
 
         }
         else{
-            console.log('Error while performing Query.');
+            console.log('getCrudIndicador. Error while performing Query.');
             res.redirect('/');
             }
 
@@ -251,13 +251,13 @@ module.exports = {
                         if(!err2){
                             res.render('pages/crudIndicadoresU.ejs', {"indicador":rows[0], "usuario": req.session.usuario, "subs":rows2});
                         }else{
-                            console.log('Error while performing Query.');
+                            console.log('getIndicador. Error while performing Query.');
                             res.redirect('/');
                         }
                     });
         }
         else{
-            console.log('Error while performing Query.');
+            console.log('getIndicador. Error while performing Query.');
             res.redirect('/');
             }
 
@@ -359,7 +359,7 @@ module.exports = {
                     });
         }
         else{
-            console.log('Error while performing Query.');
+            console.log('newIndicador. Error while performing Query.');
             res.redirect('/');
             }
 
@@ -424,7 +424,7 @@ module.exports = {
         if (!err){
             res.render('pages/crudUsuarios.ejs', {"rows":rows, "usuario": req.session.usuario})}
         else{
-            console.log('Error while performing Query.');
+            console.log('getCrudUsuario. Error while performing Query.');
             res.redirect('/');
             }
 
@@ -445,7 +445,7 @@ module.exports = {
                     res.render('pages/crudAsadasC.ejs', {"usuario": req.session.usuario, "distritos":rows});
             }
             else{
-                console.log('Error while performing Query.');
+                console.log('newAsada. Error while performing Query.');
                 res.redirect('/');
                 }
 
@@ -467,7 +467,7 @@ module.exports = {
                     db.query(query2);
                 }
                 else{
-                    console.log('Error while performing Query.');
+                    console.log('createAsada. Error while performing Query.');
                     res.redirect('/asadas');
                 }
             });

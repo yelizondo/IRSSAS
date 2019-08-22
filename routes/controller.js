@@ -42,7 +42,7 @@ module.exports = {
 					res.render('pages/generarInforme.ejs',{"usuario": req.session.usuario, "asadas":rows });
 				}
 				else{
-					console.log('Error while performing Query.');
+					console.log('generarInforme. Error while performing Query.');
 					res.redirect('/');
 				}
 			});
@@ -88,16 +88,16 @@ module.exports = {
         "C.CANTON_ID=Ca.ID and C.PROVINCIA_ID=P.ID and A.id=t.asada_id "+l+" group by(C.codigo);";
 
         let query2="SELECT s.Asada_ID, a.Nombre, ai.Poblacion, SUM(s.valor * i.valor) * 100 AS valor, a.Latitud, a.Longitud FROM "+
-        "INDICADORXASADA s, INDICADOR i, ASADA a, DISTRITO C, ASADAINFO ai WHERE s.Indicador_ID = i.ID and s.Asada_ID=a.ID and a.Distrito_ID=C.Codigo and ai.ASADA_ID = a.ID "+l+" GROUP BY (s.Asada_ID);";
+        "INDICADORXASADA s, INDICADOR i, ASADA a, DISTRITO C, ASADAINFO ai WHERE s.Indicador_ID = i.ID and s.Asada_ID=a.ID and a.Distrito_ID=C.Codigo and ai.ASADA_ID = a.ID "+l+" GROUP BY (s.Asada_ID)";
         //let query2="SELECT s.Asada_ID, a.Nombre, SUM(s.valor * i.valor) * 100 AS valor, a.Latitud, a.Longitud FROM  INDICADORXASADA s, INDICADOR i, ASADA a, DISTRITO C "
         //" WHERE s.Indicador_ID = i.ID and s.Asada_ID=a.ID and a.Distrito_ID=C.Codigo "+l+" GROUP BY (s.Asada_ID);";
 
         if(req.query.tipo=="2"){
-            query2 = "select C.codigo, avg(t.valor) as valor from ASADA A, DISTRITO C, CANTON Ca, PROVINCIA P, "+
-            "("+k+") t where A.DISTRITO_ID=C.codigo and "+
-            "C.CANTON_ID=Ca.ID and C.PROVINCIA_ID=P.ID and A.id=t.asada_id "+l+" group by(C.codigo);";            
+            query2 = "select C.codigo, avg(t.valor) as valor from ASADA a, DISTRITO C, CANTON Ca, PROVINCIA P, "+
+            "("+k+") t where a.DISTRITO_ID=C.codigo and "+
+            "C.CANTON_ID=Ca.ID and C.PROVINCIA_ID=P.ID and a.id=t.asada_id "+l+" group by(C.codigo)";            
         }
-
+        query2 += "order by a.ID;";
 
         db.query(query, function(err, rows, fields) {
         if (!err){
@@ -138,7 +138,7 @@ module.exports = {
             });
         }
         else{
-            console.log('Error while performing Query.');
+            console.log('getSites. Error while performing Query.');
             res.send({});
             }
 
@@ -213,7 +213,7 @@ module.exports = {
 
         if(tipo == "IRSSAS"){
             s= "select s.Asada_ID, SUM(s.valor*i.valor)*100 as valor from INDICADORXASADA s, INDICADOR i where s.Indicador_ID=i.ID  group by (s.Asada_ID)";
-            k= "select s.Asada_ID, a.Nombre, ASADAINFO ai, SUM(s.valor*i.valor)*100 as valor, a.Latitud, a.Longitud from INDICADORXASADA s, INDICADOR i, ASADA a, ASADAINFO ai where s.Indicador_ID=i.ID and s.Asada_ID=a.ID and ai.ASADA_ID = a.ID group by (s.Asada_ID)";
+            k= "select s.Asada_ID, a.Nombre, ai.Poblacion, SUM(s.valor*i.valor)*100 as valor, a.Latitud, a.Longitud from INDICADORXASADA s, INDICADOR i, ASADA a, ASADAINFO ai where s.Indicador_ID=i.ID and s.Asada_ID=a.ID and ai.ASADA_ID = a.ID group by (s.Asada_ID)";
         }
         else if(tipo == "SubComponente"){
             s = "SELECT s.Asada_ID, (SUM(s.valor * i.valor) * 1000000) / (d.valor * c.valor) as valor FROM INDICADORXASADA s, INDICADOR i, "+
@@ -251,13 +251,21 @@ module.exports = {
 
             }
             db.query(k, function(err2,rows2,fields2){
-                var jsonsites = { "sitios": dictionary, "valores": values, "asadas": rows2 }
-                
-                res.send(jsonsites);
+                if(!err2)
+                {
+                    var jsonsites = { "sitios": dictionary, "valores": values, "asadas": rows2 }
+                    
+                    res.send(jsonsites);
+                }
+                else
+                {
+                    console.log('getComponente. Error while performing Query.');
+                    res.send({});
+                }
             });
         }
         else{
-            console.log('Error while performing Query.');
+            console.log('getComponente. Error while performing Query.');
             res.send({});
             }
 
@@ -365,7 +373,7 @@ module.exports = {
 			res.render('pages/tarjetasAsadas.ejs', {"asada":rows[0], "usuario": req.session.usuario})
 		}
 		else{
-			console.log('Error while performing Query.');
+			console.log('getAsada. Error while performing Query.');
 			res.redirect('/');
 		}
 		
@@ -463,7 +471,7 @@ module.exports = {
             if (!err){
                 res.render('pages/statsSubcomponentes.ejs', {"rows":rows, "usuario": req.session.usuario})}
             else{
-                console.log('Error while performing Query.');
+                console.log('statsSubcomponentes. Error while performing Query.');
                 res.redirect('/');
                 }
 

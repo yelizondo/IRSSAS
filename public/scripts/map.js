@@ -229,20 +229,23 @@ function loadPoints(points)
   map.removeLayer(layers[6]);
   puntos=[];
   for(var i= 0; i< points.asadas.length; i++){
-    x= 4-(Math.floor(points.asadas[i].valor/20));
-    if(x > 4) x=4;
-    if(x < 0) x=0;
-    
-    puntos.push(new ol.Feature({
-          type: 'click',
-          geometry: new ol.geom.Point(ol.proj.fromLonLat([parseFloat(points.asadas[i].Latitud),parseFloat(points.asadas[i].Longitud)])),
-          name: points.asadas[i].Nombre,
-          id: points.asadas[i].Asada_ID,
-          riesgo: points.asadas[i].valor,
-          poblacion: jsonsites.asadas[i].Poblacion,
-          color: (["Muy Alto", "Alto", "Intermedio", "Bajo", "Nulo"])[x]
-    }));
-    puntos[i].setStyle(style1);
+    if(thisasadas == undefined || busquedaAsada(points.asadas[i], thisasadas.asadas))
+    {
+      x= 4-(Math.floor(points.asadas[i].valor/20));
+      if(x > 4) x=4;
+      if(x < 0) x=0;
+      
+      puntos.push(new ol.Feature({
+            type: 'click',
+            geometry: new ol.geom.Point(ol.proj.fromLonLat([parseFloat(points.asadas[i].Latitud),parseFloat(points.asadas[i].Longitud)])),
+            name: points.asadas[i].Nombre,
+            id: points.asadas[i].Asada_ID,
+            riesgo: points.asadas[i].valor,
+            poblacion: points.asadas[i].Poblacion,
+            color: (["Muy Alto", "Alto", "Intermedio", "Bajo", "Nulo"])[x]
+      }));
+      puntos[puntos.length - 1].setStyle(style1);
+    }
   }
       
   var vectorSource = new ol.source.Vector({
@@ -294,3 +297,23 @@ function filtrarMap(){
        });
 
 };
+
+function busquedaAsada(asada, asadas)
+{
+  if(asadas.length == 0)
+  {
+    return false;
+  }
+  else if(asada.Asada_ID == asadas[Math.trunc(asadas.length / 2)].Asada_ID)
+  {
+    return true;
+  }
+  else if(asada.Asada_ID < asadas[Math.trunc(asadas.length / 2)].Asada_ID)
+  {
+    return true && busquedaAsada(asada, asadas.slice(0, Math.trunc(asadas.length / 2)))
+  }
+  else
+  {
+    return true && busquedaAsada(asada, asadas.slice(Math.trunc(asadas.length / 2) + 1))
+  }
+}
