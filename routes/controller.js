@@ -87,8 +87,8 @@ module.exports = {
         "("+s+") t where A.DISTRITO_ID=C.codigo and "+
         "C.CANTON_ID=Ca.ID and C.PROVINCIA_ID=P.ID and A.id=t.asada_id "+l+" group by(C.codigo);";
 
-        let query2="SELECT s.Asada_ID, a.Nombre, SUM(s.valor * i.valor) * 100 AS valor, a.Latitud, a.Longitud FROM "+
-        "INDICADORXASADA s, INDICADOR i, ASADA a, DISTRITO C WHERE s.Indicador_ID = i.ID and s.Asada_ID=a.ID and a.Distrito_ID=C.Codigo "+l+" GROUP BY (s.Asada_ID);";
+        let query2="SELECT s.Asada_ID, a.Nombre, ai.Poblacion, SUM(s.valor * i.valor) * 100 AS valor, a.Latitud, a.Longitud FROM "+
+        "INDICADORXASADA s, INDICADOR i, ASADA a, DISTRITO C, ASADAINFO ai WHERE s.Indicador_ID = i.ID and s.Asada_ID=a.ID and a.Distrito_ID=C.Codigo and ai.ASADA_ID = a.ID "+l+" GROUP BY (s.Asada_ID);";
         //let query2="SELECT s.Asada_ID, a.Nombre, SUM(s.valor * i.valor) * 100 AS valor, a.Latitud, a.Longitud FROM  INDICADORXASADA s, INDICADOR i, ASADA a, DISTRITO C "
         //" WHERE s.Indicador_ID = i.ID and s.Asada_ID=a.ID and a.Distrito_ID=C.Codigo "+l+" GROUP BY (s.Asada_ID);";
 
@@ -213,23 +213,23 @@ module.exports = {
 
         if(tipo == "IRSSAS"){
             s= "select s.Asada_ID, SUM(s.valor*i.valor)*100 as valor from INDICADORXASADA s, INDICADOR i where s.Indicador_ID=i.ID  group by (s.Asada_ID)";
-            k= "select s.Asada_ID, a.Nombre, SUM(s.valor*i.valor)*100 as valor, a.Latitud, a.Longitud from INDICADORXASADA s, INDICADOR i, ASADA a where s.Indicador_ID=i.ID and s.Asada_ID=a.ID  group by (s.Asada_ID)";
+            k= "select s.Asada_ID, a.Nombre, ASADAINFO ai, SUM(s.valor*i.valor)*100 as valor, a.Latitud, a.Longitud from INDICADORXASADA s, INDICADOR i, ASADA a, ASADAINFO ai where s.Indicador_ID=i.ID and s.Asada_ID=a.ID and ai.ASADA_ID = a.ID group by (s.Asada_ID)";
         }
         else if(tipo == "SubComponente"){
             s = "SELECT s.Asada_ID, (SUM(s.valor * i.valor) * 1000000) / (d.valor * c.valor) as valor FROM INDICADORXASADA s, INDICADOR i, "+
                 "SUBCOMPONENTE d, COMPONENTE c WHERE s.Indicador_ID = i.ID and i.Subcomponente_ID=d.ID and d.Componente_ID= c.ID "+
                 "and d.id= "+id+" GROUP BY (s.Asada_ID) ";
-            k = "SELECT s.Asada_ID, a.Nombre, (SUM(s.valor * i.valor) * 1000000) / (d.valor * c.valor) as valor, a.Latitud, a.Longitud FROM INDICADORXASADA s, INDICADOR i, "+
-                "SUBCOMPONENTE d, COMPONENTE c, ASADA a WHERE s.Indicador_ID = i.ID and i.Subcomponente_ID=d.ID and d.Componente_ID= c.ID "+
-                "and d.id= "+id+" and s.Asada_ID=a.ID GROUP BY (s.Asada_ID) ";
+            k = "SELECT s.Asada_ID, a.Nombre, ai.Poblacion, (SUM(s.valor * i.valor) * 1000000) / (d.valor * c.valor) as valor, a.Latitud, a.Longitud FROM INDICADORXASADA s, INDICADOR i, "+
+                "SUBCOMPONENTE d, COMPONENTE c, ASADA a, ASADAINFO ai WHERE s.Indicador_ID = i.ID and i.Subcomponente_ID=d.ID and d.Componente_ID= c.ID "+
+                "and d.id= "+id+" and s.Asada_ID=a.ID and ai.ASADA_ID = a.ID GROUP BY (s.Asada_ID) ";
         }
         else{
             s = "SELECT s.Asada_ID, (SUM(s.valor * i.valor) * 10000) / c.valor  AS valor FROM INDICADORXASADA s, INDICADOR i, "+
                 "SUBCOMPONENTE d, COMPONENTE c WHERE s.Indicador_ID = i.ID  and i.Subcomponente_ID=d.ID and d.Componente_ID= c.ID "+
                 "and d.Componente_ID= "+id+" GROUP BY (s.Asada_ID)";
-            k = "SELECT s.Asada_ID, a.Nombre, (SUM(s.valor * i.valor) * 10000) / c.valor  AS valor, a.Latitud, a.Longitud FROM INDICADORXASADA s, INDICADOR i, "+
-                "SUBCOMPONENTE d, COMPONENTE c, ASADA a WHERE s.Indicador_ID = i.ID  and i.Subcomponente_ID=d.ID and d.Componente_ID= c.ID "+
-                "and d.Componente_ID= "+id+" and s.Asada_ID=a.ID GROUP BY (s.Asada_ID)";
+            k = "SELECT s.Asada_ID, a.Nombre, ai.Poblacion, (SUM(s.valor * i.valor) * 10000) / c.valor  AS valor, a.Latitud, a.Longitud FROM INDICADORXASADA s, INDICADOR i, "+
+                "SUBCOMPONENTE d, COMPONENTE c, ASADA a, ASADAINFO ai WHERE s.Indicador_ID = i.ID  and i.Subcomponente_ID=d.ID and d.Componente_ID= c.ID "+
+                "and d.Componente_ID= "+id+" and s.Asada_ID=a.ID and ai.ASADA_ID = a.ID GROUP BY (s.Asada_ID)";
         }
 
         let query = "select c.codigo, avg(t.valor) as valor from ASADA a, DISTRITO c, CANTON ca, PROVINCIA p, ("+s+") t"+

@@ -153,6 +153,7 @@ $.get('/getSites',parameters,function(data) {
           name: jsonsites.asadas[i].Nombre,
           id: jsonsites.asadas[i].Asada_ID,
           riesgo: jsonsites.asadas[i].valor,
+          poblacion: jsonsites.asadas[i].Poblacion,
           color: (["Muy Alto", "Alto", "Intermedio", "Bajo", "Nulo"])[x]
     }));
     puntos[i].setStyle(style1);
@@ -205,7 +206,7 @@ $.get('/getSites',parameters,function(data) {
       if (f && f.get('type') == 'click') {
           var geometry = f.getGeometry();
           var coord = geometry.getCoordinates();
-          content.innerHTML = '<p><b>'+f.get("name")+'</b></p><p><b>ID: </b> '+f.get("id")+' <b>Riesgo: </b>'+f.get("riesgo")+'% <b>Nivel de Riesgo: </b>'+f.get("color")+' </p>';        
+          content.innerHTML = '<p><b>'+f.get("name")+'</b></p><p><b>ID: </b> '+f.get("id")+' <b>Población: </b> '+ f.get("poblacion") +' <b>Riesgo: </b>'+f.get("riesgo")+'% <b>Nivel de Riesgo: </b>'+f.get("color")+' </p>';        
           overlay.setPosition(coord);
       }
 });
@@ -238,6 +239,7 @@ function loadPoints(points)
           name: points.asadas[i].Nombre,
           id: points.asadas[i].Asada_ID,
           riesgo: points.asadas[i].valor,
+          poblacion: jsonsites.asadas[i].Poblacion,
           color: (["Muy Alto", "Alto", "Intermedio", "Bajo", "Nulo"])[x]
     }));
     puntos[i].setStyle(style1);
