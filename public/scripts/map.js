@@ -9,6 +9,7 @@ var distrito = 0;
 var thisid=0;
 var thistipo='IRSSAS';
 var thisnombre='índice de Riesgo Sostenible en el Servicio de Agua y Saneamiento';
+var filtroAsadas = false;
 
 // array de colores
 var colores=['rgba(234, 77, 70, 0.7)','rgba(232, 215, 75, 0.7)','rgba(72, 118, 90, 0.7)','rgba(22, 155, 220, 0.7)','rgba(22, 87, 205, 0.7)'];
@@ -219,6 +220,7 @@ function checkear(id){
     $('#filts-' + x).toggleClass("glyphicon-ok glyphicon-remove");
     if(k == "ok"){          
       map.removeLayer(layers[x]);
+      filtroAsadas = (x == 6 ? !filtroAsadas : filtroAsadas);
     }else{
       map.getLayers().insertAt(x,layers[x]);
     }
@@ -263,7 +265,7 @@ function changeComp(){
 	var parameters = { "id": thisid, "tipo": thistipo, "provincia": provincia, "canton": canton, "distrito": distrito};
 	$.get('/getComponente',parameters,function(data) {
       jsonsites = data;
-      loadPoints(jsonsites);
+      if(!filtroAsadas) loadPoints(jsonsites);
      }).done(function(res){
 		layers[2].setStyle(styleFunction);
 		if(thistipo=="SubComponente"){
