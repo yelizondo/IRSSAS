@@ -29,7 +29,7 @@ const db = mysql.createConnection ({
     host     : '35.184.65.113',//35.184.65.113
     user     : 'root',
     password : 'jdsakfidsajfklsñad56798416374',//jdsakfidsajfklsñad56798416374
-    database : 'irssas',//asadas
+    database : 'asadas',//asadas
     port : '3306'
 });
 
