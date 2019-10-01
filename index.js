@@ -28,8 +28,8 @@ const {getHomePage, login, getMain, getVisor, getComponente, logout, getSites, g
 const db = mysql.createConnection ({
     host     : '35.184.65.113',//35.184.65.113
     user     : 'root',
-    password : 'mysql',
-    database : 'asadas',//asadas
+    password : 'jdsakfidsajfklsñad56798416374',//jdsakfidsajfklsñad56798416374
+    database : 'irssas',//asadas
     port : '3306'
 });
 
