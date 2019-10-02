@@ -4,7 +4,7 @@ module.exports = {
     getCrudAsadasR: (req,res) =>{
         if(req.session.value==1){
 
-        let query = "select a.ID,a.Nombre,p.Nombre as Provincia,c.Nombre as Canton,d.Nombre as Distrito,ai.Ubicacion from ASADA a left join ASADAINFO ai on a.ID=ai.Asada_ID inner join DISTRITO d on a.distrito_id=d.Codigo inner join CANTON c on d.Canton_ID=c.ID inner join PROVINCIA p on p.ID=c.Provincia_ID where d.Provincia_ID=p.ID;";
+        let query = "select a.ID,a.Nombre,p.Nombre as Provincia,c.Nombre as Canton,d.Nombre as Distrito,ai.Ubicacion from ASADA a left join ASADAINFO ai on a.ID=ai.Asada_ID inner join DISTRITO d on a.distrito_id=d.Codigo inner join CANTON c on d.Canton_ID=c.ID inner join PROVINCIA p on p.ID=c.Provincia_ID where d.Provincia_ID=p.ID order by 1;";
         // execute query
         db.query(query, function(err, rows, fields) {
         if (!err){
