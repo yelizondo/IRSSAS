@@ -51,7 +51,7 @@
                     <div style="margin: 20px;">
                         <div class="form-group">
                             <label for="asada">ASADA</label>
-                            <select id="asada" required class="form-control hideinput">
+                            <select name="asada" id="asada" required class="form-control hideinput">
                                 <option value=""></option>
                                 <%asadas.forEach(function(asada){%>
                                     <option hidden value="<%=asada.ID%>" distrito="<%=asada.Distrito%>" canton="<%=asada.Canton%>" provincia="<%=asada.Provincia%>"><%=asada.Nombre%></option>
