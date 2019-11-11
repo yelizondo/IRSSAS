@@ -493,16 +493,27 @@ module.exports = {
             if(req.session.value==1){
                 let query="select * from INDICADOR;";
                 let query2="select * from NOMINAL;";
-                let query3="select * from ASADA"
+                let query3="select a.ID,a.Nombre,p.ID as Provincia,c.ID as Canton,d.ID as Distrito from ASADA a inner join DISTRITO d on a.distrito_id=d.Codigo inner join CANTON c on d.Canton_ID=c.ID inner join PROVINCIA p on p.ID=c.Provincia_ID where d.Provincia_ID=p.ID "
+                let query4 = "select * from PROVINCIA;"
                 if(req.session.usuario.Tipo==2)
-                    query3+=" where asada.ID="+req.session.usuario.Asada_ID+" ;";
+                    query3+=" and asada.ID="+req.session.usuario.Asada_ID+" ;";
                 db.query(query,function(err,rows,fields){
                     if(!err){
                         db.query(query2,function(err2,rows2,fields2){
                             if(!err2){
                                 db.query(query3,function(err3,rows3,fields3){
                                     if(!err3){
-                                        res.render('pages/crudFormularios.ejs',{"usuario": req.session.usuario, "indicadores":rows, "nominales":rows2, "asadas":rows3});
+                                        db.query(query4, function (err4, rows4, fields)
+                                        {
+                                            if (!err4)
+                                            {
+                                                res.render('pages/crudFormularios.ejs',{"usuario": req.session.usuario, "indicadores":rows, "nominales":rows2, "asadas":rows3, "prov": rows4});
+                                            }
+                                            else
+                                            {
+                                                res.redirect('/');        
+                                            }
+                                        })
                                     }else{
                                         res.redirect('/');        
                                     }

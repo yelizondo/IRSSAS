@@ -30,18 +30,36 @@
                             </div>                           
                         </div>
                     </div>
+                    <div>
+                        <label for="prov">Provincia</label>
+                        <select class="form-control" onchange="getCanton()" id="prov">
+                            <option value="0">Sin filtro</option>
+                            <%prov.forEach(function(row, index) {%>
+                                <option value="<%= row.ID%>"><%= row.Nombre%></option>
+                            <%});%>
+                        </select>
+                        <label for="cant">Cantón</label>
+                        <select class="form-control" onchange="getDistrito()" id="cant">
+                                <option value="0">Sin filtro</option>
+                        </select>
+                        <label for="dist">Distrito</label>
+                        <select class="form-control" id="dist" onchange="getAsada()">
+                            <option value="0">Sin filtro</option>
+                        </select>
+                    </div>
                     <form action="/sendForm" method="POST" >
                     <div style="margin: 20px;">
                         <div class="form-group">
+                            <label for="asada">ASADA</label>
+                            <select id="asada" required class="form-control hideinput">
+                                <option value=""></option>
+                                <%asadas.forEach(function(asada){%>
+                                    <option hidden value="<%=asada.ID%>" distrito="<%=asada.Distrito%>" canton="<%=asada.Canton%>" provincia="<%=asada.Provincia%>"><%=asada.Nombre%></option>
+                                <%});%>
+                            </select>
                             
-                                <label for="asada">ASADA</label>
-                                <select name="asada" class="form-control hideinput">
-                                    <%asadas.forEach(function(asada){%>
-                                        <option value="<%=asada.ID%>"><%=asada.Nombre%></option>
-                                    <%});%>
-                                </select>
-                                <label for="anno">Año</label>
-                                <input class="form-control" type="number" step="1" min="2000" name="anno">
+                            <label for="anno">Año</label>
+                            <input class="form-control" type="number" required step="1" min="2000" name="anno">
                             
                         </div>
                         <table class="table">
@@ -60,14 +78,16 @@
                                 <tr>
                                     <td><%=indicador.Nombre%></td>
                                     <%if(indicador.MEDIDA_ID==1){%>
-                                    <td><select class="form-control hideinput" name="<%=indicador.ID%>">
+                                    <td><select class="form-control hideinput" required name="<%=indicador.ID%>">
+                                        <option value=""></option>
                                         <option value="0">SI</option>    
                                         <option value="1">NO</option>
                                     </select>
                                     </td>
                                     <%}else if(indicador.MEDIDA_ID==2){%>
-                                    <td><select class="form-control hideinput" name="<%=indicador.ID%>">
-                                        <option value="1">SI</option>    
+                                    <td><select class="form-control hideinput" required name="<%=indicador.ID%>"> 
+                                        <option value=""></option>
+                                        <option value="1">SI</option> 
                                         <option value="0">NO</option>
                                     </select>
                                     </td>
@@ -76,7 +96,8 @@
                                     <%}else if(indicador.MEDIDA_ID==4){%>
                                     <td><input type="number" step="any" min="0" required class="form-control hideinput" placeholder="" name="<%=indicador.ID%>"></td>
                                     <%}else{%>
-                                        <td><select class="form-control hideinput"  name="<%=indicador.ID%>">
+                                        <td><select class="form-control hideinput" required name="<%=indicador.ID%>">
+                                            <option value=""></option>
                                         <%nominales.forEach(function(nominal,index){%>
                                             <%if(nominal.INDICADOR_ID==indicador.ID){%>
                                                 <option value="<%=nominal.Porcentaje%>"><%=nominal.Simbolo%> <%=nominal.Valor%></option>
@@ -90,6 +111,7 @@
                         </table>
 
                     </div>
+                    <br>
                     <div id="divbutton" style=" position: absolute; bottom: 6px; right: 8px;">
                         <button type="submit" onclick="return valoresForm();"class="btn btn-info navbar-btn">Guardar Formulario</button>
                     </div>
@@ -128,5 +150,6 @@
             });
         </script>
         <script src="/scripts/crud.js"></script>
+        <script src="/scripts/script.js"></script>
     </body>
 </html>

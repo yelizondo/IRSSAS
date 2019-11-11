@@ -294,6 +294,18 @@ function getDistrito(){
 
 }
 
+function getAsada()
+{
+	var provincia = document.getElementById("prov");
+	var canton = document.getElementById("cant");
+	var distrito = document.getElementById("dist");
+	var asadas = document.getElementById("asada");
+	for(var i = 1; i < asadas.children.length; i++)
+	{
+		asadas[i].hidden = !(asadas[i].attributes.provincia.value == provincia.value && asadas[i].attributes.canton.value == canton.value && asadas[i].attributes.distrito.value == distrito.value);
+	}
+}
+
 function getEstadisticas(){
 	var parameters = { "provincia": document.getElementById("prov").value, "canton": document.getElementById("cant").value, "distrito": document.getElementById("dist").value, "orden": document.getElementById("ord").value};
 	var distritos;
