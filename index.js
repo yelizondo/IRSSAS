@@ -10,7 +10,7 @@ const PORT = process.env.PORT || 8000
 
 //llamar funciones de controller.js
 
-const {getCrudComponente, saveComponente, getCrudSubcomponente, saveSubComponente, getCrudIndicador, getIndicador, deleteIndicador, updateIndicador, newIndicador, createIndicador, getCrudAsadasR,getCrudAsadasU, getPresentAsada, saveAsada, newAsada, createAsada, deleteAsada, crudFormularios, sendForm, getCrudUsuario, saveUsuario, getUsuariosAsadas,setUsuariosAsada} = require('./routes/cruds');
+const {getCrudComponente, saveComponente, getCrudSubcomponente, saveSubComponente, getCrudIndicador, getIndicador, deleteIndicador, updateIndicador, newIndicador, createIndicador, getCrudAsadasR,getCrudAsadasU, getPresentAsada, saveAsada, newAsada, createAsada, deleteAsada, crudFormularios, sendForm, getCrudUsuario, saveUsuario, getUsuariosAsadas,setUsuariosAsada, guardarFormulario} = require('./routes/cruds');
 const {getHomePage, login, getMain, getVisor, getComponente, logout, getSites, grafico, getRiesgo, getAsada, getInfoGeneral, generarInforme, histFormulario, getAnno, getRespuestas, comparaMapas, statsComponentes,statsSubcomponentes, getCantones, getDistritos, getEstadisticas} = require('./routes/controller');
 
 //conexion de BD
@@ -26,9 +26,9 @@ const {getHomePage, login, getMain, getVisor, getComponente, logout, getSites, g
     port : '3306'
 */
 const db = mysql.createConnection ({
-    host     : '35.184.65.113',//35.184.65.113
+    host     : 'localhost',//35.184.65.113
     user     : 'root',
-    password : 'jdsakfidsajfklsñad56798416374',//jdsakfidsajfklsñad56798416374
+    password : 'mysql',//jdsakfidsajfklsñad56798416374
     database : 'asadas',//asadas
     port : '3306'
 });
@@ -108,6 +108,7 @@ app.get('/statsSubcomponentes/:id',statsSubcomponentes);
 app.get('/getCantones', getCantones);
 app.get('/getDistritos', getDistritos);
 app.get('/getEstadisticas',getEstadisticas);
+app.post('/guardarFormulario',guardarFormulario);
 // llamada al puerto 
 app.listen(PORT, () => {
     console.log(`Server running on port: ${PORT}`);

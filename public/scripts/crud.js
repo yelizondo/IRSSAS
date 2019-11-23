@@ -436,3 +436,19 @@ function hacerFiltroD(){
     document.getElementById("listaDistritos").style.display = 'inline';
 
 }
+
+function guardarFormulario ()
+{
+	valoresForm();
+	console.log (document.getElementById ("formulario"));
+	keys = Object.keys(document.getElementById ("formulario"));
+	keys.pop();
+	keys.pop();
+	keys.pop();
+	keys.pop();
+	for (var i=0; i< keys.length; i++) {
+		console.log ("insert into INDICADORXASADA(año,Indicador_ID,Asada_ID,Valor,Texto) values('','"+keys[i]+"','','','');");
+
+	}
+	console.log (keys);
+}

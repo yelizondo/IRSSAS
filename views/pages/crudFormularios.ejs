@@ -47,7 +47,7 @@
                             <option value="0">Sin filtro</option>
                         </select>
                     </div>
-                    <form action="/sendForm" method="POST" >
+                    <form id="formulario" action="/sendForm" method="POST" >
                     <div style="margin: 20px;">
                         <div class="form-group">
                             <label for="asada">ASADA</label>
@@ -113,7 +113,8 @@
                     </div>
                     <br>
                     <div id="divbutton" style=" position: absolute; bottom: 6px; right: 8px;">
-                        <button type="submit" onclick="return valoresForm();"class="btn btn-info navbar-btn">Guardar Formulario</button>
+                        <button type="button" onclick="return guardarFormulario();" class="btn btn-info navbar-btn">Guardar Formulario</button>
+                        <button type="submit" onclick="return valoresForm();" class="btn btn-info navbar-btn">Enviar Formulario</button>
                     </div>
                     </form>
                 </nav>

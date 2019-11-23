@@ -539,9 +539,10 @@ module.exports = {
                 IDs=[];
                 var lista= req.body.ocultos.split(",");
                 rows.forEach(function(row){
-                    IDs.push(row.Indicador_ID+"");
+                    IDs.push(row.INDICADOR_ID+"");
                 })
                 keys = Object.keys(req.body);
+                keys.pop();
                 keys.pop();
                 keys.pop();
                 keys.pop();
@@ -631,10 +632,10 @@ module.exports = {
             var asada = rows[i].Asada_ID;
             cargar(usuario,asada);
         }
+    },
+    guardarFormulario: (req, res) =>
+    {
+        console.log (req.body);
+        res.redirect ('/');
     }
-
-
-
-
-
 };
