@@ -359,17 +359,17 @@ function saveUser(){
 }
 
 function valoresForm(){
-	valores=[];
+	valores = [""];
 	var table = document.getElementById("componenttable");
-	for(var i= 0; i< table.rows.length; i++){
+	for (var i = 1; i < table.rows.length; i++){
 		var select = table.rows[i].cells[1].childNodes[0];
-		if(select.nodeName+""=="SELECT")
-			valores.push(select.options[select.selectedIndex].text);
+		if (select.nodeName + "" == "SELECT")
+			valores.push (select.options[select.selectedIndex].text);
 		else{
-			valores.push(select.value);
+			valores.push (select.value);
 		}
 	}
-	document.getElementById("ocultos").value=valores+"";
+	document.getElementById("ocultos").value = valores.toString ();
 	return true;
 
 }
@@ -441,14 +441,12 @@ function guardarFormulario ()
 {
 	valoresForm();
 	console.log (document.getElementById ("formulario"));
+	var lista = document.getElementById ("ocultos").value.split(",");
+	console.log (lista);
 	keys = Object.keys(document.getElementById ("formulario"));
 	keys.pop();
 	keys.pop();
 	keys.pop();
 	keys.pop();
-	for (var i=0; i< keys.length; i++) {
-		console.log ("insert into INDICADORXASADA(año,Indicador_ID,Asada_ID,Valor,Texto) values('','"+keys[i]+"','','','');");
-
-	}
 	console.log (keys);
 }

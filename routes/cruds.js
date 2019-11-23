@@ -534,23 +534,23 @@ module.exports = {
 
         sendForm: (req, res) =>{
             var contador=0.0;
-            db.query("select * from LINEAL;", function(err,rows,fields){
-                if(!err){
-                IDs=[];
-                var lista= req.body.ocultos.split(",");
-                rows.forEach(function(row){
-                    IDs.push(row.INDICADOR_ID+"");
+            db.query ("select * from LINEAL;", function (err,rows,fields){
+                if (!err){
+                IDs = [];
+                var lista = req.body.ocultos.split(",");
+                rows.forEach (function (row){
+                    IDs.push (row.INDICADOR_ID+"");
                 })
-                keys = Object.keys(req.body);
-                keys.pop();
-                keys.pop();
-                keys.pop();
-                keys.pop();
+                keys = Object.keys (req.body);
+                keys.pop ();
+                keys.pop ();
+                keys.pop ();
+                keys.pop ();
 
-                for (var i=0; i< keys.length; i++) {
-                    var x= IDs.indexOf(keys[i]);
-                    if(x != -1){
-                        var exp= parseFloat(req.body[keys[i]])*parseFloat(rows[x].Pendiente) + parseFloat(rows[x].Ordenada)
+                for (var i = 1; i < keys.length; i++) {
+                    var x = IDs.indexOf(keys[i]);
+                    if (x != -1){
+                        var exp = parseFloat (req.body[keys[i]]) * parseFloat (rows[x].Pendiente) + parseFloat (rows[x].Ordenada)
                         db.query("delete from HISTORICORESPUESTA where Indicador_ID="+keys[i]+" and Asada_ID="+req.body.asada+" and año='"+req.body.anno+"' limit 1 ;");
                         db.query("insert into HISTORICORESPUESTA select * from INDICADORXASADA where Indicador_ID="+keys[i]+" and Asada_ID="+req.body.asada+"  ;");
                         db.query("delete from INDICADORXASADA where Indicador_ID="+keys[i]+" and Asada_ID="+req.body.asada+" limit 1 ;");
@@ -636,6 +636,6 @@ module.exports = {
     guardarFormulario: (req, res) =>
     {
         console.log (req.body);
-        res.redirect ('/');
+        res.send (true);
     }
 };
