@@ -31,9 +31,12 @@ function aranna(value, tipo, anno, idchart = ""){
 	});
 };
 
-function graficoAranna(){
-
-	var value= document.getElementById("listAsada").value;
+function graficoAranna()
+{
+	var url = new URL(document.URL);
+	var param = url.searchParams.get("asada");
+	document.getElementById("listAsada").value = param == null ? document.getElementById("listAsada").value : param;
+	var value = document.getElementById("listAsada").value;
     aranna(value,"INDICADORXASADA",0)
 };
 

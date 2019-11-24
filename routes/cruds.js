@@ -570,7 +570,7 @@ module.exports = {
                     res.redirect('/');
                 }
             });
-            res.redirect("/main");
+            res.redirect("/grafico?asada=" + req.body.asada);
     },
 	
     saveUsuario: (req,res) =>{
@@ -633,9 +633,47 @@ module.exports = {
             cargar(usuario,asada);
         }
     },
+
     guardarFormulario: (req, res) =>
     {
-        console.log (req.body);
-        res.send (true);
-    }
+        db.query ("delete from TEMPRESPUESTAFORM where ANNO = '" + req.query.anno + "' and ASADA_ID = '" + req.query.asada + "'");
+        var query = "insert into TEMPRESPUESTAFORM (ANNO, INDICADOR_ID, ASADA_ID, TEXTO) values "
+        var flag = false;
+        for (var i = 1; i < req.query.respuestas.length; i++)
+        {
+            if (req.query.respuestas[i] != "")
+            {
+                if (flag)
+                {
+                    query += ", "
+                } //end if
+                query += "('" + req.query.anno + "', '" + req.query.indicadores[i] + "', '" + req.query.asada + "', '" + req.query.respuestas[i] + "')";
+                flag = true;
+            } //end if
+        } //end for
+        query += ";"
+        var response = {"exito": flag, "error": null};
+        if (flag)
+        {
+            db.query (query, function (err, rows, fields)
+            {
+                response.error = err;
+                res.send (response);
+            }) //end query
+        } //end if
+        else
+        {
+            response.error = "No hay preguntas que guardar";
+            res.send (response);
+        } //end else
+    }, //end guardarFormulario
+
+    cargarFormulario: (req, res) =>
+    {
+        var query = "select INDICADOR_ID, TEXTO from TEMPRESPUESTAFORM where ASADA_ID = '" + req.query.asada + "' and ANNO = '" + req.query.anno + "';"
+        db.query (query, function (err, rows, fields)
+        {
+            res.send (rows);
+        }) //end query
+    } //end cargarFormulario
 };

@@ -59,8 +59,8 @@
                             </select>
                             
                             <label for="anno">Año</label>
-                            <input class="form-control" type="number" required step="1" min="2000" name="anno">
-                            
+                            <input class="form-control" type="number" required step="1" min="2000" id="anno" name="anno">
+                            <button type="button" onclick="return manejoFormulario(cargarFormulario);" class="btn btn-info navbar-btn">Cargar Formulario</button>
                         </div>
                         <table class="table">
                             <thead>
@@ -113,7 +113,7 @@
                     </div>
                     <br>
                     <div id="divbutton" style=" position: absolute; bottom: 6px; right: 8px;">
-                        <button type="button" onclick="return guardarFormulario();" class="btn btn-info navbar-btn">Guardar Formulario</button>
+                        <button type="button" onclick="return manejoFormulario(guardarFormulario);" class="btn btn-info navbar-btn">Guardar Formulario</button>
                         <button type="submit" onclick="return valoresForm();" class="btn btn-info navbar-btn">Enviar Formulario</button>
                     </div>
                     </form>

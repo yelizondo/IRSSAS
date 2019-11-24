@@ -437,16 +437,73 @@ function hacerFiltroD(){
 
 }
 
-function guardarFormulario ()
+function manejoFormulario (funcion)
 {
-	valoresForm();
-	console.log (document.getElementById ("formulario"));
-	var lista = document.getElementById ("ocultos").value.split(",");
-	console.log (lista);
 	keys = Object.keys(document.getElementById ("formulario"));
 	keys.pop();
 	keys.pop();
 	keys.pop();
 	keys.pop();
-	console.log (keys);
-}
+	keys.pop();
+
+	var valores = [""]
+	for (var i = 1; i < 31; i++)
+	{
+		valores.push (document.getElementsByName (i)[0].value);
+	}
+
+	var data = {"respuestas": valores, "indicadores": keys, "anno": document.getElementById ("anno").value, "asada": document.getElementById ("asada").value};
+	if (data.asada == "")
+	{
+		alert ("Seleccione una asada");
+	}
+	else if (data.anno == "")
+	{
+		alert ("Ingrese un año");
+	}
+	else
+	{
+		funcion (data);
+	} //end else
+} //end manejoFormulario
+
+function guardarFormulario (data)
+{
+	$.get ("/guardarFormulario", data)
+		.done (function (res)
+		{
+			if (res.exito)
+			{
+				if (res.error)
+				{
+					alert ("Error al guardar");
+				}
+				else
+				{
+					alert ("Se guardo");
+					location.replace("/grafico?asada=" + data.asada);
+				}
+			} //end if
+			else
+			{
+				alert (res.error);
+			} //end else
+		}) //end done
+		.fail (function (err){console.log (err)});
+} //end guardarFormulario
+
+function cargarFormulario (data)
+{
+	$.get ("/cargarFormulario", data)
+	.done (function (res)
+	{
+		res.forEach (row => 
+		{
+			document.getElementsByName (row.INDICADOR_ID)[0].value = row.TEXTO;
+		});
+	}) //end done
+	.fail (function (err)
+	{
+		console.log (err)
+	}) //end fail
+} //end cargarFormulario
