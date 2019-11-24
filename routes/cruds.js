@@ -546,8 +546,9 @@ module.exports = {
                 keys.pop ();
                 keys.pop ();
                 keys.pop ();
+                keys.pop ();
 
-                for (var i = 1; i < keys.length; i++) {
+                for (var i = 0; i < keys.length; i++) {
                     var x = IDs.indexOf(keys[i]);
                     if (x != -1){
                         var exp = parseFloat (req.body[keys[i]]) * parseFloat (rows[x].Pendiente) + parseFloat (rows[x].Ordenada)
