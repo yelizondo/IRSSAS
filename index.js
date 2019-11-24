@@ -26,9 +26,9 @@ const {getHomePage, login, getMain, getVisor, getComponente, logout, getSites, g
     port : '3306'
 */
 const db = mysql.createConnection ({
-    host     : 'localhost',//35.184.65.113
+    host     : '35.184.65.113',//35.184.65.113
     user     : 'root',
-    password : 'mysql',//jdsakfidsajfklsñad56798416374
+    password : 'jdsakfidsajfklsñad56798416374',//jdsakfidsajfklsñad56798416374
     database : 'asadas',//asadas
     port : '3306'
 });
