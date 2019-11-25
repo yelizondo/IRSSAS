@@ -534,43 +534,56 @@ module.exports = {
 
         sendForm: (req, res) =>{
             var contador=0.0;
-            db.query ("select * from LINEAL;", function (err,rows,fields){
-                if (!err){
-                IDs = [];
-                var lista = req.body.ocultos.split(",");
-                rows.forEach (function (row){
-                    IDs.push (row.INDICADOR_ID+"");
-                })
-                keys = Object.keys (req.body);
-                keys.pop ();
-                keys.pop ();
-                keys.pop ();
-                keys.pop ();
-                keys.pop ();
+            db.query ("select * from LINEAL;", function (err,rows,fields)
+            {
+                if (!err)
+                {
+                    IDs = [];
+                    var lista = req.body.ocultos.split(",");
+                    rows.forEach (function (row)
+                    {
+                        IDs.push (row.INDICADOR_ID + "");
+                    }) //end forEach
+                    keys = Object.keys (req.body);
+                    keys.pop ();
+                    keys.pop ();
+                    keys.pop ();
 
-                for (var i = 0; i < keys.length; i++) {
-                    var x = IDs.indexOf(keys[i]);
-                    if (x != -1){
-                        var exp = parseFloat (req.body[keys[i]]) * parseFloat (rows[x].Pendiente) + parseFloat (rows[x].Ordenada)
-                        db.query("delete from HISTORICORESPUESTA where Indicador_ID="+keys[i]+" and Asada_ID="+req.body.asada+" and año='"+req.body.anno+"' limit 1 ;");
-                        db.query("insert into HISTORICORESPUESTA select * from INDICADORXASADA where Indicador_ID="+keys[i]+" and Asada_ID="+req.body.asada+"  ;");
-                        db.query("delete from INDICADORXASADA where Indicador_ID="+keys[i]+" and Asada_ID="+req.body.asada+" limit 1 ;");
-                        db.query("insert into INDICADORXASADA(año,Indicador_ID,Asada_ID,Valor,Texto) values('"+req.body.anno+"','"+keys[i]+"','"+req.body.asada+"','"+(1/(1 + Math.pow(Math.E,exp)))+"','"+lista[i+1]+"');");
-                            
-                    }
-                    else{
-                        db.query("delete from HISTORICORESPUESTA where Indicador_ID="+keys[i]+" and Asada_ID="+req.body.asada+" and año='"+req.body.anno+"' limit 1 ;");
-                        db.query("insert into HISTORICORESPUESTA select * from INDICADORXASADA where Indicador_ID="+keys[i]+" and Asada_ID="+req.body.asada+"  ;");
-                        db.query("delete from INDICADORXASADA where Indicador_ID="+keys[i]+" and Asada_ID="+req.body.asada+" limit 1 ;");
-                        db.query("insert into INDICADORXASADA(año,Indicador_ID,Asada_ID,Valor,Texto) values('"+req.body.anno+"','"+keys[i]+"','"+req.body.asada+"','"+req.body[keys[i]]+"','"+lista[i+1]+"');");
+                    db.query("insert into HISTORICORESPUESTA select * from INDICADORXASADA where Asada_ID = " + req.body.asada + ";");
+                    db.query("delete from HISTORICORESPUESTA where Asada_ID = " + req.body.asada + " and año = '" + req.body.anno + "';");
+                    db.query("delete from INDICADORXASADA where Asada_ID = " + req.body.asada + ";");
 
-                    }
-                }
-                }
-                else{
+                    var query = "insert into INDICADORXASADA (año, Indicador_ID, Asada_ID, Valor, Texto) values ";
+                    for (var i = 0; i < keys.length; i++)
+                    {
+                        if (i > 0)
+                        {
+                            query += ", ";
+                        }
+                        query += "('" + req.body.anno + "','" + keys[i] + "','" + req.body.asada + "','";
+                        var x = IDs.indexOf(keys[i]);
+                        if (x != -1)
+                        {
+                            var exp = parseFloat (req.body[keys[i]]) * parseFloat (rows[x].Pendiente) + parseFloat (rows[x].Ordenada)
+                            query += "" + (1 / (1 + Math.pow (Math.E, exp)));
+                        } //end if
+                        else
+                        {
+                            query += req.body[keys[i]]
+                        } //end else
+                        query += "','" + lista[i + 1] + "')"
+                    } //end for
+                    query += ";"
+                    db.query (query, function (err, rows, fields)
+                    {
+                        if (err) console.log (err);
+                    }); //end query
+                } //end if
+                else
+                {
                     res.redirect('/');
                 }
-            });
+            }); //end query
             res.redirect("/grafico?asada=" + req.body.asada);
     },
 	
