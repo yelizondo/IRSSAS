@@ -26,6 +26,16 @@ function aranna(value, tipo, anno, idchart = ""){
 				title: {
 					display: true,
 					text: 'Nivel de Riesgo de la ASADA'
+				},
+				scale: //Extraido de: https://stackoverflow.com/questions/39249722/set-min-max-and-number-of-steps-in-radar-chart-js
+				{
+					ticks:
+					{
+						beginAtZero: true,
+						max: 100,
+						min: 0,
+						stepSize: 10
+					}
 				}
 			}});
 	});
@@ -35,14 +45,14 @@ function graficoAranna()
 {
 	var url = new URL(document.URL);
 	var param = url.searchParams.get("asada");
-	document.getElementById("listAsada").value = param == null ? document.getElementById("listAsada").value : param;
-	var value = document.getElementById("listAsada").value;
+	document.getElementById("asada").value = param == null ? document.getElementById("asada").value : param;
+	var value = document.getElementById("asada").value;
     aranna(value,"INDICADORXASADA",0)
 };
 
 function presentarAsada(){
     
-    var asada = document.getElementById("listAsada").value;
+    var asada = document.getElementById("asada").value;
     var values_list = asada.split(";");
     //console.log(values_list);
     
@@ -74,7 +84,7 @@ function cambiarTipoInforme(){
 };
 
 function addAsadaToList(){
-    var asada = document.getElementById("listAsada").value;
+    var asada = document.getElementById("asada").value;
 	
 	if ($("#listaAsadas").val() != "")
 		$("#listaAsadas").val($("#listaAsadas").val() + "|" + asada);
@@ -90,7 +100,7 @@ function addAsadaToList(){
 };
 
 function deleteAsadaFromList(){
-    var asada = document.getElementById("listAsada").value;
+    var asada = document.getElementById("asada").value;
     var values_list = asada.split(",");
 
 	if ($("#listaAsadas").val().split("|").length > 1)
@@ -109,7 +119,7 @@ function generarPDF(){
     
     if (esGlobal != null){
     
-        var asada = document.getElementById("listAsada").value;
+        var asada = document.getElementById("asada").value;
         var values_list = asada.split(",");
 
         $("#prueba").html(
