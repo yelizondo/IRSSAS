@@ -39,15 +39,18 @@ module.exports = {
 	
 	generarInforme: (req, res) => {
 		if(req.session.value==1){
-			let query = "select a.*,p.Nombre as Provincia,c.Nombre as Canton,d.Nombre as Distrito,  ai.Ubicacion,ai.Telefono,ai.Poblacion,ai.Url,ai.cantAbonados from ASADA a left join ASADAINFO ai on a.ID=ai.Asada_ID inner join DISTRITO d on a.distrito_id=d.Codigo inner join CANTON c on d.Canton_ID=c.ID inner join PROVINCIA p on p.ID=c.Provincia_ID where d.Provincia_ID=p.ID;";
+            let query = "select a.*,p.Nombre as Provincia,c.Nombre as Canton,d.Nombre as Distrito,  ai.Ubicacion,ai.Telefono,ai.Poblacion,ai.Url,ai.cantAbonados from ASADA a left join ASADAINFO ai on a.ID=ai.Asada_ID inner join DISTRITO d on a.distrito_id=d.Codigo inner join CANTON c on d.Canton_ID=c.ID inner join PROVINCIA p on p.ID=c.Provincia_ID where d.Provincia_ID=p.ID;";
+            let query2 = "select * from PROVINCIA;"
 			db.query(query, function(err,rows,fields){
-				if(!err){
-					res.render('pages/generarInforme.ejs',{"usuario": req.session.usuario, "asadas":rows });
-				}
-				else{
-					console.log('generarInforme. Error while performing Query.');
-					res.redirect('/');
-				}
+				db.query(query2, function(err2,rows2,fields2){
+                    if(!err){
+                        res.render('pages/generarInforme.ejs',{"usuario": req.session.usuario, "asadas":rows, "prov": rows2 });
+                    }
+                    else{
+                        console.log('generarInforme. Error while performing Query.');
+                        res.redirect('/');
+                    }
+                });
 			});
 		}
 		else
@@ -289,23 +292,26 @@ module.exports = {
         let query= "SELECT a.Nombre as asada, c.Nombre, (SUM(s.valor * i.valor) * 10000) / c.valor  as valor FROM "+req.query.tipo+" s, INDICADOR i, "+
         "SUBCOMPONENTE d, COMPONENTE c, ASADA a WHERE s.Indicador_ID = i.ID  and i.Subcomponente_ID=d.ID and d.Componente_ID= c.ID "+
         "and s.Asada_ID="+req.query.id+" "+s+" and s.Asada_ID=a.ID GROUP BY a.Nombre, c.Nombre;";
+        let query2 = "select s.ASADA_ID, SUM(s.valor*i.valor)*100 as valor from INDICADORXASADA s, INDICADOR i where s.Indicador_ID=i.ID and s.ASADA_ID = " + req.query.id + "  group by (s.ASADA_ID);"
         db.query(query, function(err,rows,fields){
-            if(!err){
-                componentes = [];
-                valores = [];
-                for (var i = rows.length - 1; i >= 0; i--) {
-                    componentes.push(rows[i].Nombre);
-                    valores.push(parseFloat(rows[i].valor));
+            db.query(query2, function(err2,rows2,fields2){
+                if(!err){
+                    componentes = [];
+                    valores = [];
+                    for (var i = rows.length - 1; i >= 0; i--) {
+                        componentes.push(rows[i].Nombre);
+                        valores.push(parseFloat(rows[i].valor));
+                    }
+                    if(rows.length!=0)
+                        res.send({"nombre": rows[0].asada, "componentes": componentes, "valores": valores, "riesgo": rows2});
+                    else
+                        res.send({"nombre": "No existen datos de esta ASADA", "componentes": componentes, "valores": valores});
                 }
-                if(rows.length!=0)
-                    res.send({"nombre": rows[0].asada, "componentes": componentes, "valores": valores});
-                else
-                    res.send({"nombre": "No existen datos de esta ASADA", "componentes": componentes, "valores": valores});
-            }
-            else{
-                res.redirect('/');
-            }
-
+                else{
+                    res.redirect('/');
+                }
+    
+            });
         });
     },
 

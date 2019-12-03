@@ -38,6 +38,7 @@ function aranna(value, tipo, anno, idchart = ""){
 					}
 				}
 			}});
+			document.getElementById ("riesgo").value = data.riesgo[0].valor;
 	});
 };
 
