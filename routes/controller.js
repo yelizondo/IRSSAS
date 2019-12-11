@@ -20,7 +20,7 @@ module.exports = {
     grafico: (req, res) => {
     	if(req.session.value==1){
             let query = "select a.ID,a.Nombre,p.ID as Provincia,c.ID as Canton,d.ID as Distrito from ASADA a inner join DISTRITO d on a.distrito_id=d.Codigo inner join CANTON c on d.Canton_ID=c.ID inner join PROVINCIA p on p.ID=c.Provincia_ID where d.Provincia_ID=p.ID ";
-            let query2 = "select * from PROVINCIA;"
+            let query2 = "select * from PROVINCIA order by nombre;"
 			if(req.session.usuario.Tipo=="2")
 				query+=" where a.ID="+req.session.usuario.Asada_ID+" ;";
 			db.query(query, function(err,rows,fields){
@@ -40,7 +40,7 @@ module.exports = {
 	generarInforme: (req, res) => {
 		if(req.session.value==1){
             let query = "select a.*,p.Nombre as Provincia,c.Nombre as Canton,d.Nombre as Distrito,  ai.Ubicacion,ai.Telefono,ai.Poblacion,ai.Url,ai.cantAbonados from ASADA a left join ASADAINFO ai on a.ID=ai.Asada_ID inner join DISTRITO d on a.distrito_id=d.Codigo inner join CANTON c on d.Canton_ID=c.ID inner join PROVINCIA p on p.ID=c.Provincia_ID where d.Provincia_ID=p.ID;";
-            let query2 = "select * from PROVINCIA;"
+            let query2 = "select * from PROVINCIA  order by nombre;"
 			db.query(query, function(err,rows,fields){
 				db.query(query2, function(err2,rows2,fields2){
                     if(!err){
@@ -112,9 +112,7 @@ module.exports = {
             var x= 0;
             for (var i = rows.length - 1; i >= 0; i--) {
                 dictionary.push(rows[i].codigo);
-                x= 4-(Math.floor(rows[i].valor/20));
-                if(x > 4) x=4;
-                if(x < 0) x=0;
+                x = getTipoRiesgo (rows[i].valor)
                 values.push(x);
             }
             db.query(query2, function(err2,rows2,fields2){
@@ -131,9 +129,7 @@ module.exports = {
                     var x2= 0;
                     for (var i = rows2.length - 1; i >= 0; i--) {
                         dictionary2.push(rows2[i].codigo);
-                        x2= 4-(Math.floor(rows2[i].valor/20));
-                        if(x2 > 4) x2=4;
-                        if(x2 < 0) x2=0;
+                        x = getTipoRiesgo (rows2[i].valor);
                         values2.push(x2);
                     }
 
@@ -250,9 +246,7 @@ module.exports = {
             var x = 0;
             for (var i = rows.length - 1; i >= 0; i--) {
                 dictionary.push(rows[i].codigo);
-                x= 4-(Math.floor(rows[i].valor/20));
-                if(x > 4) x=4;
-                if(x < 0) x=0;
+                x = getTipoRiesgo (rows[i].valor);
                 values.push(x);
 
             }
@@ -397,7 +391,7 @@ module.exports = {
     statsComponentes:(req,res)=>{
         if(req.session.value == 1){
 
-            let query= "SELECT p.* from PROVINCIA p;"
+            let query= "SELECT * from PROVINCIA order by nombre;"
             db.query(query,function(err,rows,fields){
                 if(!err){
                     res.render('pages/statsComponentes2.ejs', {"rows":rows, "usuario": req.session.usuario})
@@ -413,7 +407,7 @@ module.exports = {
     },
     getCantones:(req,res)=>{
 
-            let query= "SELECT c.* from CANTON c where c.Provincia_ID="+req.query.provincia+" ;";
+            let query= "SELECT c.* from CANTON c where c.Provincia_ID="+req.query.provincia+" order by c.nombre;";
             db.query(query,function(err,rows,fields){
                 if(!err){
                     res.send({"rows":rows})
@@ -425,7 +419,7 @@ module.exports = {
 
     getDistritos:(req,res)=>{
 
-            let query= "SELECT c.* from DISTRITO c where c.Provincia_ID="+req.query.provincia+" and c.Canton_ID="+req.query.canton+" ;";
+            let query= "SELECT c.* from DISTRITO c where c.Provincia_ID="+req.query.provincia+" and c.Canton_ID="+req.query.canton+" order by c.nombre;";
             db.query(query,function(err,rows,fields){
                 if(!err){
                     res.send({"rows":rows})
@@ -496,3 +490,27 @@ module.exports = {
 
 
 };
+function getTipoRiesgo (valor)
+{
+    
+    if (valor < 47.0)
+    {
+      return 4
+    }
+    else if (valor < 57.0)
+    {
+      return 3
+    }
+    else if (valor < 67.0)
+    {
+      return 2
+    }
+    else if (valor < 77.0)
+    {
+      return 1
+    }
+    else
+    {
+      return 0
+    }
+}

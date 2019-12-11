@@ -58,12 +58,24 @@
             <%});%>
         </select>
     </div>
-    <div id="ID_DIV">
-        <canvas id="radar-chart"></canvas>
+    <div>
+        <label for="riesgo">IRSSAS Total</label>
+        <br>
+        <input id="riesgo" type="number" disabled>
+        <br>
+        <br>
+        <label for="tipoRiesgo">Tipo de riesgo</label>
+        <p style="color: black;" id="tipoRiesgo"></p>
     </div>
     <div>
-        <label for="riesgo">Riesgo</label>
-        <input id="riesgo" type="number" disabled>
+        <label for="tipoGrafico">Tipo de gráfico</label>
+        <select id="tipoGrafico" onchange="location.reload()">
+            <option value="bar">Barras</option>
+            <option value="radar">Araña</option>
+        </select>
+    </div>
+    <div id="ID_DIV">
+        <canvas id="radar-chart"></canvas>
     </div>
     <br>
     <button onclick="download();">Download</button>

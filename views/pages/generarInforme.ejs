@@ -64,7 +64,7 @@
                                 <select id="asada" class="form-control hideinput">
                                     <option value=""></option>
                                     <%asadas.forEach(function(asada){%>
-                                    <option value="<%=asada.ID%>,
+                                    <option hidden value="<%=asada.ID%>,
                                     <%=asada.Nombre%>,
                                     <%=asada.Provincia%>, 
 									<%=asada.Canton%>, 
@@ -75,7 +75,8 @@
                                     <%=asada.Poblacion%>,             
 									<%=asada.cantAbonados%>,           
 									<%=asada.Telefono%>,               
-									<%=asada.Url%>">
+                                    <%=asada.Url%>"
+                                    distrito="<%=asada.Distrito_id%>" canton="<%=asada.Canton%>" provincia="<%=asada.Provincia%>">
 									<%=asada.Nombre%></option>
                                     <%});%>
                                 </select>

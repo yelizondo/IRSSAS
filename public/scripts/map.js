@@ -144,9 +144,7 @@ $.get('/getSites',parameters,function(data) {
   puntos = [];
   var x;
   for(var i= 0; i< jsonsites.asadas.length; i++){
-    x= 4-(Math.floor(jsonsites.asadas[i].valor/20));
-    if(x > 4) x=4;
-    if(x < 0) x=0;
+    x = getTipoRiesgo (jsonsites.asadas[i].valor);
     
     puntos.push(new ol.Feature({
           type: 'click',
@@ -233,9 +231,7 @@ function loadPoints(points)
   for(var i= 0; i< points.asadas.length; i++){
     if(thisasadas == undefined || busquedaAsada(points.asadas[i], thisasadas.asadas))
     {
-      x= 4-(Math.floor(points.asadas[i].valor/20));
-      if(x > 4) x=4;
-      if(x < 0) x=0;
+      x = getTipoRiesgo (jsonsites.asadas[i].valor);
       
       puntos.push(new ol.Feature({
             type: 'click',
@@ -318,4 +314,29 @@ function busquedaAsada(asada, asadas)
   {
     return true && busquedaAsada(asada, asadas.slice(Math.trunc(asadas.length / 2) + 1))
   }
+}
+
+function getTipoRiesgo (valor)
+{
+    
+    if (valor < 47.0)
+    {
+      return 4
+    }
+    else if (valor < 57.0)
+    {
+      return 3
+    }
+    else if (valor < 67.0)
+    {
+      return 2
+    }
+    else if (valor < 77.0)
+    {
+      return 1
+    }
+    else
+    {
+      return 0
+    }
 }
