@@ -7,10 +7,10 @@ function aranna(value, tipo, anno, idchart = ""){
 		grafico.data.labels = data.componentes;
 		grafico.data.datasets[0].label = data.nombre;
 		grafico.data.datasets[0].data = data.valores;
+		grafico.update();
+		pintarGrafico (grafico);
 		document.getElementById ("riesgo").value = data.riesgo[0].valor;
 		document.getElementById ("tipoRiesgo").textContent = (["Muy Alto", "Alto", "Intermedio", "Bajo", "Nulo"])[tipoRiesgo];
-		pintarGrafico (grafico);
-		grafico.update();
 	});
 };
 
@@ -23,10 +23,10 @@ function graficoAranna()
     aranna(value,"INDICADORXASADA",0)
 };
 
-function graficoNuevo ()
+function graficoNuevo (asada = "")
 {
-	return new Chart(document.getElementById("radar-chart"), {
-		type: document.getElementById ("tipoGrafico").value,
+	return new Chart(document.getElementById("radar-chart"+asada), {
+		type: (document.getElementById ("tipoGrafico") == null ? "bar" : document.getElementById ("tipoGrafico").value),
 		data: {
 		labels: null,
 	
@@ -142,7 +142,7 @@ function generarPDF(){
             "<p>Cantidad de abonados: " + values_list[9] + "</p><br>" +
             "<p>Teléfono: " + values_list[10] + "</p><br>" + 
             "<p>URL: " + values_list[11] + "</p><br>" +
-            "<canvas id=\"radar-chart"+values_list[0]+"\"></canvas></div>"
+            "<canvas id=\"radar-chart\"></canvas></div>"
         );
 
         var incluirGraf = $("input[name='grafico']:checked")[0];
@@ -150,6 +150,7 @@ function generarPDF(){
 
 
         if (incluirGraf != null){
+			grafico = graficoNuevo();
 			aranna(parseInt(values_list[0]),"INDICADORXASADA",0, values_list[0]);
 		}
 
@@ -187,6 +188,7 @@ function generarPDF(){
 			var incluirHist = $("input[name='hist']:checked")[0];
 
 			if (incluirGraf != null){
+				grafico = graficoNuevo(values_list[0]);
 				aranna(parseInt(values_list[0]),"INDICADORXASADA",0, values_list[0]);
 			}
 		}

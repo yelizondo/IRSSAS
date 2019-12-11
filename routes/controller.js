@@ -39,7 +39,7 @@ module.exports = {
 	
 	generarInforme: (req, res) => {
 		if(req.session.value==1){
-            let query = "select a.*,p.Nombre as Provincia,c.Nombre as Canton,d.Nombre as Distrito,  ai.Ubicacion,ai.Telefono,ai.Poblacion,ai.Url,ai.cantAbonados from ASADA a left join ASADAINFO ai on a.ID=ai.Asada_ID inner join DISTRITO d on a.distrito_id=d.Codigo inner join CANTON c on d.Canton_ID=c.ID inner join PROVINCIA p on p.ID=c.Provincia_ID where d.Provincia_ID=p.ID;";
+            let query = "select p.ID as PROVINCIA_ID, c.ID as CANTON_ID, d.ID as DISTRITO_ID, a.*,p.Nombre as Provincia,c.Nombre as Canton,d.Nombre as Distrito,  ai.Ubicacion,ai.Telefono,ai.Poblacion,ai.Url,ai.cantAbonados from ASADA a left join ASADAINFO ai on a.ID=ai.Asada_ID inner join DISTRITO d on a.distrito_id=d.Codigo inner join CANTON c on d.Canton_ID=c.ID inner join PROVINCIA p on p.ID=c.Provincia_ID where d.Provincia_ID=p.ID;";
             let query2 = "select * from PROVINCIA  order by nombre;"
 			db.query(query, function(err,rows,fields){
 				db.query(query2, function(err2,rows2,fields2){
@@ -285,8 +285,8 @@ module.exports = {
             s=" and s.año= '"+req.query.anno+"' ";
         let query= "SELECT a.Nombre as asada, c.Nombre, (SUM(s.valor * i.valor) * 10000) / c.valor  as valor FROM "+req.query.tipo+" s, INDICADOR i, "+
         "SUBCOMPONENTE d, COMPONENTE c, ASADA a WHERE s.Indicador_ID = i.ID  and i.Subcomponente_ID=d.ID and d.Componente_ID= c.ID "+
-        "and s.Asada_ID="+req.query.id+" "+s+" and s.Asada_ID=a.ID GROUP BY a.Nombre, c.Nombre;";
-        let query2 = "select s.ASADA_ID, SUM(s.valor*i.valor)*100 as valor from INDICADORXASADA s, INDICADOR i where s.Indicador_ID=i.ID and s.ASADA_ID = " + req.query.id + "  group by (s.ASADA_ID);"
+        "and s.Asada_ID='"+req.query.id+"' "+s+" and s.Asada_ID=a.ID GROUP BY a.Nombre, c.Nombre;";
+        let query2 = "select s.ASADA_ID, SUM(s.valor*i.valor)*100 as valor from INDICADORXASADA s, INDICADOR i where s.Indicador_ID=i.ID and s.ASADA_ID = '" + req.query.id + "'  group by (s.ASADA_ID);"
         db.query(query, function(err,rows,fields){
             db.query(query2, function(err2,rows2,fields2){
                 if(!err){
@@ -313,7 +313,7 @@ module.exports = {
         if(req.session.value==1){
             let query = "select a.ID, a.Nombre from ASADA a";
             if(req.session.usuario.Tipo=="2")
-                query+=" where a.ID="+req.session.usuario.Asada_ID+" ;";
+                query+=" where a.ID='"+req.session.usuario.Asada_ID+"' ;";
             db.query(query, function(err,rows,fields){
                 if(!err){
                     res.render('pages/histFormulario.ejs',{"usuario": req.session.usuario, "asadas": rows});
@@ -326,10 +326,10 @@ module.exports = {
 
     getAnno: (req,res) =>{
         if(req.session.value=1){
-            let query = "select distinct(Año) as anno from HISTORICORESPUESTA where Asada_ID = "+req.query.asada+" ;"
+            let query = "select distinct(Año) as anno from HISTORICORESPUESTA where Asada_ID = '"+req.query.asada+"' ;"
             db.query(query, function(err,rows,fields){
                 if(!err){
-                    let query2 = "select distinct(Año) as anno from INDICADORXASADA where Asada_ID = "+req.query.asada+" limit 1 ;"
+                    let query2 = "select distinct(Año) as anno from INDICADORXASADA where Asada_ID = '"+req.query.asada+"' limit 1 ;"
                     db.query(query2,function(err2,rows2,fields2){
                         if(rows2.length!=0)
                             res.send({"annos": rows, "anno": rows2[0].anno});
@@ -345,7 +345,7 @@ module.exports = {
     
     getRespuestas: (req,res) =>{
         if(req.session.value=1){
-            let query = "select h.texto as respuesta, i.Nombre as pregunta from "+req.query.tipo+" h inner join INDICADOR i on h.Indicador_ID=i.ID where h.Año like '"+req.query.anno+"' and h.Asada_ID="+req.query.asada+" ;"
+            let query = "select h.texto as respuesta, i.Nombre as pregunta from "+req.query.tipo+" h inner join INDICADOR i on h.Indicador_ID=i.ID where h.Año like '"+req.query.anno+"' and h.Asada_ID='"+req.query.asada+"' ;"
             db.query(query, function(err,rows,fields){
                 if(!err){
                     res.send({"preguntas": rows});
@@ -368,8 +368,8 @@ module.exports = {
 	getAsada: (req, res) => {
 		if(req.session.value==1){
 
-		let query = 'select a.ID, a.Nombre, p.Nombre as Provincia, a.Distrito_id, c.Nombre as Canton, d.Nombre as Distrito, ai.Ubicacion, ai.Telefono, ai.Poblacion, ai.Url, ai.cantAbonados ' +
-		'from ASADA a left join ASADAINFO ai on a.ID=ai.Asada_ID inner join DISTRITO d on a.distrito_id=d.Codigo inner join CANTON c on d.Canton_ID=c.ID inner join PROVINCIA p on p.ID=c.Provincia_ID where d.Provincia_ID=p.ID and a.ID='+ req.params.id +' ;';
+		let query = "select a.ID, a.Nombre, p.Nombre as Provincia, a.Distrito_id, c.Nombre as Canton, d.Nombre as Distrito, ai.Ubicacion, ai.Telefono, ai.Poblacion, ai.Url, ai.cantAbonados " +
+		"from ASADA a left join ASADAINFO ai on a.ID=ai.Asada_ID inner join DISTRITO d on a.distrito_id=d.Codigo inner join CANTON c on d.Canton_ID=c.ID inner join PROVINCIA p on p.ID=c.Provincia_ID where d.Provincia_ID=p.ID and a.ID='"+ req.params.id +"' ;";
 
 		db.query(query, function(err, rows, fields) {
 		if (!err){
@@ -466,7 +466,7 @@ module.exports = {
             let query = "SELECT s.Asada_ID, a.Nombre, c.Nombre as NombreComponente, d.Nombre as NombreSubComponente" + 
             ", (SUM(s.valor * i.valor) * 1000000) / (d.valor * c.valor) AS valor FROM INDICADORXASADA s, INDICADOR i" + 
             ", SUBCOMPONENTE d, COMPONENTE c, ASADA a WHERE s.Indicador_ID = i.ID and i.Subcomponente_ID=d.ID and d." + 
-            "Componente_ID= c.ID and a.ID = s.Asada_ID and s.Asada_ID = " +  req.params.id + " GROUP BY c.Nombre, d." + 
+            "Componente_ID= c.ID and a.ID = s.Asada_ID and s.Asada_ID = '" +  req.params.id + "' GROUP BY c.Nombre, d." + 
             "Nombre, s.Asada_ID ; ";
 
             // execute query

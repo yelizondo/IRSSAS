@@ -24,10 +24,8 @@ module.exports = {
     getCrudAsadasU: (req,res) =>{
         if(req.session.value==1){
 
-        let query = 'select a.ID,a.Latitud,a.Longitud,a.Nombre,p.Nombre as Provincia, a.Distrito_id,c.Nombre as Canton,d.Nombre as Distrito,ai.Ubicacion,ai.Telefono,ai.Poblacion,ai.Url,ai.cantAbonados ' +
-                    ' from ASADA a left join ASADAINFO ai on a.ID=ai.Asada_ID inner join DISTRITO d on a.distrito_id=d.Codigo inner join CANTON c on d.Canton_ID=c.ID inner join PROVINCIA p on '+
-                    ' p.ID=c.Provincia_ID where d.Provincia_ID=p.ID and a.ID='+ req.params.id +' ;';
-        let query2 = ' select concat(p.Nombre, " - ", c.Nombre, " - ", d.Nombre) as Distrito, d.Codigo from DISTRITO d inner join CANTON c on d.Canton_ID=c.ID inner join PROVINCIA p on p.ID=c.Provincia_ID where d.Provincia_ID=p.ID;';
+        let query = "select a.ID,a.Latitud,a.Longitud,a.Nombre,p.Nombre as Provincia, a.Distrito_id,c.Nombre as Canton,d.Nombre as Distrito,ai.Ubicacion,ai.Telefono,ai.Poblacion,ai.Url,ai.cantAbonados from ASADA a left join ASADAINFO ai on a.ID=ai.Asada_ID inner join DISTRITO d on a.distrito_id=d.Codigo inner join CANTON c on d.Canton_ID=c.ID inner join PROVINCIA p on p.ID=c.Provincia_ID where d.Provincia_ID=p.ID and a.ID = '" + req.params.id +"' ;";
+        let query2 = 'select concat(p.Nombre, " - ", c.Nombre, " - ", d.Nombre) as Distrito, d.Codigo from DISTRITO d inner join CANTON c on d.Canton_ID=c.ID inner join PROVINCIA p on p.ID=c.Provincia_ID where d.Provincia_ID=p.ID;';
         // execute query
         db.query(query, function(err, rows, fields) {
         if (!err){
@@ -39,7 +37,7 @@ module.exports = {
 
             }
             else{
-                console.log('getCrudAsadasU. Error while performing Query.');
+                console.log('getCrudAsadasU. Error while performing Query. ', err2);
                 res.redirect('/');
                 }
 
@@ -48,7 +46,7 @@ module.exports = {
 
         }
         else{
-            console.log('getCrudAsadasU. Error while performing Query.');
+            console.log('getCrudAsadasU. Error while performing Query. ', err);
             res.redirect('/');
             }
 
@@ -87,7 +85,7 @@ module.exports = {
             //hago los querys, valido si es int o varchar, se hace inner join al update, para trabajar lo 2 al mismo tiempo
             for(var i= 0; i<actualizados.length;i++){                
                 updateAsada = "update ASADA a, ASADAINFO ai set ";
-                updateAsada = updateAsada + actualizados[i] + " = '" + updates[i] + "' where a.ID = "+ id_asada + " and ai.Asada_ID= " + id_asada + " ;";
+                updateAsada = updateAsada + actualizados[i] + " = '" + updates[i] + "' where a.ID = '"+ id_asada + "' and ai.Asada_ID= '" + id_asada + "' ;";
                 db.query(updateAsada);
             }
 
@@ -459,10 +457,10 @@ module.exports = {
 
 
         createAsada: (req,res) =>{
-            let query= "insert into ASADA(ID,Nombre,Distrito_ID,Latitud,Longitud) values("+req.body.ID+",'"+req.body.Nombre+"',"+req.body.Distrito_ID+",'"+req.body.Latitud+"','"+req.body.Longitud+"') ;";            
+            let query= "insert into ASADA(ID,Nombre,Distrito_ID,Latitud,Longitud) values('"+req.body.ID+"','"+req.body.Nombre+"',"+req.body.Distrito_ID+",'"+req.body.Latitud+"','"+req.body.Longitud+"') ;";            
             db.query(query, function(err,rows,fields){
                 if(!err){
-                    let query2= "insert into ASADAINFO(Asada_ID,Ubicacion,Telefono,Poblacion,Url,cantAbonados) values("+req.body.ID+",'"+req.body.Ubicacion+"',"+
+                    let query2= "insert into ASADAINFO(Asada_ID,Ubicacion,Telefono,Poblacion,Url,cantAbonados) values((SELECT ID FROM ASADA WHERE DISTRITO_ID = " + req.body.Distrito_ID + " ORDER BY 1 DESC LIMIT 1 ),'"+req.body.Ubicacion+"',"+
                     "'"+req.body.Telefono+"','"+req.body.Poblacion+"','"+req.body.Url+"','"+req.body.cantAbonados+"') ;";
                     db.query(query2);
                 }
@@ -481,7 +479,7 @@ module.exports = {
             var borrados = req.query.borrados;
             if(!(borrados === undefined)){            
             borrados.forEach(function(element) {
-                db.query("delete from ASADA where id="+element+" ;");
+                db.query("delete from ASADA where id='"+element+"' ;");
             });
             }
             }
@@ -496,7 +494,7 @@ module.exports = {
                 let query3="select a.ID,a.Nombre,p.ID as Provincia,c.ID as Canton,d.ID as Distrito from ASADA a inner join DISTRITO d on a.distrito_id=d.Codigo inner join CANTON c on d.Canton_ID=c.ID inner join PROVINCIA p on p.ID=c.Provincia_ID where d.Provincia_ID=p.ID "
                 let query4 = "select * from PROVINCIA  order by nombre;;"
                 if(req.session.usuario.Tipo==2)
-                    query3+=" and asada.ID="+req.session.usuario.Asada_ID+" ;";
+                    query3+=" and asada.ID='"+req.session.usuario.Asada_ID+"' ;";
                 db.query(query,function(err,rows,fields){
                     if(!err){
                         db.query(query2,function(err2,rows2,fields2){
@@ -549,9 +547,9 @@ module.exports = {
                     keys.pop ();
                     keys.pop ();
 
-                    db.query("insert into HISTORICORESPUESTA select * from INDICADORXASADA where Asada_ID = " + req.body.asada + ";");
-                    db.query("delete from HISTORICORESPUESTA where Asada_ID = " + req.body.asada + " and año = '" + req.body.anno + "';");
-                    db.query("delete from INDICADORXASADA where Asada_ID = " + req.body.asada + ";");
+                    db.query("insert into HISTORICORESPUESTA select * from INDICADORXASADA where Asada_ID = '" + req.body.asada + "';");
+                    db.query("delete from HISTORICORESPUESTA where Asada_ID = '" + req.body.asada + "' and año = '" + req.body.anno + "';");
+                    db.query("delete from INDICADORXASADA where Asada_ID = '" + req.body.asada + "';");
 
                     var query = "insert into INDICADORXASADA (año, Indicador_ID, Asada_ID, Valor, Texto) values ";
                     for (var i = 0; i < keys.length; i++)
@@ -632,9 +630,9 @@ module.exports = {
 
     setUsuariosAsada: (req,res) =>{
         function cargar(usuario,asada){
-            db.query("insert into USUARIOXASADA values ("+usuario+","+asada+");", function(err,rows,fields){
+            db.query("insert into USUARIOXASADA values ("+usuario+",'"+asada+"');", function(err,rows,fields){
                 if(err){
-                    let query = "update USUARIOXASADA set Asada_ID="+asada+" where Usuario_ID="+usuario+" ;";
+                    let query = "update USUARIOXASADA set Asada_ID='"+asada+"' where Usuario_ID="+usuario+" ;";
                     db.query(query, function(err2,rows2,fields2){
                     });
                 }
