@@ -548,10 +548,10 @@ module.exports = {
                     keys.pop ();
 
                     db.query("insert into HISTORICORESPUESTA select * from INDICADORXASADA where Asada_ID = '" + req.body.asada + "';");
-                    db.query("delete from HISTORICORESPUESTA where Asada_ID = '" + req.body.asada + "' and año = '" + req.body.anno + "';");
+                    db.query("delete from HISTORICORESPUESTA where Asada_ID = '" + req.body.asada + "' and anno = '" + req.body.anno + "';");
                     db.query("delete from INDICADORXASADA where Asada_ID = '" + req.body.asada + "';");
 
-                    var query = "insert into INDICADORXASADA (año, Indicador_ID, Asada_ID, Valor, Texto) values ";
+                    var query = "insert into INDICADORXASADA (anno, Indicador_ID, Asada_ID, Valor, Texto) values ";
                     for (var i = 0; i < keys.length; i++)
                     {
                         if (i > 0)

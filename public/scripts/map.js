@@ -153,7 +153,7 @@ $.get('/getSites',parameters,function(data) {
           id: jsonsites.asadas[i].Asada_ID,
           riesgo: jsonsites.asadas[i].valor,
           poblacion: jsonsites.asadas[i].Poblacion,
-          color: (["Muy Alto", "Alto", "Intermedio", "Bajo", "Nulo"])[x]
+          color: (["Muy Alto", "Alto", "Intermedio", "Bajo", "Muy bajo"])[x]
     }));
     puntos[i].setStyle(style1);
   }
@@ -240,7 +240,7 @@ function loadPoints(points)
             id: points.asadas[i].Asada_ID,
             riesgo: points.asadas[i].valor,
             poblacion: points.asadas[i].Poblacion,
-            color: (["Muy Alto", "Alto", "Intermedio", "Bajo", "Nulo"])[x]
+            color: (["Muy Alto", "Alto", "Intermedio", "Bajo", "Muy bajo"])[x]
       }));
       puntos[puntos.length - 1].setStyle(style1);
     }

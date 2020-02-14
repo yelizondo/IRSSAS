@@ -10,7 +10,7 @@ function aranna(value, tipo, anno, idchart = ""){
 		grafico.update();
 		pintarGrafico (grafico);
 		document.getElementById ("riesgo").value = data.riesgo[0].valor;
-		document.getElementById ("tipoRiesgo").textContent = (["Muy Alto", "Alto", "Intermedio", "Bajo", "Nulo"])[tipoRiesgo];
+		document.getElementById ("tipoRiesgo").textContent = (["Muy Alto", "Alto", "Intermedio", "Bajo", "Muy bajo"])[tipoRiesgo];
 	});
 };
 
