@@ -30,34 +30,10 @@
                             </div>                           
                         </div>
                     </div>
-                    <div>
-                        <label for="prov">Provincia</label>
-                        <select class="form-control" onchange="getCanton()" id="prov">
-                            <option value="0">Sin filtro</option>
-                            <%prov.forEach(function(row, index) {%>
-                                <option value="<%= row.ID%>"><%= row.Nombre%></option>
-                            <%});%>
-                        </select>
-                        <label for="cant">Cantón</label>
-                        <select class="form-control" onchange="getDistrito()" id="cant">
-                                <option value="0">Sin filtro</option>
-                        </select>
-                        <label for="dist">Distrito</label>
-                        <select class="form-control" id="dist" onchange="getAsada()">
-                            <option value="0">Sin filtro</option>
-                        </select>
-                    </div>
                     <form id="formulario" action="/sendForm" method="POST" >
                     <div style="margin: 20px;">
                         <div class="form-group">
-                            <label for="asada">ASADA</label>
-                            <select name="asada" id="asada" required class="form-control hideinput">
-                                <option value=""></option>
-                                <%asadas.forEach(function(asada){%>
-                                    <option hidden value="<%=asada.ID%>" distrito="<%=asada.Distrito%>" canton="<%=asada.Canton%>" provincia="<%=asada.Provincia%>"><%=asada.Nombre%></option>
-                                <%});%>
-                            </select>
-                            
+                            <% include ../partials/filtroCantonDistProvAsada %>
                             <label for="anno">Año</label>
                             <input class="form-control" type="number" required step="1" min="2000" id="anno" name="anno">
                             <button type="button" onclick="return manejoFormulario(cargarFormulario);" class="btn btn-info navbar-btn">Cargar Formulario</button>
