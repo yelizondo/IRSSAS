@@ -39,8 +39,9 @@
                                 <div class="form-group col-md-3">
                                     <label for="asada">ASADA</label>
                                     <select id="asada" name="asada" onclick="getAnnos(this)" class="form-control hideinput">
+                                        <option value=""></option>
                                         <%asadas.forEach(function(asada){%>
-                                            <option value="<%=asada.ID%>"><%=asada.Nombre%></option>
+                                            <option hidden value="<%=asada.ID%>"  distrito="<%=asada.Distrito%>" canton="<%=asada.Canton%>" provincia="<%=asada.Provincia%>"><%=asada.Nombre%></option>
                                         <%});%>
                                     </select>
                                 </div>
@@ -69,7 +70,7 @@
                         </tbody>
                         </table>
                         <div id="radar-chart-div"  style="visibility: hidden;">
-                            <canvas id="radar-chart" ></canvas>
+                            <canvas id="radar-chart"></canvas>
                         </div>
 
 

@@ -311,7 +311,7 @@ module.exports = {
 
     histFormulario: (req,res) =>{
         if(req.session.value==1){
-            let query = "select a.ID, a.Nombre from ASADA a";
+            let query = "select a.ID, a.Nombre,p.ID as Provincia,c.ID as Canton,d.ID as Distrito from ASADA a inner join DISTRITO d on a.distrito_id=d.Codigo inner join CANTON c on d.Canton_ID=c.ID inner join PROVINCIA p on p.ID=c.Provincia_ID where d.Provincia_ID=p.ID ";
             let query2 = "SELECT * from PROVINCIA order by nombre;"
             if(req.session.usuario.Tipo=="2")
                 query+=" where a.ID='"+req.session.usuario.Asada_ID+"' ;";
