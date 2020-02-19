@@ -312,11 +312,16 @@ module.exports = {
     histFormulario: (req,res) =>{
         if(req.session.value==1){
             let query = "select a.ID, a.Nombre from ASADA a";
+            let query2 = "SELECT * from PROVINCIA order by nombre;"
             if(req.session.usuario.Tipo=="2")
                 query+=" where a.ID='"+req.session.usuario.Asada_ID+"' ;";
             db.query(query, function(err,rows,fields){
                 if(!err){
-                    res.render('pages/histFormulario.ejs',{"usuario": req.session.usuario, "asadas": rows});
+                    db.query(query2, function(err,rows2,fields){
+                        if(!err){
+                            res.render('pages/histFormulario.ejs',{"usuario": req.session.usuario, "asadas": rows, "prov": rows2});
+                        }
+                    });
                 }
             });
         }else{

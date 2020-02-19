@@ -34,12 +34,17 @@
                     <div style="margin: 20px;">
                         <div class="form-group">
                             
-                                <label for="asada">ASADA</label>
-                                <select id="asada" name="asada" onclick="getAnnos(this)" class="form-control hideinput">
-                                    <%asadas.forEach(function(asada){%>
-                                        <option value="<%=asada.ID%>"><%=asada.Nombre%></option>
-                                    <%});%>
-                                </select>
+                            <div class="form-row">
+                                <% include ../partials/filtroCantonDistProv %>
+                                <div class="form-group col-md-3">
+                                    <label for="asada">ASADA</label>
+                                    <select id="asada" name="asada" onclick="getAnnos(this)" class="form-control hideinput">
+                                        <%asadas.forEach(function(asada){%>
+                                            <option value="<%=asada.ID%>"><%=asada.Nombre%></option>
+                                        <%});%>
+                                    </select>
+                                </div>
+                            </div>
                                 <label for="anno">Año</label>
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
@@ -63,7 +68,7 @@
                         <tbody id="componenttable">                            
                         </tbody>
                         </table>
-                        <div id="radar-chart-div"  style="width: 500px; height: 500px; visibility: hidden;">
+                        <div id="radar-chart-div"  style="visibility: hidden;">
                             <canvas id="radar-chart" ></canvas>
                         </div>
 
@@ -106,5 +111,6 @@
         <script>
             getAnnos(document.getElementById("asada"));
         </script>
+        <script src="scripts/getProvCantDist.js"></script>
     </body>
 </html>
