@@ -43,22 +43,7 @@
                                 <input type="radio" name="tipoInforme" value="custom" onclick="cambiarTipoInforme();">Informe personalizado
                             </div>
                             <br><br>
-                            <label for="prov">Provincia</label>
-                            <select class="form-control" onchange="getCanton()" id="prov">
-                                <option value="0">Sin filtro</option>
-                                <%prov.forEach(function(row, index) {%>
-                                    <option value="<%= row.ID%>"><%= row.Nombre%></option>
-                                <%});%>
-                            </select>
-                            <label for="cant">Cantón</label>
-                            <select class="form-control" onchange="getDistrito()" id="cant">
-                                    <option value="0">Sin filtro</option>
-                            </select>
-                            <label for="dist">Distrito</label>
-                            <select class="form-control" id="dist" onchange="getAsada()">
-                                <option value="0">Sin filtro</option>
-                            </select>
-                            <br>
+                            <% include ../partials/filtroCantonDistProv %>
                             <label for="asada">Asada</label>
                             <div style="display: flex;">
                                 <select id="asada" class="form-control hideinput">
@@ -137,5 +122,6 @@
             });
         </script>
         <script src="scripts/script.js"></script>
+        <script src="scripts/getProvCantDist.js"></script>
     </body>
 </html>

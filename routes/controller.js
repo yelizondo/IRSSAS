@@ -83,23 +83,23 @@ module.exports = {
         }
 
         if(req.query.tipo=="2"){
-            s= " SELECT distinct(s.Asada_ID), SUM(s.valor * i.valor) * 100 AS valor FROM HISTORICORESPUESTA s, INDICADOR i WHERE s.Indicador_ID = i.ID and s.anno='"+req.query.anno+"' GROUP BY (s.Asada_ID) union "+
-            " SELECT distinct(s.Asada_ID), SUM(s.valor * i.valor) * 100 AS valor FROM INDICADORXASADA s, INDICADOR i WHERE s.Indicador_ID = i.ID and s.anno='"+req.query.anno+"' GROUP BY (s.Asada_ID) ";
-            k= " SELECT distinct(s.Asada_ID), SUM(s.valor * i.valor) * 100 AS valor FROM HISTORICORESPUESTA s, INDICADOR i WHERE s.Indicador_ID = i.ID and s.anno='"+req.query.anno2+"' GROUP BY (s.Asada_ID) union "+
-            " SELECT distinct(s.Asada_ID), SUM(s.valor * i.valor) * 100 AS valor FROM INDICADORXASADA s, INDICADOR i WHERE s.Indicador_ID = i.ID and s.anno='"+req.query.anno2+"' GROUP BY (s.Asada_ID) ";
+            s= " SELECT distinct(s.Asada_ID), SUM(s.valor * i.valor) * 100 AS valor, cast(ai.poblacion as decimal) as poblacion  FROM HISTORICORESPUESTA s inner join ASADAINFO ai on (s.Asada_ID = ai.ASADA_ID), INDICADOR i WHERE s.Indicador_ID = i.ID and s.anno='"+req.query.anno+"' GROUP BY (s.Asada_ID) union "+
+            " SELECT distinct(s.Asada_ID), SUM(s.valor * i.valor) * 100 AS valor, cast(ai.poblacion as decimal) as poblacion from INDICADORXASADA s inner join ASADAINFO ai on (s.Asada_ID = ai.ASADA_ID), INDICADOR i WHERE s.Indicador_ID = i.ID and s.anno='"+req.query.anno+"' GROUP BY (s.Asada_ID) ";
+            k= " SELECT distinct(s.Asada_ID), SUM(s.valor * i.valor) * 100 AS valor, cast(ai.poblacion as decimal) as poblacion  FROM HISTORICORESPUESTA s inner join ASADAINFO ai on (s.Asada_ID = ai.ASADA_ID), INDICADOR i WHERE s.Indicador_ID = i.ID and s.anno='"+req.query.anno2+"' GROUP BY (s.Asada_ID) union "+
+            " SELECT distinct(s.Asada_ID), SUM(s.valor * i.valor) * 100 AS valor, cast(ai.poblacion as decimal) as poblacion from INDICADORXASADA s inner join ASADAINFO ai on (s.Asada_ID = ai.ASADA_ID), INDICADOR i WHERE s.Indicador_ID = i.ID and s.anno='"+req.query.anno2+"' GROUP BY (s.Asada_ID) ";
         }
 
         let query = "select C.codigo, SUM(t.valor*t.poblacion)/SUM(t.poblacion) as valor from ASADA A, DISTRITO C, CANTON Ca, PROVINCIA P, "+
         "("+s+") t where A.DISTRITO_ID=C.codigo and "+
         "C.CANTON_ID=Ca.ID and C.PROVINCIA_ID=P.ID and A.id=t.asada_id "+l+" group by(C.codigo);";
 
-        let query2="SELECT s.Asada_ID, a.Nombre, ai.Poblacion, SUM(s.valor * i.valor) * 100 AS valor, a.Latitud, a.Longitud FROM "+
+        let query2="SELECT s.Asada_ID, a.Nombre, cast(ai.poblacion as decimal) as poblacion, SUM(s.valor * i.valor) * 100 AS valor, a.Latitud, a.Longitud FROM "+
         "INDICADORXASADA s, INDICADOR i, ASADA a, DISTRITO C, ASADAINFO ai WHERE s.Indicador_ID = i.ID and s.Asada_ID=a.ID and a.Distrito_ID=C.Codigo and ai.ASADA_ID = a.ID "+l+" GROUP BY (s.Asada_ID)";
         //let query2="SELECT s.Asada_ID, a.Nombre, SUM(s.valor * i.valor) * 100 AS valor, a.Latitud, a.Longitud FROM  INDICADORXASADA s, INDICADOR i, ASADA a, DISTRITO C "
         //" WHERE s.Indicador_ID = i.ID and s.Asada_ID=a.ID and a.Distrito_ID=C.Codigo "+l+" GROUP BY (s.Asada_ID);";
 
         if(req.query.tipo=="2"){
-            query2 = "select C.codigo, avg(t.valor) as valor from ASADA a, DISTRITO C, CANTON Ca, PROVINCIA P, "+
+            query2 = "select C.codigo, SUM(t.valor*t.poblacion)/SUM(t.poblacion) as valor from ASADA a, DISTRITO C, CANTON Ca, PROVINCIA P, "+
             "("+k+") t where a.DISTRITO_ID=C.codigo and "+
             "C.CANTON_ID=Ca.ID and C.PROVINCIA_ID=P.ID and a.id=t.asada_id "+l+" group by(C.codigo)";            
         }
