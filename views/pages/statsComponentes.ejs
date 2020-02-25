@@ -35,7 +35,6 @@
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th scope="col">ID</th>
                                     <th scope="col">Asada</th>
                                     <th scope="col">Distrito</th>
                                     <th scope="col">Canton</th>
@@ -47,12 +46,11 @@
                         <tbody id="componenttable">
                                 <%asadas.forEach(function(consulta, index) {%>
                                 <tr>
-                                    <td><%=consulta.Asada_ID%></td>
                                     <td><%=consulta.Nombre%></td>
                                     <td><%=consulta.Distrito%></td>
                                     <td><%=consulta.Canton%></td>
                                     <td><%=consulta.Provincia%></td>
-                                    <td><%=consulta.valor%></td>
+                                    <td><%=consulta.valor.toFixed(2)%></td>
                                     <td><i class="glyphicon glyphicon-leaf" style="color: #325276" onclick="location.href='/statsSubcomponentes/<%=consulta.Asada_ID%>';"></i></td>
                                     
                                 </tr>

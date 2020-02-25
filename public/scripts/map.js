@@ -150,9 +150,8 @@ $.get('/getSites',parameters,function(data) {
           type: 'click',
           geometry: new ol.geom.Point(ol.proj.fromLonLat([parseFloat(jsonsites.asadas[i].Latitud),parseFloat(jsonsites.asadas[i].Longitud)])),
           name: jsonsites.asadas[i].Nombre,
-          id: jsonsites.asadas[i].Asada_ID,
-          riesgo: jsonsites.asadas[i].valor,
-          poblacion: jsonsites.asadas[i].Poblacion,
+          riesgo: jsonsites.asadas[i].valor.toFixed(2),
+          poblacion: jsonsites.asadas[i].poblacion,
           color: (["Muy Alto", "Alto", "Intermedio", "Bajo", "Muy bajo"])[x]
     }));
     puntos[i].setStyle(style1);
@@ -205,7 +204,7 @@ $.get('/getSites',parameters,function(data) {
       if (f && f.get('type') == 'click') {
           var geometry = f.getGeometry();
           var coord = geometry.getCoordinates();
-          content.innerHTML = '<p><b>'+f.get("name")+'</b></p><p><b>ID: </b> '+f.get("id")+' <b>Población: </b> '+ f.get("poblacion") +' <b>Riesgo: </b>'+f.get("riesgo")+'% <b>Nivel de Riesgo: </b>'+f.get("color")+' </p>';        
+          content.innerHTML = '<p><b>'+f.get("name")+'</b></p><p><b>Población: </b> '+ f.get("poblacion") +' <b>Riesgo: </b>'+f.get("riesgo")+'% <b>Nivel de Riesgo: </b>'+f.get("color")+' </p>';        
           overlay.setPosition(coord);
       }
 });

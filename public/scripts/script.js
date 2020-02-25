@@ -6,10 +6,10 @@ function aranna(value, tipo, anno, idchart = ""){
 		var tipoRiesgo = getTipoRiesgo (data.riesgo[0].valor);
 		grafico.data.labels = data.componentes;
 		grafico.data.datasets[0].label = data.nombre;
-		grafico.data.datasets[0].data = data.valores;
+		grafico.data.datasets[0].data = data.valores.map(function(valor){return valor.toFixed(2)});
 		grafico.update();
 		pintarGrafico (grafico);
-		document.getElementById ("riesgo").value = data.riesgo[0].valor;
+		document.getElementById ("riesgo").value = data.riesgo[0].valor.toFixed(2);
 		document.getElementById ("tipoRiesgo").textContent = (["Muy Alto", "Alto", "Intermedio", "Bajo", "Muy bajo"])[tipoRiesgo];
 	});
 };
@@ -38,6 +38,8 @@ function graficoNuevo (asada = "")
 			borderColor: "rgba(25,61,102,1)",
 			pointBorderColor: "#fff",
 			pointBackgroundColor: "rgba(179,181,198,1)",
+			pointRadius: 6,
+			pointHoverRadius: 10,
 			data: null
 			}]
 	
@@ -298,9 +300,9 @@ function getEstadisticas(){
 		  var totalAsadas = document.getElementById("totalAsadas");
 		  totalAsadas.textContent = "Total de ASADAS: " + distritos.rows.length;
 		  distritos.rows.forEach(consulta => {
-			  selectCant.innerHTML+="<tr><td>"+consulta.Asada_ID+"</td><td>"+consulta.Nombre+"</td><td>"+
+			  selectCant.innerHTML+="<tr><td>"+consulta.Nombre+"</td><td>"+
 			  ""+consulta.Distrito+"</td><td>"+consulta.Canton+"</td><td>"+consulta.Provincia+"</td><td>"+
-			  ""+consulta.valor+"</td><td><i class='glyphicon glyphicon-leaf' style='color: #325276' "+
+			  ""+consulta.valor.toFixed(2)+"</td><td><i class='glyphicon glyphicon-leaf' style='color: #325276' "+
 			  "onclick='location.href='/statsSubcomponentes/"+consulta.Asada_ID+"';'></i></td></tr>";
 		  });
 	  });
@@ -335,11 +337,13 @@ function getTipoRiesgo (valor)
 function pintarGrafico (graficoObj)
 {
 	var colores = ['rgba(234, 77, 70, 0.7)','rgba(232, 215, 75, 0.7)','rgba(72, 118, 90, 0.7)','rgba(22, 155, 220, 0.7)','rgba(22, 87, 205, 0.7)'];
-	graficoObj.data.datasets[0].backgroundColor = document.getElementById ("tipoGrafico").value == "radar" ? "rgba(25,61,102,0.2)" : []
+	var riesgo = document.getElementById ("riesgo");
+	var tipoGrafico = document.getElementById ("tipoGrafico");
+	graficoObj.data.datasets[0].backgroundColor = tipoGrafico != null && tipoGrafico.value == "radar" ? colores[getTipoRiesgo (riesgo.value)] : []
 	graficoObj.data.datasets[0].pointBackgroundColor = []
 	for (var i = 0; i < graficoObj.data.datasets[0].data.length; i++)
 	{
-		if (document.getElementById ("tipoGrafico").value == "radar")
+		if (tipoGrafico != null && tipoGrafico.value == "radar")
 		{
 			graficoObj.data.datasets[0].pointBackgroundColor.push(colores[getTipoRiesgo (graficoObj.data.datasets[0].data[i])]);
 		}
