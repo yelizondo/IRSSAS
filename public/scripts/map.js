@@ -185,13 +185,22 @@ $.get('/getSites',parameters,function(data) {
       return false;
   };
 
+ 
+  var long = -84.097118;
+  var lat = 9.934691;
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        long = position.coords.longitude;
+        lat = position.coords.latitude;
+      });
+    } 
 
   map = new ol.Map({
               target: 'map',
               overlays: [overlay],
               layers: layers,
               view: new ol.View({
-                center: ol.proj.fromLonLat([-84.097118,9.934691]),
+                center: ol.proj.fromLonLat([long,lat]),
                 zoom: 8
               })
             });
