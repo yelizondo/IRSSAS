@@ -17,6 +17,23 @@ module.exports = {
         }
     },
 
+    getMapa: (req, res) => {
+    	if(req.session.value==1){
+			res.redirect('/main');   		
+    	}
+    	else{
+        req.session.value= 0;
+
+        let query= "SELECT p.* from PROVINCIA p;"
+        db.query(query,function(err,rows,fields){
+            if(!err){
+                res.render('pages/mapa.ejs', {"rows":rows, "error":""});
+            }
+        });
+
+        }
+    },
+
     grafico: (req, res) => {
     	if(req.session.value==1){
             let query = "select a.ID,a.Nombre,p.ID as Provincia,c.ID as Canton,d.ID as Distrito from ASADA a inner join DISTRITO d on a.distrito_id=d.Codigo inner join CANTON c on d.Canton_ID=c.ID inner join PROVINCIA p on p.ID=c.Provincia_ID where d.Provincia_ID=p.ID ";
