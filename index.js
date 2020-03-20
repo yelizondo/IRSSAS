@@ -4,6 +4,8 @@ const express = require('express');
 const fileUpload = require('express-fileupload');
 const bodyParser = require('body-parser');
 const mysql = require('mysql');
+var htmlToImage = require('html-to-image');
+
 const path = require('path');
 const app = express();
 const PORT = process.env.PORT || 8000
