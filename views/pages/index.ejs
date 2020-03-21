@@ -213,12 +213,12 @@
                 focusConfirm: false,
                 preConfirm: () => {
                     var clavenueva = $('#swal-input3').val();
-                    var claveconfirmacion = $('#swal-input4').val(); 
-                    if ($('#swal-input1').val() && $('#swal-input2').val() && clavenueva && claveconfirmacion){
-                        if(clavenueva != claveconfirmacion)
+                    var claveconfirmacion = $('#swal-input4').val();
+                    if ($('#swal-input1').val() && $('#swal-input2').val() && clavenueva && claveconfirmacion) {
+                        if (clavenueva != claveconfirmacion)
                             Swal.showValidationMessage('La nueva contraseña debe coincidir')
                     }
-                    else{
+                    else {
                         Swal.showValidationMessage('Todos los campos son necesarios')
                     }
                 }
@@ -227,12 +227,42 @@
                     var usuario = $('#swal-input1').val();
                     var clave = $('#swal-input2').val();
                     var clavenueva = $('#swal-input3').val();
-                    var parameters = { "usuario": usuario, "clave": clave, "clavenueva":clavenueva };
+                    var parameters = { "usuario": usuario, "clave": clave, "clavenueva": clavenueva };
                     $.get('/changePassword', parameters, function (data) {
                     }).done(function (res) {
                         console.log(res);
                         if (res == true)
                             Swal.fire('Proceso exitoso', 'La contraseña ha sido cambiada', 'success');
+                        else
+                            Swal.fire('Error', res, 'error');
+                    });
+                }
+            })
+        }
+
+        function olvide() {
+            Swal.fire({
+                title: 'Recuperar contraseña',
+                confirmButtonText: 'Recuperar',
+                cancelButtonText: 'Cancelar',
+                showCancelButton: true,
+                cancelButtonColor: '#e13c26',
+                confirmButtonColor: '#2d569d',
+                html: '<input id="swal-input5" class= "swal2-input" placeholder="Correo">',
+                focusConfirm: false,
+                preConfirm: () => {
+                    if (!$('#swal-input5').val())
+                        Swal.showValidationMessage('Debe escribir el correo')
+                }
+            }).then((result) => {
+                if (result.value) {
+                    var usuario = $('#swal-input5').val();
+                    var parameters = { "usuario": usuario};
+                    $.get('/forgetPassword', parameters, function (data) {
+                    }).done(function (res) {
+                        console.log(res);
+                        if (res == true)
+                            Swal.fire('Proceso exitoso', 'Se enviado al correo la nueva clave', 'success');
                         else
                             Swal.fire('Error', res, 'error');
                     });

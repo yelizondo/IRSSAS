@@ -534,6 +534,40 @@ module.exports = {
         });
     },
 
+    forgetPassword: (req, res) => {
+        var usuario = req.query.usuario;
+        db.query(`SELECT COUNT(*) AS CANTIDAD FROM USUARIO WHERE USUARIO = '${usuario}'`, function (err, rows) {
+            if (!err) {
+                if (rows[0].CANTIDAD == 0)
+                    res.send("El usuario no existe");
+                else {
+                    let code = Math.floor(Math.random() * 10000).toString(10).padStart(4, "0");
+                    db.query(`UPDATE USUARIO SET CONTRASENNA = '${code}' WHERE USUARIO = '${usuario}'`, function (err2) {
+                        if (!err2) {
+                            var mailOptions = {
+                                from: 'guaposdecomu@gmail.com',
+                                to: usuario,
+                                subject: 'Recuperación de contraseña',
+                                text: `La nueva contraseña es: ${code}`
+                            };
+                            transporter.sendMail(mailOptions, function (error) {
+                                if (error)
+                                    res.send(error);
+                                else
+                                    res.send(true);
+                            });
+                        }
+                        else
+                            res.send(err2);
+                    });
+                }
+            }
+            else
+                res.send("forgetPassword. Error while performing Query");
+        });
+
+    },
+
 
 
     crudFormularios: (req, res) => {
