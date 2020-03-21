@@ -495,14 +495,43 @@ module.exports = {
             var estado = req.query.estado;
 
             db.query(`UPDATE ASADA SET Estado = ${estado} WHERE ID='${id}'`, function (err) {
-                if (!err) {
-                    res.send(true);
-                }
-                else {
-                    res.send(false);
-                }
+                res.send(!err);
             });
         }
+    },
+
+    changePassword: (req, res) => {
+
+        var usuario = req.query.usuario;
+        var clave = req.query.clave;
+        var clavenueva = req.query.clavenueva;
+
+        db.query(`SELECT COUNT(*) AS CANTIDAD FROM USUARIO WHERE USUARIO = '${usuario}'`, function (err, rows) {
+            if (!err) {
+                if (rows[0].CANTIDAD == 0)
+                    res.send("El usuario no existe");
+                else {
+                    db.query(`SELECT COUNT(*) AS CANTIDAD FROM USUARIO WHERE USUARIO = '${usuario}' AND CONTRASENNA = '${clave}'`, function (err2, rows2) {
+                        if (!err2) {
+                            if (rows2[0].CANTIDAD == 0)
+                                res.send("La clave actual es incorrecta");
+                            else {
+                                db.query(`UPDATE USUARIO SET CONTRASENNA = '${clavenueva}' WHERE USUARIO = '${usuario}'`, function (err3) {
+                                    if (err3)
+                                        res.send(err3);
+                                    else
+                                        res.send(true);
+                                });
+                            }
+                        }
+                        else
+                            res.send("changePassword. Error while performing Query");
+                    });
+                }
+            }
+            else
+                res.send("changePassword. Error while performing Query");
+        });
     },
 
 
