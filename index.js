@@ -12,7 +12,7 @@ const PORT = process.env.PORT || 8000
 
 //llamar funciones de controller.js
 
-const {getCrudComponente, saveComponente, getCrudSubcomponente, saveSubComponente, getCrudIndicador, getIndicador, deleteIndicador, updateIndicador, newIndicador, createIndicador, getCrudAsadasR,getCrudAsadasU, getPresentAsada, saveAsada, newAsada, createAsada, deleteAsada, crudFormularios, sendForm, getCrudUsuario, saveUsuario, getUsuariosAsadas,setUsuariosAsada, guardarFormulario, cargarFormulario, getContacto} = require('./routes/cruds');
+const {getCrudComponente, saveComponente, getCrudSubcomponente, saveSubComponente, getCrudIndicador, getIndicador, deleteIndicador, updateIndicador, newIndicador, createIndicador, getCrudAsadasR,getCrudAsadasU, getPresentAsada, saveAsada, newAsada, createAsada, deleteAsada, crudFormularios, sendForm, getCrudUsuario, saveUsuario, getUsuariosAsadas,setUsuariosAsada, guardarFormulario, cargarFormulario, getContacto, updateEstado} = require('./routes/cruds');
 const {getHomePage, login, getMain, getVisor, getComponente, logout, getSites, grafico, getRiesgo, getAsada, getInfoGeneral, generarInforme, histFormulario, getAnno, getRespuestas, comparaMapas, statsComponentes,statsSubcomponentes, getCantones, getDistritos, getEstadisticas, getMapa} = require('./routes/controller');
 
 //conexion de BD
@@ -114,6 +114,7 @@ app.get('/guardarFormulario',guardarFormulario);
 app.get('/cargarFormulario',cargarFormulario);
 app.get('/mapa',getMapa);
 app.get('/contacto',getContacto);
+app.get('/updateEstado', updateEstado);
 // llamada al puerto 
 app.listen(PORT, () => {
     console.log(`Server running on port: ${PORT}`);

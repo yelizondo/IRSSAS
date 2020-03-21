@@ -1,112 +1,158 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <% include ../partials/header %>
-    </head>
 
-    <body>
+<head>
+    <% include ../partials/header %>
+</head>
 
-        <div class="wrapper">
-            <!-- Sidebar Holder -->
-            <% include ../partials/latAdmin %>
-            <!-- Page Content Holder -->
-            <div id="content">
+<body>
 
-                <nav class="navbar navbar-default">
-                    <div class="container-fluid">
+    <div class="wrapper">
+        <!-- Sidebar Holder -->
+        <% include ../partials/latAdmin %>
+        <!-- Page Content Holder -->
+        <div id="content">
 
-                        <div class="navbar-header">
-                            <button type="button" id="sidebarCollapse" class="btn btn-info navbar-btn">
-                                <i class="glyphicon glyphicon-leaf"></i>
-                                <span></span>
-                            </button>
-                            <form action="/asadas" id="compsub">
-                                <button type="submit" onclick=" return deleteAsada();" style="visibility: hidden;"  id="savebutton" class="btn btn-info navbar-btn" >Guardar cambios</button>
-                                <p style="color: #f00;" id="error"></p>
+            <nav class="navbar navbar-default">
+                <div class="container-fluid">
+
+                    <div class="navbar-header">
+                        <button type="button" id="sidebarCollapse" class="btn btn-info navbar-btn">
+                            <i class="glyphicon glyphicon-leaf"></i>
+                            <span></span>
+                        </button>
+                        <form action="/asadas" id="compsub">
+                            <button type="submit" onclick=" return deleteAsada();" style="visibility: hidden;"
+                                id="savebutton" class="btn btn-info navbar-btn">Guardar cambios</button>
+                            <p style="color: #f00;" id="error"></p>
+                        </form>
+                    </div>
+
+                    <div style="float: right;">
+                        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                            <form action="/logout">
+                                <button type="submit" class="btn btn-info navbar-btn">Cerrar Sesión</button>
                             </form>
                         </div>
-
-                        <div style="float: right;">
-                            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                                <form action="/logout">
-                                    <button type="submit" class="btn btn-info navbar-btn">Cerrar Sesión</button>
-                                </form>
-                            </div>                           
-                        </div>
                     </div>
-                    <h3>Administración/Asadas</h3>
-                    <p id="totalAsadas" style="color: black; font-family: Arial, Helvetica, sans-serif;">Total de ASADAS registradas: <%=rows.length%></p>
-                    <div style="margin: 20px;">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th scope="col">ID</th>
-                                    <th scope="col">Nombre</th>
-                                    <th scope="col">Provincia</th>
-                                    <th scope="col">Cantón</th>
-                                    <th scope="col">Distrito</th>
-                                    <th scope="col">Ubicación</th>
-                                    <th scope="col">Ver</th>
-                                    <th scope="col">Eliminar</th>
-                                </tr>
-                            </thead>
+                </div>
+                <h3>Administración/Asadas</h3>
+                <p id="totalAsadas" style="color: black; font-family: Arial, Helvetica, sans-serif;">Total de ASADAS
+                    registradas: <%=rows.length%></p>
+                <div style="margin: 20px;">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">ID</th>
+                                <th scope="col">Nombre</th>
+                                <th scope="col">Provincia</th>
+                                <th scope="col">Cantón</th>
+                                <th scope="col">Distrito</th>
+                                <th scope="col">Ubicación</th>
+                                <th scope="col">Estado</th>
+                                <th scope="col">Ver</th>
+                            </tr>
+                        </thead>
                         <tbody id="componenttable">
-                                <%rows.forEach(function(asada, index) {%>
-                                <tr>
-                                    <td><%=asada.ID%></td>
-                                    <td><%=asada.Nombre%></td>
-                                    <td><%=asada.Provincia%></td>
-                                    <td><%=asada.Canton%></td>
-                                    <td><%=asada.Distrito%></td>
-                                    <td><%=asada.Ubicacion%></td>
+                            <%rows.forEach(function(asada, index) {%>
+                            <tr>
+                                <td><%=asada.ID%></td>
+                                <td><%=asada.Nombre%></td>
+                                <td><%=asada.Provincia%></td>
+                                <td><%=asada.Canton%></td>
+                                <td><%=asada.Distrito%></td>
+                                <td><%=asada.Ubicacion%></td>
+                                <td>
+                                    <select class="form-select" onchange="changeEstado('<%=asada.ID%>',this.value)">
+                                        <% if(asada.Estado == 1) {%>
+                                        <option value="1" selected>Activo</option>
+                                        <option value="0">Inactivo</option>
+                                        <%}else{%>
+                                        <option value="1">Activo</option>
+                                        <option value="0" selected>Inactivo</option>
+                                        <%}%>
+                                                
+                                        </select>
+                                    </td>
+                                  
 
-                                    <td><i class="glyphicon glyphicon-leaf" style="color: #325276" onclick="location.href='/asadas/<%=asada.ID%>';"></i></td>
-                                    
-                                    <td><i class="glyphicon glyphicon-trash" onclick="deleteComponent(this, '<%=asada.ID%>');"></i></td>
-                                </tr>
-                                <%});%>
+                                    <td><i class="glyphicon glyphicon-leaf" style="color: #325276" onclick="location.href='/asadas/<%=asada.ID%>';"></i>
+                                </td>
+
+                            </tr>
+                            <%});%>
                         </tbody>
-                        </table>
-                    </div>
-                    <div id="divbutton" style=" position: absolute; bottom: 6px; right: 8px;">
-                        <button type="button" onclick="location.href='/newasada';" class="btn btn-info navbar-btn">
-                                <i class="glyphicon glyphicon-plus"></i>
-                                <span></span>
-                        </button>
-                    </div>
-                </nav>
-            </div>
+                    </table>
+                </div>
+                <div id="divbutton" style=" position: absolute; bottom: 6px; right: 8px;">
+                    <button type="button" onclick="location.href='/newasada';" class="btn btn-info navbar-btn">
+                        <i class="glyphicon glyphicon-plus"></i>
+                        <span></span>
+                    </button>
+                </div>
+            </nav>
         </div>
+    </div>
 
 
-        <!-- jQuery CDN -->
-        <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
-        <!-- Bootstrap Js CDN -->
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-        <!-- jQuery Custom Scroller CDN -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
+    <!-- jQuery CDN -->
+    <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+    <!-- Bootstrap Js CDN -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <!-- jQuery Custom Scroller CDN -->
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
 
-        <script type="text/javascript">
-            $(document).ready(function () {
-               
-
-                $('#sidebarCollapse').on('click', function () {
-                    $('#sidebar, #content').toggleClass('active');
-                    $('.collapse.in').toggleClass('in');
-                    $('a[aria-expanded=true]').attr('aria-expanded', 'false');
-                });
-
-                $("#divrisk").click(function(){
-                     $("#divrisk").toggle("slow","linear");
-                });
-
-                $("#buttonrisk").click(function(){
-                     $("#divrisk").toggle("slow","linear");
-                });
+    <script type="text/javascript">
+        $(document).ready(function () {
 
 
+            $('#sidebarCollapse').on('click', function () {
+                $('#sidebar, #content').toggleClass('active');
+                $('.collapse.in').toggleClass('in');
+                $('a[aria-expanded=true]').attr('aria-expanded', 'false');
             });
-        </script>
-        <script src="scripts/crud.js"></script>
-    </body>
+
+            $("#divrisk").click(function () {
+                $("#divrisk").toggle("slow", "linear");
+            });
+
+            $("#buttonrisk").click(function () {
+                $("#divrisk").toggle("slow", "linear");
+            });
+
+
+        });
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+
+    <script src="scripts/crud.js"></script>
+    <script>
+        function changeEstado(id, estado) {
+            Swal.fire({
+                title: '¿Está seguro de cambiar el estado?',
+                text: "Esta acción no se puede revertir",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Guardar',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.value) {
+                    var parameters = { "id": id, "estado": estado };
+                    $.get('/updateEstado', parameters, function (data) {
+                    }).done(function (res) {
+                        if (res)
+                            Swal.fire('Proceso exitoso', 'Los cambios fueron aplicados', 'success');
+                        else
+                            Swal.fire('Error', 'Los cambios no fueron aplicados', 'error');
+                    });
+                }
+            })
+        }
+    </script>
+</body>
+
 </html>
