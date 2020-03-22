@@ -568,8 +568,6 @@ module.exports = {
 
     },
 
-
-
     crudFormularios: (req, res) => {
         if (req.session.value == 1) {
             let query = "select i.ID as ID , Codigo , SUBCOMPONENTE_ID , MEDIDA_ID , Nombre , Valor, MINIMO, MAXIMO from INDICADOR i left join RANGOXINDICADOR ri on (i.ID = ri.INDICADOR_ID);";

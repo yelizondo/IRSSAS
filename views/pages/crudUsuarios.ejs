@@ -64,7 +64,7 @@
 
                                     <td><%=user.ID%></td>
                                     <td><input type="text" class="form-control hideinput" onchange="updateUser(<%= user.ID%>)" name="name-<%=user.ID%>" value="<%=user.Nombre%>"></td>
-                                    <td><input type="text" class="form-control hideinput" disabled onchange="updateUser(<%= user.ID%>)" name="user-<%=user.ID%>" value="<%=user.Usuario%>"></td>
+                                    <td><input type="text" class="form-control hideinput" disabled onchange="updateUser(<%= user.ID%>)" name="user-<%=user.ID%>" value="<%=user.USUARIO%>"></td>
                                     <td><input type="password" class="form-control hideinput" onchange="updateUser(<%= user.ID%>)" name="pass-<%=user.ID%>" value="<%=user.Contrasenna%>"></td>
                                     <%if (usuario.ID != user.ID) {%>
 									<td><select class="form-control hideinput" onchange="updateUser(<%= user.ID%>)" name="type-<%=user.ID%>">
