@@ -591,21 +591,33 @@ module.exports = {
 			var actualizados = req.query.actualizados;
 			var borrados = req.query.borrados;
 			
-			if(!(borrados === undefined)){
+			if(borrados){
 			borrados.forEach(function(element) {
-				db.query("delete from USUARIO where id= "+element+";");
+				db.query("delete from USUARIO where id= "+element+";",
+                function(err, row, fields)
+                {
+                    console.log(err)
+                });
 			});
 			}
 
-			if(!(actualizados === undefined)){
+			if(actualizados){
 				actualizados.forEach(function(element) {
-				db.query("update USUARIO set nombre='"+element.nombre+"', usuario='"+element.usuario+"', contrasenna='"+element.contrasenna+"', tipo='"+element.tipo+"' where id= "+element.id+";");
+				db.query("update USUARIO set nombre='"+element.nombre+"', usuario='"+element.usuario+"', contrasenna='"+element.contrasenna+"', tipo='"+element.tipo+"' where id= "+element.id+";",
+                function(err, row, fields)
+                {
+                    console.log(err)
+                });
 			});
 			}
 
-			if(!(nuevos === undefined)){
+			if(nuevos){
 				nuevos.forEach(function(element) {
-				db.query("insert into USUARIO(nombre, usuario, contrasenna, tipo) values('"+element.nombre+"', '"+element.usuario+"', '"+element.contrasenna+"', '"+element.tipo+"');");
+                db.query("insert into USUARIO(nombre, usuario, contrasenna, tipo) values('"+element.nombre+"', '"+element.usuario+"', '"+element.contrasenna+"', '"+element.tipo+"');",
+                    function(err, row, fields)
+                    {
+                        console.log(err)
+                    });
 			});
 			}			
         }
