@@ -303,10 +303,9 @@ function getEstadisticas(){
 			  selectCant.innerHTML+="<tr><td>"+consulta.Nombre+"</td><td>"+
 			  ""+consulta.Distrito+"</td><td>"+consulta.Canton+"</td><td>"+consulta.Provincia+"</td><td>"+
 			  ""+consulta.valor.toFixed(2)+"</td><td><i class='glyphicon glyphicon-leaf' style='color: #325276' "+
-			  "onclick='location.href='/statsSubcomponentes/"+consulta.Asada_ID+"';'></i></td></tr>";
+			  `onclick="location.href='/statsSubcomponentes/${consulta.Asada_ID}'"></i></td></tr>`;
 		  });
 	  });
-
 }
 
 function getTipoRiesgo (valor)
