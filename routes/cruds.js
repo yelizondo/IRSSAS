@@ -777,4 +777,244 @@ module.exports = {
             }
         });
     },
+
+    getListaAsociaciones: (req, res) => {
+        if (req.session.value == 1) {
+            let query = 'select * from ASOCIACION';
+            // execute query
+            db.query(query, function (err, rows, fields) {
+                if (!err) {
+                    res.render('pages/crudAsociaciones.ejs', { "rows": rows, "usuario": req.session.usuario })
+                }
+                else {
+                    console.log('getListaAsociaciones. Error while performing Query.');
+                    res.redirect('/');
+                }
+            });
+        }
+        else
+            res.redirect('/');
+    },
+    nuevaAsociacion: (req, res) => {
+        if (req.session.value == 1) {
+
+            let query = `select T.ID, T.Nombre from
+                        (select A.ID as ID, A.Nombre as Nombre, AA.ASADA_ID as AID 
+                            from ASADA A left join ASOCIACIONXASADA AA on (A.ID = AA.ASADA_ID)) T
+                        where T.AID is null`;
+
+            db.query(query, function (err, rows, fields) {
+                if (!err) {
+                    res.render('pages/crudAsociacionesCrear.ejs', { "usuario": req.session.usuario, "asadas": rows });
+                }
+                else {
+                    console.log('nueva Asociacion. Error while performing Query.');
+                    res.redirect('/');
+                }
+
+            });
+
+        }
+        else
+            res.redirect('/');
+
+    },
+    nuevaAsociacionGuardar: (req, res) => {
+        let {nombre, asadas} = req.body;
+        asadas = JSON.parse(asadas);
+        if (req.session.value == 1) {
+            db.beginTransaction(function(err){
+                if(err){
+                    console.log(err);
+                    return res.status(409).send("Failed");
+                }
+                let query = "insert into ASOCIACION (Nombre, CantidadMiembros) values (?, ?)";
+                db.query(query, [nombre, asadas.length],(err, result)=>{
+                    if(err){
+                        console.log(err);
+                        db.rollback((err)=>{});
+                        return res.status(409).send("Failed");
+                    }
+                    let inserted_id = result.insertId;
+                    asadas.forEach((asada, idx)=>{
+                        query = "insert into ASOCIACIONXASADA values (?, ?)";
+                        db.query(query, [inserted_id, asada],(err, result)=>{
+                            if(err){
+                                console.log(err);
+                                db.rollback((err)=>{});
+                                return res.status(409).send("Failed");
+                            }
+                            if(idx == (asadas.length)-1){
+                                db.commit(function(err) {
+                                    if (err) {
+                                        console.log(err);
+                                        db.rollback((err)=>{});
+                                        return res.status(409).send("Failed");
+                                    }
+                                    return res.status(200).send('OK');
+                                });
+                            }
+                        
+                        });
+                    });
+                });
+            });
+        }
+        else
+            return res.status(402).send("Not authorized");
+
+    },
+    editarAsociacion: (req, res) => {
+        const asociacion = req.params.asociacion;
+        if (req.session.value == 1) {
+
+            let query_asadas = `select T.ID, T.Nombre from
+                        (select A.ID as ID, A.Nombre as Nombre, AA.ASADA_ID as AID 
+                            from ASADA A left join ASOCIACIONXASADA AA on (A.ID = AA.ASADA_ID)) T
+                        where T.AID is null`;
+
+            let query_asociacion = `select * from ASOCIACION where ID = ?`;
+
+            let query_asociacion_asadas = `select A.ID, A.Nombre
+                                           from ASADA A inner join ASOCIACIONXASADA AA on (A.ID=ASADA_ID)
+                                           where ASOCIACION_ID=?`;
+
+            db.query(query_asociacion_asadas, asociacion,function (err, lista_asadas_asociaciones, fields) {
+                if (err || lista_asadas_asociaciones.length == 0) {
+                    console.log('1: editar Asociacion. Error while performing Query. \n'+err);
+                    return res.redirect('/asociaciones');
+                }
+                else {
+                    db.query(query_asociacion, asociacion,function(err, asociacion, fields){
+                        if(err){
+                            console.log('2: nueva Asociacion. Error while performing Query. \n'+err);
+                            return res.redirect('/asociaciones');
+                        }
+                        db.query(query_asadas, function(err, asadas, fields){
+                            if(err){
+                                console.log('3: nueva Asociacion. Error while performing Query. \n'+err);
+                                return res.redirect('/asociaciones');
+                            }
+                            res.render('pages/crudAsociacionesEditar.ejs', { "usuario": req.session.usuario, "asadas": asadas, "asociacion": asociacion[0], "lista_asadas": lista_asadas_asociaciones });
+                        });
+
+                    });
+                }
+
+            });
+
+        }
+        else
+            res.redirect('/');
+
+    },
+    editarAsociacionGuardar: (req, res) => {
+        const asociacion = req.params.asociacion;
+        let {nombre, asadas, borrados} = req.body;
+        asadas = JSON.parse(asadas);
+        borrados = JSON.parse(borrados);
+        let data = {
+            asociacion: asociacion,
+            nombre: nombre,
+            asadas: asadas,
+            borrados: borrados,
+            callback: actualizarAsociacion,
+        };
+        if(!(asociacion && nombre && asadas && borrados)){
+            return res.status(400).send('Faltan parámetros');
+        }
+        if (req.session.value == 1) {
+            db.beginTransaction(function(err){
+                return borrarAsadasAsociaciones(res, data, actualizarAsociacionesAsadas);
+            });
+        }
+        else
+            return res.status(402).send("Not authorized");
+
+    },
+    eliminarAsociacion: (req, res) => {
+        const asociacion = req.params.asociacion;
+        if (req.session.value == 1) {
+            var query = "delete from ASOCIACION where ID = ?";
+            db.query(query, asociacion,function (err, rows, fields) {
+                if(err){
+                    console.log(err);
+                    return res.status(409)
+                }
+                return res.status(200).send("OK");
+            });
+        }else{
+            return res.status(402).send("Not authorized");
+        }
+    }, 
 };
+
+function borrarAsadasAsociaciones(res, data, next){
+    let query = 'delete from ASOCIACIONXASADA where ASADA_ID = ?';
+    if(data.borrados.length>0){
+        data.borrados.forEach((borrado, idx2)=>{
+            db.query(query, borrado, (err, result)=>{
+                if(err){
+                    console.log(err);
+                    db.rollback((err)=>{});
+                    return res.status(409).send("Failed");
+                }
+                if(idx2 == (data.borrados.length)-1){
+                    return next(res, data, data.callback);
+                }
+            });
+        });
+    }else{
+        return next(res, data, data.callback);
+    }
+}
+
+function actualizarAsociacionesAsadas(res, data, next){
+    if(data.asadas.length>0){
+        let nuevos = 0;
+        data.asadas.forEach((asada, idx)=>{
+            query = "insert into ASOCIACIONXASADA values (?, ?)";
+            db.query(query, [data.asociacion, asada],(err, result)=>{
+                if(err){
+                    if(err.code == 'ER_DUP_ENTRY' || err.errno == 1062){
+                        console.log('Duplicated PK on ASOCIACIONXASADA')
+                    }
+                    else{
+                        console.log(err);
+                        db.rollback((err)=>{});
+                        return res.status(409).send("Failed");
+                    }
+                    
+                }else{
+                    nuevos++;
+                }
+                if(idx == (data.asadas.length)-1){
+                    return next(res, data, nuevos);
+                }
+            });
+        });
+    }else{
+        return next(res, data, 0);
+    }
+    
+}
+
+function actualizarAsociacion(res, data, cantidad){
+    query = "update ASOCIACION set Nombre=?, CantidadMiembros=CantidadMiembros+? where ID=?";
+    db.query(query, [data.nombre, (-data.borrados.length + cantidad), data.asociacion],(err, result)=>{
+        if(err){
+            console.log(err);
+            db.rollback((err)=>{});
+            return res.status(409).send("Failed");
+        }
+        db.commit(function(err) {
+            if (err) {
+                console.log(err);
+                db.rollback((err)=>{});
+                return res.status(409).send("Failed");
+            }
+            return res.status(200).send('OK');
+        });
+    });
+}
+
