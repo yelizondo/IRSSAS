@@ -22,36 +22,26 @@ module.exports = {
 
     getCrudAsadasU: (req, res) => {
         if (req.session.value == 1) {
-
-            let query = "select a.ID,a.Latitud,a.Longitud,a.Nombre,p.Nombre as Provincia, a.Distrito_id,c.Nombre as Canton,d.Nombre as Distrito,ai.Ubicacion,ai.Telefono,ai.Poblacion,ai.Url,ai.cantAbonados from ASADA a left join ASADAINFO ai on a.ID=ai.Asada_ID inner join DISTRITO d on a.distrito_id=d.Codigo inner join CANTON c on d.Canton_ID=c.ID inner join PROVINCIA p on p.ID=c.Provincia_ID where d.Provincia_ID=p.ID and a.ID = '" + req.params.id + "' ;";
+            let query = "select a.ID,a.Latitud,a.Longitud,a.Nombre,p.Nombre as Provincia, a.Distrito_id,c.Nombre as Canton,d.Nombre as Distrito,ai.Ubicacion,ai.Telefono,ai.Poblacion,ai.Url,ai.cantAbonados, ai.Celular from ASADA a left join ASADAINFO ai on a.ID=ai.Asada_ID inner join DISTRITO d on a.distrito_id=d.Codigo inner join CANTON c on d.Canton_ID=c.ID inner join PROVINCIA p on p.ID=c.Provincia_ID where d.Provincia_ID=p.ID and a.ID = '" + req.params.id + "' ;";
             let query2 = 'select concat(p.Nombre, " - ", c.Nombre, " - ", d.Nombre) as Distrito, d.Codigo from DISTRITO d inner join CANTON c on d.Canton_ID=c.ID inner join PROVINCIA p on p.ID=c.Provincia_ID where d.Provincia_ID=p.ID;';
             // execute query
             db.query(query, function (err, rows, fields) {
                 if (!err) {
-
                     db.query(query2, function (err2, rows2, fields2) {
                         if (!err2) {
-
-                            res.render('pages/crudAsadasU.ejs', { "asada": rows[0], "distritos": rows2, "usuario": req.session.usuario })
-
-
+                            res.render('pages/crudAsadasU.ejs', { "asada": rows[0], "distritos": rows2, "usuario": req.session.usuario})
                         }
                         else {
                             console.log('getCrudAsadasU. Error while performing Query. ', err2);
                             res.redirect('/');
                         }
-
                     });
-
-
                 }
                 else {
                     console.log('getCrudAsadasU. Error while performing Query. ', err);
                     res.redirect('/');
                 }
-
             });
-
         }
         else
             res.redirect('/');
