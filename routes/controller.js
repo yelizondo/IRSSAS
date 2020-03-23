@@ -1,3 +1,5 @@
+const fs = require('fs');
+
 module.exports = {
     //Función de inicio, carga el mapa
     getHomePage: (req, res) => {
@@ -506,13 +508,39 @@ module.exports = {
                 res.redirect('/');
         }
     },
-
-   
-
-
-
-
-
+    getManualData:(req,res)=>{
+        if(req.session.value == 1){
+            var filePath = req.session.usuario.Tipo == 1 ? "/../manuales/manual_superusuario.pdf" : "/../manuales/manual_admin.pdf";
+            fs.readFile(__dirname + filePath , function (err,data){
+                res.contentType("application/pdf");
+                res.send(data);
+            });
+        }else{
+            res.contentType("application/pdf");
+            res.send(1);
+        }
+    },
+    getManualUsuario:(req,res)=>{
+        if(req.session.value == 1){
+            res.render('pages/manualUsuario.ejs', {"usuario": req.session.usuario});
+        }else{
+            res.redirect('/');
+        }
+    },
+    getManualDataDescargar:(req,res)=>{
+        if(req.session.value == 1){
+            var filePath = req.session.usuario.Tipo == 1 ? "/../manuales/manual_superusuario.pdf" : "/../manuales/manual_admin.pdf";
+            res.download(__dirname+filePath, function (err) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    console.log("Descargado");
+                }
+            });
+        }else{
+            res.status(402).send('No autorizado');
+        }
+    },
 };
 function getTipoRiesgo (valor)
 {

@@ -27,7 +27,7 @@ const PORT = process.env.PORT || 8000
 //llamar funciones de controller.js
 
 const {getCrudComponente, saveComponente, getCrudSubcomponente, saveSubComponente, getCrudIndicador, getIndicador, deleteIndicador, updateIndicador, newIndicador, createIndicador, getCrudAsadasR,getCrudAsadasU, getPresentAsada, saveAsada, newAsada, createAsada, deleteAsada, crudFormularios, sendForm, getCrudUsuario, saveUsuario, getUsuariosAsadas,setUsuariosAsada, guardarFormulario, cargarFormulario, getContacto, updateEstado, changePassword,forgetPassword, getListaAsociaciones, nuevaAsociacion, nuevaAsociacionGuardar, editarAsociacion, editarAsociacionGuardar, eliminarAsociacion} = require('./routes/cruds');
-const {getHomePage, login, getMain, getVisor, getComponente, logout, getSites, grafico, getRiesgo, getAsada, getInfoGeneral, generarInforme, histFormulario, getAnno, getRespuestas, comparaMapas, statsComponentes,statsSubcomponentes, getCantones, getDistritos, getEstadisticas, getMapa} = require('./routes/controller');
+const {getHomePage, login, getMain, getVisor, getComponente, logout, getSites, grafico, getRiesgo, getAsada, getInfoGeneral, generarInforme, histFormulario, getAnno, getRespuestas, comparaMapas, statsComponentes,statsSubcomponentes, getCantones, getDistritos, getEstadisticas, getMapa, getManualData, getManualUsuario, getManualDataDescargar} = require('./routes/controller');
 
 //conexion de BD
 /*
@@ -137,6 +137,10 @@ app.post('/asociaciones/crear', nuevaAsociacionGuardar);
 app.get('/asociaciones/editar/:asociacion', editarAsociacion);
 app.post('/asociaciones/editar/:asociacion', editarAsociacionGuardar);
 app.get('/asociaciones/eliminar/:asociacion', eliminarAsociacion);
+app.get('/manual', getManualUsuario);
+app.get('/manual.pdf', getManualData);
+app.get('/manual/descargar', getManualDataDescargar);
+
 
 
 // llamada al puerto 
