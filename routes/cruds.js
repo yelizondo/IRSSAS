@@ -775,4 +775,53 @@ module.exports = {
             }
         });
     },
+
+    sendSolicitudRegistroAsada: (req, res) =>
+    {
+        var insertarAsada = "insert into SOLICITUDASADA (nombre, distrito_id, latitud, longitud) values (?, ?, ?, ?, ?);";
+        var insertarAsadaValues = [req.body.nombre, req.body.distrito_id, req.body.latitud, req.body.longitud];
+
+        var id_asada = 0;
+        var insertarAsadaInfo = "insert into SOLICITUDASADAINFO (asada_id, ubicacion, telefono, poblacion, url, cantAbonados, celular) values (?, ?, ?, ?, ?, ?);";
+        var insertarAsadaInfoValues = [id_asada, req.body.ubicacion, req.body.telefono, req.body.poblacion, req.body.url, req.body.cantAbonados, req.body.celular];
+
+        var insertarUsuario = "insert into SOLICITUDUSUARIO (nombre, usuario, contrasenna, tipo, asada_id) values (?, ?, ?, ?, ?);";
+        var insertarUsuarioValues = [req.body.nombre, req.body.usuario, req.body.contrasenna, '2', id_asada];
+        
+        db.query(insertarAsada, insertarAsadaValues, function(err, rows, fields)
+        {
+            if(err)
+            {
+                console.log("solicitudAsada. Error while performing query insertarAsada.");
+                res.send({"error": true});
+            }
+            else
+            {
+                id_asada = rows.insertId
+                db.query(insertarAsadaInfo, insertarAsadaInfoValues, function(err2, rows2, fields2)
+                {
+                    if(err2)
+                    {
+                        console.log("solicitudAsada. Error while performing query insertarAsadaInfo.");
+                        res.send({"error": true});
+                    }
+                    else
+                    {
+                        db.query(insertarUsuario, insertarUsuarioValues, function(err3, rows3, fields3)
+                        {
+                            if(err3)
+                            {
+                                console.log("solicitudAsada. Error while performing query insertarUsuario.");
+                                res.send({"error": true});
+                            }
+                            else
+                            {
+                                res.send({"error": false});
+                            }
+                        })
+                    }
+                })
+            }
+        });
+    }
 };

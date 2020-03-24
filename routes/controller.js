@@ -507,12 +507,10 @@ module.exports = {
         }
     },
 
-   
-
-
-
-
-
+    solicitudRegistroAsada: (req, res) =>
+    {
+        res.render('pages/solicitudRegistroAsada.ejs')
+    }
 };
 function getTipoRiesgo (valor)
 {
