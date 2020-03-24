@@ -54,8 +54,7 @@ module.exports = {
     
     getInfoGeneral: (req, res) => {
         res.render('pages/infoGeneral.ejs',{"rows":[], "usuario": req.session.usuario});
-    },
-	
+    },	
 	generarInforme: (req, res) => {
 		if(req.session.value==1){
             let query = "select p.ID as PROVINCIA_ID, c.ID as CANTON_ID, d.ID as DISTRITO_ID, a.*,p.Nombre as Provincia,c.Nombre as Canton,d.Nombre as Distrito,  ai.Ubicacion,ai.Telefono,ai.Poblacion,ai.Url,ai.cantAbonados from ASADA a left join ASADAINFO ai on a.ID=ai.Asada_ID inner join DISTRITO d on a.distrito_id=d.Codigo inner join CANTON c on d.Canton_ID=c.ID inner join PROVINCIA p on p.ID=c.Provincia_ID where d.Provincia_ID=p.ID;";
@@ -540,6 +539,26 @@ module.exports = {
         }else{
             res.status(402).send('No autorizado');
         }
+    },
+    getRutas: (req, res) => {
+        if(req.session.value == 1){
+            res.render('pages/rutasAdmin.ejs',{"rows":[], "usuario": req.session.usuario});
+        }else{
+            res.render('pages/rutasGeneral.ejs',{"rows":[], "usuario": req.session.usuario});
+        }
+    },
+
+    getRutasData:(req,res)=>{
+        var filePath = '';
+        if(req.session.value == 1){
+            filePath = req.session.usuario.Tipo == 1 ? "/../manuales/rutas_superusuario.svg" : "/../manuales/rutas_admin.svg";
+        }else{
+            filePath = "/../manuales/rutas_general.svg";
+        }    
+        fs.readFile(__dirname + filePath , function (err,data){
+            res.contentType("image/svg+xml");
+            res.send(data);
+        });
     },
 };
 function getTipoRiesgo (valor)
