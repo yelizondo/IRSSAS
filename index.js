@@ -10,10 +10,10 @@ const app = express();
 var nodemailer = require('nodemailer');
 
 var transporter = nodemailer.createTransport({
-  service: 'gmail',
+  service: 'Gmail',
   auth: {
-    user: 'guaposdecomu@gmail.com',
-    pass: 'guapos420'
+    user: 'irssastec@gmail.com',
+    pass: 'tcaesriyfcqldfuk'
   }
 });
 

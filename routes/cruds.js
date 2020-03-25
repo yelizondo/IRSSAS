@@ -811,7 +811,26 @@ module.exports = {
                             }
                             else
                             {
-                                res.send({"error": false});
+                                var mailOptions = {
+                                    from: 'irssastec@gmail.com',
+                                    to: req.body.usuario,
+                                    subject: 'Solicitud de registro de ASADA',
+                                    text: `Su solicitud está siendo procesada por los administradores de la aplicación. Gracias`
+                                };
+                                transporter.sendMail(mailOptions, function (error) {
+                                    if (error)
+                                    {
+                                        console.log("solicitudAsada. Error enviando correo.\n" + error);
+                                        db.query("delete from SOLICITUDUSUARIO where asada_id = ?", id_asada);
+                                        db.query("delete from SOLICITUDASADAINFO where asada_id = ?", id_asada);
+                                        db.query("delete from SOLICITUDASADA where id = ?", id_asada);
+                                        res.send({"error": true});
+                                    }
+                                    else
+                                    {
+                                        res.send({"error": false});
+                                    }
+                                });
                             }
                         })
                     }
