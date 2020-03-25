@@ -815,7 +815,7 @@ module.exports = {
                                     from: 'irssastec@gmail.com',
                                     to: req.body.usuario,
                                     subject: 'Solicitud de registro de ASADA',
-                                    text: `Su solicitud está siendo procesada por los administradores de la aplicación. Gracias`
+                                    text: `Buenas, ${req.body.administrador}\nSu solicitud está siendo procesada por los administradores de la aplicación.\nSaludos cordiales`
                                 };
                                 transporter.sendMail(mailOptions, function (error) {
                                     if (error)

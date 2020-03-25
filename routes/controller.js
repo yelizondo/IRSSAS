@@ -4,6 +4,7 @@ module.exports = {
     //Función de inicio, carga el mapa
     getHomePage: (req, res) => {
     	if(req.session.value==1){
+            console.log(req.session)
 			res.redirect('/main');   		
     	}
     	else{
