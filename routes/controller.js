@@ -550,7 +550,56 @@ module.exports = {
 
     solicitudRegistroAsada: (req, res) =>
     {
-        res.render('pages/solicitudRegistroAsada.ejs')
+        let query = "SELECT * from PROVINCIA order by nombre;"
+        db.query(query, function(err,rows,fields)
+        {
+            if(err)
+            {
+                console.log("solicitudRegistroAsada. Error while performing query");
+            }
+            else
+            {
+                var query2 = "select id, nombre from ASOCIACION order by nombre;"
+                db.query(query2, function(err2,rows2,fields2)
+                {
+                    if(err2)
+                    {
+                        console.log("solicitudRegistroAsada. Error while performing query2");
+                    }
+                    else
+                    {
+                        res.render('pages/solicitudRegistroAsada.ejs', {"prov": rows, "asociaciones": rows2});
+                    }
+                });
+            }
+        });
+    },
+
+    validarUsuario:(req, res)=>
+    {
+        var selectUsuario = "select id from USUARIO where usuario = ?";
+        var selectSolicitudUsuario = "select id from SOLICITUDUSUARIO where usuario = ?";
+        db.query(selectUsuario, req.query.usuario, function(err, rows, fields)
+        {
+            if(!rows.length)
+            {
+                db.query(selectSolicitudUsuario, req.query.usuario, function(err2, rows2, fields2)
+                {
+                    if(!rows2.length)
+                    {
+                        res.send({"error": false});
+                    }
+                    else
+                    {
+                        res.send({"error": true});
+                    }
+                })
+            }
+            else
+            {
+                res.send({"error": true});
+            }
+        })
     },
     
     getRutasData:(req,res)=>{

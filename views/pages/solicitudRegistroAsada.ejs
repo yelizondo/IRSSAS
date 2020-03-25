@@ -3,6 +3,14 @@
 
 <head>
     <% include ../partials/header %>
+    <!-- Conseguido en https://stackoverflow.com/questions/6632340/place-a-button-right-aligned -->
+    <style>
+        .flex-box
+        {
+            display:flex;
+            justify-content:space-between;
+        }
+    </style>
 </head>
 
 <body>
@@ -19,8 +27,286 @@
         <div id="content">
             <nav class="navbar navbar-default">
                 <div class="container-fluid">
-
+                    <div class="flex-box">
+                        <h3>Solicitud de registro de ASADA</h3>
+                        <button type="button" class="btn btn-info navbar-btn" onclick="validarDatos()"">Enviar</button>
+                    </div>
+                    <form>
+                    <table class="table">
+                        <tbody>
+                            <tr class="row">
+                                <td class="col-xs-6">
+                                    <label for="nombre">Nombre de la ASADA*</label><br>
+                                    <input id="nombre" type="text" class="form-control" placeholder="Ingrese el nombre" required>
+                                </td>
+                                <td class="col-xs-6">
+                                    <div class="row">
+                                        <div class="col-xs-4">
+                                            <label for="prov">Provincia*</label>
+                                            <select class="form-control" onchange="getCanton()" id="prov" name="prov" required>
+                                                <option value="">Sin filtro</option>
+                                                <%prov.forEach(function(row, index) {%>
+                                                    <option value="<%= row.ID%>"><%= row.Nombre%></option>
+                                                <%});%>
+                                            </select>
+                                        </div>
+                                        <div class="col-xs-4">
+                                            <label for="cant">Cantón*</label>
+                                            <select class="form-control" onchange="getDistrito()" id="cant" name="cant" required>
+                                                    <option value="">Sin filtro</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-xs-4">
+                                            <label for="dist">Distrito*</label>
+                                            <select class="form-control" id="dist" name="dist" required>
+                                                <option value="">Sin filtro</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="row">
+                                <td class="col-xs-6">
+                                    <label for="latitud">Latitud*</label><br>
+                                    <input type="number" class="form-control" id="latitud" step="any" min="-85.949547" max="-82.556378" placeholder="Ej: -85.565760" required>
+                                </td>
+                                <td class="col-xs-6">
+                                    <label for="ubicacion">Dirección oficina ASADA*</label><br>
+                                    <input id="ubicacion" type="text" class="form-control" placeholder="Ingrese la dirección exacta" required>
+                                </td>
+                            </tr>
+                            <tr class="row">
+                                <td class="col-xs-6">
+                                    <label for="longitud">Longitud*</label><br>
+                                    <input type="number" class="form-control" id="longitud" step="any" min="8.043213" max="11.219225" placeholder="Ej: 10.023334" required>
+                                </td>
+                                <td class="col-xs-6">
+                                    <label for="telefono">Teléfono fijo*</label><br>
+                                    <input type="number" class="form-control" id="telefono" step="any" min="10000000" max="99999999" placeholder="Ingrese el número de teléfono" required>
+                                </td>
+                            </tr>
+                            <tr class="row">
+                                <td class="col-xs-6">
+                                    <label for="url">Enlace (URL)</label><br>
+                                    <input id="url" type="url" class="form-control" pattern="https://.*" placeholder="Ingrese la página de la ASADA (si tiene)" required>
+                                </td>
+                                <td class="col-xs-6">
+                                    <label for="celular">Teléfono celular*</label><br>
+                                    <input type="number" class="form-control" id="celular" step="any" min="10000000" max="99999999" placeholder="Ingrese el número de teléfono" required>
+                                </td>
+                            </tr>
+                            <tr class="row">
+                                <td class="col-xs-6">
+                                    <label for="administrador">Administrador(a)*</label>
+                                    <input id="administrador" type="text" class="form-control" placeholder="Ingrese el nombre del administrador(a) de la ASADA" required>
+                                </td>
+                                <td class="col-xs-6">
+                                    <label for="cantAbonados">Número de abonados*</label>
+                                    <input type="number" class="form-control" id="cantAbonados" min="0" step="any" placeholder="Ingrese la cantidad de abonados" required>
+                                </td>
+                            </tr>
+                            <tr class="row">
+                                <td class="col-xs-6">
+                                    <label for="usuario">Correo electrónico del administrador(a)*</label>
+                                    <input id="usuario" type="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" class="form-control" placeholder="Ingrese el correo del administrador(a) de la ASADA" required>
+                                </td>
+                                <td class="col-xs-6">
+                                    <label for="poblacion">Población abastecida*</label>
+                                    <input type="number" class="form-control" id="poblacion" min="0" step="any" placeholder="Ingrese la población abastecida" required>
+                                </td>
+                            </tr>
+                            <tr class="row">
+                                <td class="col-xs-6"></td>
+                                <td class="col-xs-6">
+                                    <label for="asociacion">Asociación de ASADAs</label>
+                                    <select type="number" class="form-control" id="asociacion">
+                                        <option value="0">Ninguna</option>
+                                        <%asociaciones.forEach(function(asociacion, index){%>
+                                            <option value="<%=asociacion.id%>"><%=asociacion.nombre%></option>
+                                        <%})%>
+                                    </select>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </form>
                 </div>
             </nav>
         </div>
+        <!-- jQuery CDN -->
+        <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+        <!-- Bootstrap Js CDN -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <!-- jQuery Custom Scroller CDN -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
+        <!-- Sweetalert -->
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+        <!-- Local -->
+        <script src="/scripts/getProvCantDist.js"></script>
+
+        <script type="text/javascript">
+            function errorPopUp(mensaje = 'Debe llenar todos los campos con *')
+            {
+                Swal.fire({
+                    icon: 'error',
+                    title: mensaje,
+                    showConfirmButton: false,
+                    timer: 1500
+                })
+            }
+
+            function validarDatos()
+            {
+                var parameters = {
+                    nombre: $('#nombre').val(),
+                    distrito: $('#dist').val(),
+                    latitud: $('#latitud').val(),
+                    longitud: $('#longitud').val(),
+                    asociacion: $('#asociacion').val(),
+                    ubicacion: $('#ubicacion').val(),
+                    telefono: $('#telefono').val(),
+                    poblacion: $('#poblacion').val(),
+                    url: $('#url').val(),
+                    cantAbonados: $('#cantAbonados').val(),
+                    celular: $('#celular').val(),
+                    administrador: $('#administrador').val(),
+                    usuario: $('#usuario').val()
+                }
+
+                if(!parameters.nombre)
+                {
+                    $('#nombre').focus();
+                    errorPopUp();
+                }
+                else if(!parameters.distrito)
+                {
+                    $('#dist').focus();
+                    errorPopUp();
+                }
+                else if(!parameters.latitud)
+                {
+                    $('#latitud').focus();
+                    errorPopUp();
+                }
+                else if($('#latitud').attr("max") > parameters.latitud && parameters.latitud > $('#latitud').attr("min"))
+                {
+                    $('#latitud').focus();
+                    errorPopUp("Latitud fuera de Costa Rica");
+                }
+                else if(!parameters.ubicacion)
+                {
+                    $('#ubicacion').focus();
+                    errorPopUp();
+                }
+                else if(!parameters.longitud)
+                {
+                    $('#longitud').focus();
+                    errorPopUp();
+                }
+                else if($('#longitud').attr("max") < parameters.longitud && parameters.longitud < $('#longitud').attr("min"))
+                {
+                    $('#longitud').focus();
+                    errorPopUp("Longitud fuera de Costa Rica");
+                }
+                else if(!parameters.telefono)
+                {
+                    $('#telefono').focus();
+                    errorPopUp();
+                }
+                else if(parameters.url && !new RegExp($('#url').attr("pattern")).test(parameters.url))
+                {
+                    $("#url").focus();
+                    errorPopUp("URL inválido");
+                }
+                else if(!parameters.celular)
+                {
+                    $('#celular').focus();
+                    errorPopUp();
+                }
+                else if(!parameters.administrador)
+                {
+                    $('#administrador').focus();
+                    errorPopUp();
+                }
+                else if(!parameters.cantAbonados)
+                {
+                    $('#cantAbonados').focus();
+                    errorPopUp();
+                }
+                else if(!parameters.usuario)
+                {
+                    $('#usuario').focus();
+                    errorPopUp();
+                }
+                else if(!new RegExp($('#usuario').attr("pattern")).test(parameters.usuario))
+                {
+                    $('#usuario').focus();
+                    errorPopUp("Correo no válido");
+                }
+                else if(!parameters.poblacion)
+                {
+                    $('#poblacion').focus();
+                    errorPopUp();
+                }
+                else
+                {
+                    $.get("/validarUsuario", {"usuario": parameters.usuario}, function(result)
+                    {
+                        if(result.error)
+                        {
+                            errorPopUp("El correo ya envió una solicitud o ya está registrado");
+                        }
+                        else
+                        {
+                            confirmarEnviarSolicitudRegistroAsada(parameters);
+                        }
+                    })
+                }
+            }
+
+            function confirmarEnviarSolicitudRegistroAsada(parameters)
+            {
+                Swal.fire(
+                {
+                    title: 'Confirmar',
+                    text: '¿Desea enviar la solicitud?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#1D2D51',
+                    cancelButtonColor: '#e13c26',
+                    confirmButtonText: 'Sí',
+                    cancelButtonText: 'No'
+                })
+                .then((result) =>
+                {
+                    if (result.value)
+                    {
+                        console.log(parameters);
+                        parameters.url = parameters.url ? parameters.url : "no";
+                        $.post("/sendSolicitudRegistroAsada", parameters, function(data)
+                        {
+                            if(data.error)
+                            {
+                                Swal.fire(
+                                {
+                                    title: 'Error',
+                                    text: 'Ocurrió un error al enviar la solicitud',
+                                    confirmButtonColor: '#1D2D51'
+                                })
+                            }
+                            else
+                            {
+                                Swal.fire(
+                                {
+                                    title: 'Éxito',
+                                    text: 'La solicitud fue enviada con éxito',
+                                    confirmButtonColor: '#1D2D51'
+                                })
+                            }
+                        })
+                    }
+                })
+            }
+        </script>
 </body>
+</html>

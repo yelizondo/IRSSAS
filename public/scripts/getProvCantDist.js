@@ -24,7 +24,7 @@ function getDistrito(){
 		  var selectCant = document.getElementById("dist");
 		  selectCant.innerHTML="<option value='0'>Sin filtro</option>";
 		  distritos.rows.forEach(row => {
-			  selectCant.innerHTML+="<option value='"+row.ID+"'>"+row.Nombre+"</option>";
+			  selectCant.innerHTML+="<option value='"+row.Codigo+"' dist='"+row.ID+"'>"+row.Nombre+"</option>";
 		  });
 	  });
 
@@ -38,6 +38,6 @@ function getAsada()
 	var asadas = document.getElementById("asada");
 	for(var i = 1; i < asadas.children.length; i++)
 	{
-		asadas[i].hidden = !(asadas[i].attributes.provincia.value == provincia.value && asadas[i].attributes.canton.value == canton.value && asadas[i].attributes.distrito.value == distrito.value);
+		asadas[i].hidden = !(asadas[i].attributes.provincia.value == provincia.value && asadas[i].attributes.canton.value == canton.value && asadas[i].attributes.distrito.value == distrito.selectedOptions[0].attributes.dist.value);
 	}
 }
