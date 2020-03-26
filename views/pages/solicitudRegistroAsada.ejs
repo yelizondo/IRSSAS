@@ -281,33 +281,44 @@
                 {
                     if (result.value)
                     {
-                        console.log(parameters);
                         parameters.url = parameters.url ? parameters.url : "no";
-                        $.post("/sendSolicitudRegistroAsada", parameters, function(data)
+                        Swal.fire(
                         {
-                            if(data.error)
+                            title: "Cargando...",
+                            allowOutsideClick: () => !Swal.isLoading(),
+                            onBeforeOpen: ()=>
                             {
-                                Swal.fire(
+                                Swal.showLoading();
+                                $.post("/sendSolicitudRegistroAsada", parameters, function(data)
                                 {
-                                    title: 'Error',
-                                    text: 'Ocurrió un error al enviar la solicitud',
-                                    confirmButtonColor: '#1D2D51'
+                                    if(data.error)
+                                    {
+                                        Swal.fire(
+                                        {
+                                            title: 'Error',
+                                            icon: 'error',
+                                            text: 'Ocurrió un error al enviar la solicitud',
+                                            confirmButtonColor: '#1D2D51'
+                                        })
+                                    }
+                                    else
+                                    {
+                                        Swal.fire(
+                                        {
+                                            title: 'Éxito',
+                                            icon: 'success',
+                                            text: 'La solicitud fue enviada con éxito',
+                                            confirmButtonColor: '#1D2D51'
+                                        })
+                                        .then((result)=>
+                                        {
+                                            location.href='/'
+                                        })
+                                    }
                                 })
-                            }
-                            else
-                            {
-                                Swal.fire(
-                                {
-                                    title: 'Éxito',
-                                    text: 'La solicitud fue enviada con éxito',
-                                    confirmButtonColor: '#1D2D51'
-                                })
-                                .then((result)=>
-                                {
-                                    location.href='/'
-                                })
-                            }
+                            },
                         })
+                        
                     }
                 })
             }
