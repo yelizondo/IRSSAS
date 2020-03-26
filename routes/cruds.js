@@ -838,6 +838,80 @@ module.exports = {
             }
         });
     },
+
+    aceptarRechazarSolicitudRegistroAsada: (req, res)=>
+    {
+        var updateSolicitudAsada = "update SOLICITUDASADA set pendiente = ? where id = ?;";
+        var updateSolicitudAsadaValues = [req.body.respuesta, req.body.idSolicitud];
+        db.query("START TRANSACTION;", function(error, row, field)
+        {
+            db.query(updateSolicitudAsada, updateSolicitudAsadaValues, function(err, rows, fields)
+            {
+                if(err)
+                {
+                    console.log("aceptarRechazarSolicitudRegistroAsada. Error while performing updateSolicitudAsada.\n" + err);
+                    db.query("rollback;");
+                    res.send({"error": true});
+                }
+                else if(req.body.respuesta == 0)
+                {
+                    respuestaSolicitudCorreo(req.body.respuesta, req.body.usuario, req.body.administrador, res);
+                }
+                else
+                {
+                    var insertarAsada = "insert into ASADA (nombre, distrito_id, latitud, longitud) values (?, ?, ?, ?);"
+                    var insertarAsadaValues = [req.body.nombre, req.body.distrito, req.body.latitud, req.body.longitud];
+
+                    var insertarAsadaInfo = "insert into ASADAINFO (asada_id, ubicacion, telefono, poblacion, url, cantAbonados, celular) values ((SELECT ID FROM ASADA WHERE DISTRITO_ID = " + req.body.distrito + " ORDER BY 1 DESC LIMIT 1 ), ?, ?, ?, ?, ?, ?);"
+                    var insertarAsadaInfoValues = [req.body.ubicacion, req.body.telefono, req.body.poblacion, req.body.url, req.body.cantAbonados, req.body.celular];
+
+                    const password = Math.random().toString(36).slice(2);
+                    var insertarUsuario = "insert into USUARIO (nombre, usuario, contrasenna, tipo) values (?, ?, ?, ?)";
+                    var insertarUsuarioValues = [req.body.administrador, req.body.usuario, password, "2"]
+
+                    db.query(insertarAsada, insertarAsadaValues, function(err2, rows2, fields2)
+                    {
+                        if(err2)
+                        {
+                            console.log("aceptarRechazarSolicitudRegistroAsada. Error while performing insertarAsada.\n" + err2);
+                            db.query("rollback;");
+                            res.send({"error": true});
+                        }
+                        else
+                        {
+                            db.query(insertarAsadaInfo, insertarAsadaInfoValues, function(err3, rows3, fields3)
+                            {
+                                if(err3)
+                                {
+                                    console.log("aceptarRechazarSolicitudRegistroAsada. Error while performing insertarAsadaInfo.\n" + err3);
+                                    db.query("rollback;");
+                                    res.send({"error": true});
+                                }
+                                else
+                                {
+                                    db.query(insertarUsuario, insertarUsuarioValues, function(err4, rows4, fields4)
+                                    {
+                                        if(err4)
+                                        {
+                                            console.log("aceptarRechazarSolicitudRegistroAsada. Error while performing insertarUsuario.\n" + err4);
+                                            db.query("rollback;");
+                                            res.send({"error": true});
+                                        }
+                                        else
+                                        {
+                                            respuestaSolicitudCorreo(req.body.respuesta, req.body.usuario, req.body.administrador, res, password);
+                                        }
+                                    })
+                                }
+                            })
+                        }
+                    })
+                }
+            });
+        }
+        );
+    },
+
     getListaAsociaciones: (req, res) => {
         if (req.session.value == 1) {
             let query = 'select * from ASOCIACION';
@@ -1078,3 +1152,25 @@ function actualizarAsociacion(res, data, cantidad){
     });
 }
 
+function respuestaSolicitudCorreo(respuesta, correo, nombre, res, password = "")
+{
+    var mailOptions = {
+        from: 'irssastec@gmail.com',
+        to: correo,
+        subject: 'Solicitud de registro de ASADA',
+        text: `Buenas, ${nombre}\nSu solicitud fue ${respuesta == 1 ? 'aceptada' : 'rechazada'} por los administradores de la aplicación.${respuesta == 1 ? `\nUsuario: ${correo}\nContraseña: ${password}` : ""}\nSaludos cordiales`
+    };
+    transporter.sendMail(mailOptions, function (error) {
+        if (error)
+        {
+            console.log("aceptarRechazarSolicitudRegistroAsada. Error enviando correo.\n" + error);
+            db.query("rollback;");
+            res.send({"error": true});
+        }
+        else
+        {
+            db.query("commit;");
+            res.send({"error": false});
+        }
+    });
+}

@@ -4,8 +4,10 @@ module.exports = {
     //Función de inicio, carga el mapa
     getHomePage: (req, res) => {
     	if(req.session.value==1){
-            console.log(req.session)
-			res.redirect('/main');   		
+            if(req.session.usuario.Tipo == 1)
+            {
+                res.redirect('/main');
+            }
     	}
     	else{
         req.session.value= 0;
@@ -203,15 +205,27 @@ module.exports = {
 
     // ingreso al main
     getMain: (req, res) => {
-        if(req.session.value==1){
-        let query = "select A.id, A.nombre, C.Nombre as distrito,Ca.Nombre as canton,P.Nombre as provincia "+
-                    "from ASADA A, DISTRITO C, CANTON Ca, PROVINCIA P where A.DISTRITO_ID=C.Codigo and C.CANTON_ID=Ca.ID "+
-                    "and C.PROVINCIA_ID=P.ID and Ca.PROVINCIA_ID=P.ID;";
-        // execute query
-        res.render('pages/main.ejs', {"usuario": req.session.usuario});
+        if(req.session.value==1)
+        {
+            let notificacionesSolicitud = "select id, date(fechahora) as fecha, time(fechahora) as hora, nombre, pendiente from SOLICITUDASADA order by fechahora desc;"
+            // execute query
+            db.query(notificacionesSolicitud, function(err, rows, fields)
+            {
+                if(err)
+                {
+                    console.log("getMain. Error while performing query.\n" + err);
+                    res.redirect('/');
+                }
+                else
+                {
+                    res.render('pages/main.ejs', {"usuario": req.session.usuario, "notificaciones": rows});
+                }
+            })
         }
         else
+        {
             res.redirect('/');
+        }
     },
 
     // obtiene asadas y riesgos de un componentes o subcomponente
@@ -615,6 +629,37 @@ module.exports = {
             res.send(data);
         });
     },
+
+    getVerSolicitudRegistroAsada: (req, res)=>
+    {
+        if(req.session.value != 1)
+        {
+            res.redirect('/');
+        }
+        else
+        {
+            var selectSolicitud = "select sa.id as id, sa.nombre as nombre, p.nombre as provincia, c.nombre as canton, d.nombre as distrito, sa.distrito_id as distrito_id, sa.latitud as latitud, sa.longitud as longitud, a.nombre as asociacion, a.id as asociacion_id, sai.ubicacion as ubicacion, sai.telefono as telefono, sai.poblacion as poblacion, sai.url as url, sai.cantAbonados as cantAbonados, sai.celular as celular, su.nombre as administrador, su.usuario as correo " +
+                "from SOLICITUDASADA sa inner join SOLICITUDASADAINFO sai on (sa.ID = sai.ASADA_ID) " +
+                    "inner join SOLICITUDUSUARIO su on (sa.ID = su.ASADA_ID) " +
+                    "inner join DISTRITO d on (d.CODIGO = sa.DISTRITO_ID) " +
+                    "inner join CANTON c on (c.ID = d.CANTON_ID and c.PROVINCIA_ID = d.PROVINCIA_ID) " +
+                    "inner join PROVINCIA p on (p.ID = d.PROVINCIA_ID) " +
+                    "left join ASOCIACION a on (a.ID = sa.ASOCIACION) " +
+                "where sa.ID = ?;"
+            db.query(selectSolicitud, req.query.idSolicitud, function(err, rows, fields)
+            {
+                if(err)
+                {
+                    console.log("getVerSolicitudRegistroAsada. Error while performing selectSolicitud\n" + err);
+                    res.redirect('/');
+                }
+                else
+                {
+                    res.render('pages/verSolicitudRegistroAsada.ejs', {"usuario": req.session.usuario, "solicitud": rows[0]});
+                }
+            });
+        }
+    }
 };
 function getTipoRiesgo (valor)
 {

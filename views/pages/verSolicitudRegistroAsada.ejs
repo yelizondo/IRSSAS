@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <% include ../partials/header %>
+    <!-- Conseguido en https://stackoverflow.com/questions/6632340/place-a-button-right-aligned -->
+    <style>
+        .flex-box
+        {
+            display:flex;
+            justify-content:space-between;
+        }
+        .btn-no-main,
+        .btn-no-main:active,
+        .btn-no-main:visited,
+        .btn-no-main:focus
+        {
+            background: rgb(236, 236, 236);
+            color: #193d66;
+        }
+        .btn-no-main:hover
+        {
+            background: #7f93aa;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrapper">
+        <!-- Sidebar Holder -->
+        <% include ../partials/latAdmin %>
+        <!-- Page Content Holder -->
+        <div id="content">
+            <nav class="navbar navbar-default">
+                <div class="container-fluid">
+                    <div class="flex-box">
+                        <h3>Notificaciones / Solicitud de registro de ASADA</h3>
+                    </div>
+                    <form>
+                    <table class="table">
+                        <tbody>
+                            <tr class="row">
+                                <td class="col-xs-6">
+                                    <label for="nombre">Nombre de la ASADA</label><br>
+                                    <input id="nombre" value="<%=solicitud.nombre%>" type="text" class="form-control" placeholder="Ingrese el nombre" disabled>
+                                </td>
+                                <td class="col-xs-6">
+                                    <label for="provCantDist">Provincia - Cantón - Distrito</label>
+                                    <input id="provCantDist" codigo="<%=solicitud.distrito_id%>" value="<%=solicitud.provincia%> - <%=solicitud.canton%> - <%=solicitud.distrito%>" type="text" class="form-control" disabled>
+                                </td>
+                            </tr>
+                            <tr class="row">
+                                <td class="col-xs-6">
+                                    <label for="latitud">Latitud</label><br>
+                                    <input type="number" value="<%=solicitud.latitud%>" class="form-control" id="latitud" step="any" min="-85.949547" max="-82.556378" placeholder="Ej: -85.565760" disabled>
+                                </td>
+                                <td class="col-xs-6">
+                                    <label for="ubicacion">Dirección oficina ASADA</label><br>
+                                    <input id="ubicacion" value="<%=solicitud.ubicacion%>" type="text" class="form-control" placeholder="Ingrese la dirección exacta" disabled>
+                                </td>
+                            </tr>
+                            <tr class="row">
+                                <td class="col-xs-6">
+                                    <label for="longitud">Longitud</label><br>
+                                    <input type="number" value="<%=solicitud.longitud%>" class="form-control" id="longitud" step="any" min="8.043213" max="11.219225" placeholder="Ej: 10.023334" disabled>
+                                </td>
+                                <td class="col-xs-6">
+                                    <label for="telefono">Teléfono fijo</label><br>
+                                    <input type="number" value="<%=solicitud.telefono%>" class="form-control" id="telefono" step="any" min="10000000" max="99999999" placeholder="Ingrese el número de teléfono" disabled>
+                                </td>
+                            </tr>
+                            <tr class="row">
+                                <td class="col-xs-6">
+                                    <label for="url">Enlace (URL)</label><br>
+                                    <input id="url" type="url" value="<%=solicitud.url%>" class="form-control" pattern="https://.*" placeholder="Ingrese la página de la ASADA (si tiene)" disabled>
+                                </td>
+                                <td class="col-xs-6">
+                                    <label for="celular">Teléfono celular</label><br>
+                                    <input type="number" value="<%=solicitud.celular%>" class="form-control" id="celular" step="any" min="10000000" max="99999999" placeholder="Ingrese el número de teléfono" disabled>
+                                </td>
+                            </tr>
+                            <tr class="row">
+                                <td class="col-xs-6">
+                                    <label for="administrador">Administrador(a)</label>
+                                    <input id="administrador" value="<%=solicitud.administrador%>" type="text" class="form-control" placeholder="Ingrese el nombre del administrador(a) de la ASADA" disabled>
+                                </td>
+                                <td class="col-xs-6">
+                                    <label for="cantAbonados">Número de abonados</label>
+                                    <input type="number" value="<%=solicitud.cantAbonados%>" class="form-control" id="cantAbonados" min="0" step="any" placeholder="Ingrese la cantidad de abonados" disabled>
+                                </td>
+                            </tr>
+                            <tr class="row">
+                                <td class="col-xs-6">
+                                    <label for="usuario">Correo electrónico del administrador(a)</label>
+                                    <input id="usuario" value="<%=solicitud.correo%>" type="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" class="form-control" placeholder="Ingrese el correo del administrador(a) de la ASADA" disabled>
+                                </td>
+                                <td class="col-xs-6">
+                                    <label for="poblacion">Población abastecida</label>
+                                    <input type="number" value="<%=solicitud.poblacion%>" class="form-control" id="poblacion" min="0" step="any" placeholder="Ingrese la población abastecida" disabled>
+                                </td>
+                            </tr>
+                            <tr class="row">
+                                <td class="col-xs-6"></td>
+                                <td class="col-xs-6">
+                                    <label for="asociacion">Asociación de ASADAs</label>
+                                    <input id="asociacion" codigo="<%=solicitud.asociacion_id%>" value="<%=solicitud.asociacion ? solicitud.asociacion : "Ninguna"%>" type="text" class="form-control" disabled>
+                                </td>
+                            </tr>
+                            <tr class="row">
+                                <td class="col-xs-6"></td>
+                                <td class="col-xs-6">
+                                    <div class="row">
+                                        <button type="button" class="col-xs-5 btn btn-info navbar-btn btn-no-main" onclick="confirmarRespuestaSolicitudRegistroAsada(<%=solicitud.id%>, 0)">Rechazar</button>
+                                        <p class="col-xs-2"> </p>
+                                        <button type="button" class="col-xs-5 btn btn-info navbar-btn" onclick="confirmarRespuestaSolicitudRegistroAsada(<%=solicitud.id%>, 1)">Aceptar</button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </form>
+                </div>
+            </nav>
+        </div>
+        <!-- jQuery CDN -->
+        <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+        <!-- Bootstrap Js CDN -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <!-- jQuery Custom Scroller CDN -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
+        <!-- Sweetalert -->
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+        <!-- Local -->
+        <script src="/scripts/getProvCantDist.js"></script>
+
+        <script type="text/javascript">
+            $(document).ready(function () {
+               
+
+                $('#sidebarCollapse').on('click', function () {
+                    $('#sidebar, #content').toggleClass('active');
+                    $('.collapse.in').toggleClass('in');
+                    $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+                });
+
+                $("#divrisk").click(function(){
+                     $("#divrisk").toggle("slow","linear");
+                });
+
+                $("#buttonrisk").click(function(){
+                     $("#divrisk").toggle("slow","linear");
+                });
+
+
+            });
+            
+
+        </script>
+
+        <script type="text/javascript">
+            function confirmarRespuestaSolicitudRegistroAsada(idSolicitud, respuesta)
+            {
+                var parameters = {
+                    nombre: $('#nombre').val(),
+                    distrito: $('#provCantDist').attr("codigo"),
+                    latitud: $('#latitud').val(),
+                    longitud: $('#longitud').val(),
+                    asociacion: $('#asociacion').attr("codigo"),
+                    ubicacion: $('#ubicacion').val(),
+                    telefono: $('#telefono').val(),
+                    poblacion: $('#poblacion').val(),
+                    url: $('#url').val(),
+                    cantAbonados: $('#cantAbonados').val(),
+                    celular: $('#celular').val(),
+                    administrador: $('#administrador').val(),
+                    usuario: $('#usuario').val(),
+                    idSolicitud: idSolicitud,
+                    respuesta: respuesta
+                }
+                Swal.fire(
+                {
+                    title: (respuesta ? 'Aceptar' : 'Rechazar'),
+                    text: '¿Desea ' + (respuesta ? 'aceptar' : 'rechazar') + ' esta ASADA?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#1D2D51',
+                    cancelButtonColor: '#e13c26',
+                    confirmButtonText: 'Sí',
+                    cancelButtonText: 'No'
+                })
+                .then((result) =>
+                {
+                    if (result.value)
+                    {
+                        Swal.fire(
+                        {
+                            title: "Cargando...",
+                            allowOutsideClick: () => !Swal.isLoading(),
+                            onBeforeOpen: ()=>
+                            {
+                                Swal.showLoading();
+                                $.post("/verSolicitudRegistroAsada/respuesta", parameters, function(data)
+                                {
+                                    console.log(data)
+                                    if(data.error)
+                                    {
+                                        Swal.fire(
+                                        {
+                                            title: 'Error',
+                                            icon: 'error',
+                                            text: 'Ocurrió un error al ' + (respuesta ? 'aceptar' : 'rechazar') + ' la solicitud',
+                                            confirmButtonColor: '#1D2D51'
+                                        })
+                                    }
+                                    else
+                                    {
+                                        Swal.fire(
+                                        {
+                                            title: 'Éxito',
+                                            icon: 'success',
+                                            text: 'La solicitud fue ' + (respuesta ? 'aceptada' : 'rechazada') + ' con éxito',
+                                            confirmButtonColor: '#1D2D51'
+                                        })
+                                        .then((result)=>
+                                        {
+                                            location.href='/'
+                                        })
+                                    }
+                                })
+                            }
+                        });
+                    }
+                })
+            }
+        </script>
+</body>
+</html>
