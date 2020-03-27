@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <% include ../partials/header %>
+    </head>
+
+    <body>
+
+        <div class="wrapper">
+            <!-- Sidebar Holder -->
+            <% include ../partials/latAdmin %>
+            <!-- Page Content Holder -->
+            <div id="content">
+
+                <nav class="navbar navbar-default">
+                    <div class="container-fluid">
+
+                        <div class="navbar-header">
+                            <button type="button" id="sidebarCollapse" class="btn btn-info navbar-btn">
+                                <i class="glyphicon glyphicon-leaf"></i>
+                                <span></span>
+                            </button>
+                        </div>
+
+                        <div style="float: right;">
+                            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                                <form action="/logout">
+                                    <button type="submit" class="btn btn-info navbar-btn">Cerrar Sesión</button>
+                                </form>
+                            </div>                           
+                        </div>
+                    </div>
+                    <div style="margin: 20px;">
+                        <h1 align="center" style="color: #002855;">Bienvenido a IRSSAS, <%= usuario.Nombre %></h1>
+                        <h3 style="color: #002855;">Notificaciones</h3>
+                        <table class="table">
+                            <thead>
+                                <tr class="row">
+                                    <th class="col-xs-1.5">Fecha</th>
+                                    <th class="col-xs-1.5">Hora</th>
+                                    <th class="col-xs-5">Detalles</th>
+                                    <th class="col-xs-2">Estado</th>
+                                    <th class="col-xs-1">Ver</th>
+                                    <th class="col-xs-1">Eliminar</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="row">
+                                    <td class="col-xs-1.5"></td>
+                                    <td class="col-xs-1.5"></td>
+                                    <td class="col-xs-5"></td>
+                                    <td class="col-xs-2">Pendiente</td>
+                                    <td class="col-xs-1">Ver</td>
+                                    <td class="col-xs-1"><i class="glyphicon glyphicon-trash"></i></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </nav>
+            </div>
+        </div>
+
+
+        <!-- jQuery CDN -->
+        <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+        <!-- Bootstrap Js CDN -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <!-- jQuery Custom Scroller CDN -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
+
+        <script type="text/javascript">
+            $(document).ready(function () {
+               
+
+                $('#sidebarCollapse').on('click', function () {
+                    $('#sidebar, #content').toggleClass('active');
+                    $('.collapse.in').toggleClass('in');
+                    $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+                });
+
+                $("#divrisk").click(function(){
+                     $("#divrisk").toggle("slow","linear");
+                });
+
+                $("#buttonrisk").click(function(){
+                     $("#divrisk").toggle("slow","linear");
+                });
+
+
+            });
+        </script>
+        <script src="scripts/script.js"></script>
+    </body>
+</html>
