@@ -4,10 +4,7 @@ module.exports = {
     //Función de inicio, carga el mapa
     getHomePage: (req, res) => {
     	if(req.session.value==1){
-            if(req.session.usuario.Tipo == 1)
-            {
-                res.redirect('/main');
-            }
+            res.redirect('/main');
     	}
     	else{
         req.session.value= 0;
@@ -207,20 +204,27 @@ module.exports = {
     getMain: (req, res) => {
         if(req.session.value==1)
         {
-            let notificacionesSolicitud = "select id, date(fechahora) as fecha, time(fechahora) as hora, nombre, pendiente from SOLICITUDASADA order by fechahora desc;"
-            // execute query
-            db.query(notificacionesSolicitud, function(err, rows, fields)
+            if(req.session.usuario.Tipo == 1)
             {
-                if(err)
+                let notificacionesSolicitud = "select id, date(fechahora) as fecha, time(fechahora) as hora, nombre, pendiente from SOLICITUDASADA order by fechahora desc;"
+                // execute query
+                db.query(notificacionesSolicitud, function(err, rows, fields)
                 {
-                    console.log("getMain. Error while performing query.\n" + err);
-                    res.redirect('/');
-                }
-                else
-                {
-                    res.render('pages/main.ejs', {"usuario": req.session.usuario, "notificaciones": rows});
-                }
-            })
+                    if(err)
+                    {
+                        console.log("getMain. Error while performing query.\n" + err);
+                        res.redirect('/');
+                    }
+                    else
+                    {
+                        res.render('pages/main.ejs', {"usuario": req.session.usuario, "notificaciones": rows});
+                    }
+                })
+            }
+            else
+            {
+                res.render('pages/mainAsada.ejs', {"usuario": req.session.usuario});
+            }
         }
         else
         {
@@ -347,14 +351,26 @@ module.exports = {
             let query = "select a.ID, a.Nombre,p.ID as Provincia,c.ID as Canton,d.ID as Distrito from ASADA a inner join DISTRITO d on a.distrito_id=d.Codigo inner join CANTON c on d.Canton_ID=c.ID inner join PROVINCIA p on p.ID=c.Provincia_ID where d.Provincia_ID=p.ID ";
             let query2 = "SELECT * from PROVINCIA order by nombre;"
             if(req.session.usuario.Tipo=="2")
-                query+=" where a.ID='"+req.session.usuario.Asada_ID+"' ;";
-            db.query(query, function(err,rows,fields){
-                if(!err){
-                    db.query(query2, function(err,rows2,fields){
-                        if(!err){
+                query+=" and a.ID='"+req.session.usuario.Asada_ID+"' ;";
+            db.query(query, function(err,rows,fields)
+            {
+                if(!err)
+                {
+                    db.query(query2, function(err2,rows2,fields)
+                    {
+                        if(!err2)
+                        {
                             res.render('pages/histFormulario.ejs',{"usuario": req.session.usuario, "asadas": rows, "prov": rows2});
                         }
+                        else
+                        {
+                            console.log('histFormulario. Error while performing query2.\n' + err2);
+                        }
                     });
+                }
+                else
+                {
+                    console.log('histFormulario. Error while performing query.\n' + err);
                 }
             });
         }else{

@@ -563,37 +563,57 @@ module.exports = {
             let query = "select i.ID as ID , Codigo , SUBCOMPONENTE_ID , MEDIDA_ID , Nombre , Valor, MINIMO, MAXIMO from INDICADOR i left join RANGOXINDICADOR ri on (i.ID = ri.INDICADOR_ID);";
             let query2 = "select * from NOMINAL;";
             let query3 = "select a.ID,a.Nombre,p.ID as Provincia,c.ID as Canton,d.ID as Distrito from ASADA a inner join DISTRITO d on a.distrito_id=d.Codigo inner join CANTON c on d.Canton_ID=c.ID inner join PROVINCIA p on p.ID=c.Provincia_ID where d.Provincia_ID=p.ID "
-            let query4 = "select * from PROVINCIA  order by nombre;;"
+            let query4 = "select * from PROVINCIA  order by nombre;"
+
             if (req.session.usuario.Tipo == 2)
-                query3 += " and asada.ID='" + req.session.usuario.Asada_ID + "' ;";
+                query3 += " and a.ID='" + req.session.usuario.Asada_ID + "' ;";
             db.query(query, function (err, rows, fields) {
-                if (!err) {
-                    db.query(query2, function (err2, rows2, fields2) {
-                        if (!err2) {
-                            db.query(query3, function (err3, rows3, fields3) {
-                                if (!err3) {
-                                    db.query(query4, function (err4, rows4, fields) {
-                                        if (!err4) {
+                if (!err)
+                {
+                    db.query(query2, function (err2, rows2, fields2)
+                    {
+                        if (!err2)
+                        {
+                            db.query(query3, function (err3, rows3, fields3)
+                            {
+                                if (!err3)
+                                {
+                                    db.query(query4, function (err4, rows4, fields)
+                                    {
+                                        if (!err4)
+                                        {
                                             res.render('pages/crudFormularios.ejs', { "usuario": req.session.usuario, "indicadores": rows, "nominales": rows2, "asadas": rows3, "prov": rows4 });
                                         }
-                                        else {
+                                        else
+                                        {
+                                            console.log("crudFormularios. Error while performing query4.\n" + err4)
                                             res.redirect('/');
                                         }
                                     })
-                                } else {
+                                }
+                                else
+                                {
+                                    console.log("crudFormularios. Error while performing query3.\n" + err3)
                                     res.redirect('/');
                                 }
                             });
-
-                        } else {
+                        }
+                        else
+                        {
+                            console.log("crudFormularios. Error while performing query2.\n" + err2)
                             res.redirect('/');
                         }
                     });
-                } else {
+                }
+                else
+                {
+                    console.log("crudFormularios. Error while performing query.\n" + err)
                     res.redirect('/');
                 }
             });
-        } else {
+        }
+        else
+        {
             res.redirect('/');
         }
     },
@@ -602,6 +622,7 @@ module.exports = {
         var contador = 0.0;
         db.query("select * from LINEAL;", function (err, rows, fields) {
             if (!err) {
+                req.body.asada = req.body.asada === undefined ? req.session.usuario.Asada_ID : req.body.asada;
                 IDs = [];
                 var lista = req.body.ocultos.split(",");
                 rows.forEach(function (row) {
@@ -634,14 +655,17 @@ module.exports = {
                 } //end for
                 query += ";"
                 db.query(query, function (err, rows, fields) {
-                    if (err) console.log(err);
+                    if (err)
+                    {
+                        console.log("sendForm. Error while performing query.\n" + err);
+                    } //end if
+                    res.redirect("/grafico?asada=" + req.body.asada);
                 }); //end query
             } //end if
             else {
                 res.redirect('/');
             }
         }); //end query
-        res.redirect("/grafico?asada=" + req.body.asada);
     },
 
     saveUsuario: (req, res) => {
@@ -869,6 +893,8 @@ module.exports = {
                     var insertarUsuario = "insert into USUARIO (nombre, usuario, contrasenna, tipo) values (?, ?, ?, ?)";
                     var insertarUsuarioValues = [req.body.administrador, req.body.usuario, password, "2"]
 
+                    var insertarUsuarioxAsada = "insert into USUARIOXASADA (usuario_id, asada_id) values (?, (SELECT ID FROM ASADA WHERE DISTRITO_ID = " + req.body.distrito + " ORDER BY 1 DESC LIMIT 1 ))"
+
                     db.query(insertarAsada, insertarAsadaValues, function(err2, rows2, fields2)
                     {
                         if(err2)
@@ -899,7 +925,19 @@ module.exports = {
                                         }
                                         else
                                         {
-                                            respuestaSolicitudCorreo(req.body.respuesta, req.body.usuario, req.body.administrador, res, password);
+                                            db.query(insertarUsuarioxAsada, rows4.insertId, function(err5, rows5, fields5)
+                                            {
+                                                if(err5)
+                                                {
+                                                    console.log("aceptarRechazarSolicitudRegistroAsada. Error while performing insertarUsuario.\n" + err5);
+                                                    db.query("rollback;");
+                                                    res.send({"error": true});
+                                                }
+                                                else
+                                                {
+                                                    respuestaSolicitudCorreo(req.body.respuesta, req.body.usuario, req.body.administrador, res, password);
+                                                }
+                                            })
                                         }
                                     })
                                 }

@@ -35,7 +35,11 @@
                     </div>
                     <div>
     <h3>Estudios/Gráficos</h3>
+    <% if(usuario.Tipo == 1){%>
     <% include ../partials/filtroCantonDistProvAsada %>
+    <%}else{%>
+        <input id="asada" type="text" value="<%=usuario.Asada_ID%>" disabled hidden>
+    <%}%>
     <div>
         <label for="riesgo">IRSSAS Total</label>
         <br>
