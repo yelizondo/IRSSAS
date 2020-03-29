@@ -1152,33 +1152,40 @@ module.exports = {
 
     deleteNotificacion: (req, res) =>
     {
-        db.beginTransaction(function(error)
+        if(req.session.value != 1)
         {
-            if(error)
+            res.status(402).send("Not authorized");
+        } //end if
+        else
+        {
+            db.beginTransaction(function(error)
             {
-                db.rollback();
-                console.log('getAyudaPregunta. Error while performing selectAyudaFormulario.\n' + error);
-                res.send({"error": true});
-            } //end if
-            else
-            {
-                var deleteNotificacion = "delete from SOLICITUDASADA where id = ?";
-                db.query(deleteNotificacion, req.body.idNotificacion, function(err, rows, fields)
+                if(error)
                 {
-                    if(err)
+                    db.rollback();
+                    console.log('getAyudaPregunta. Error while performing selectAyudaFormulario.\n' + error);
+                    res.send({"error": true});
+                } //end if
+                else
+                {
+                    var deleteNotificacion = "delete from SOLICITUDASADA where id = ?";
+                    db.query(deleteNotificacion, req.body.idNotificacion, function(err, rows, fields)
                     {
-                        db.rollback();
-                        console.log('deleteNotificacion. Error while performing deleteNotificacion.\n' + err);
-                        res.send({"error": true});
-                    } //end if
-                    else
-                    {
-                        db.commit();
-                        res.send({"error": false});
-                    } //end else
-                }); //end deleteNotificacion
-            } //end else
-        }) //end beginTransaction
+                        if(err)
+                        {
+                            db.rollback();
+                            console.log('deleteNotificacion. Error while performing deleteNotificacion.\n' + err);
+                            res.send({"error": true});
+                        } //end if
+                        else
+                        {
+                            db.commit();
+                            res.send({"error": false});
+                        } //end else
+                    }); //end deleteNotificacion
+                } //end else
+            }) //end beginTransaction
+        } //end else
     } //end deleteNotificacion
 };
 

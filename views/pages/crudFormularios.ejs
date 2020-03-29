@@ -133,27 +133,42 @@
             });
         </script>
         <script type="text/javascript">
+            var ayudasPreguntas = {};
             function mostrarAyudaPregunta(idPregunta)
             {
-                Swal.fire(
+                if(ayudasPreguntas[idPregunta] != undefined)
                 {
-                    title: "Cargando...",
-                    allowOutsideClick: () => !Swal.isLoading(),
-                    onBeforeOpen: ()=>
+                    Swal.fire(
                     {
-                        Swal.showLoading();
-                        $.get("/getAyudaPregunta", {"idPregunta": idPregunta}, function(ayuda)
+                        title: 'Ayuda',
+                        icon: 'info',
+                        text: ayudasPreguntas[idPregunta],
+                        confirmButtonColor: '#1D2D51'
+                    }); //end sweetAyuda
+                } //end if
+                else
+                {
+                    Swal.fire(
+                    {
+                        title: "Cargando...",
+                        allowOutsideClick: () => !Swal.isLoading(),
+                        onBeforeOpen: ()=>
                         {
-                            Swal.fire(
+                            Swal.showLoading();
+                            $.get("/getAyudaPregunta", {"idPregunta": idPregunta}, function(ayuda)
                             {
-                                title: ayuda.error ? 'Error' : 'Ayuda',
-                                icon: ayuda.error ? 'error' : 'info',
-                                text: ayuda.error ? 'Ocurrió un error al conseguir la información' : ayuda.ayuda,
-                                confirmButtonColor: '#1D2D51'
-                            });
-                        });
-                    }
-                });
+                                ayudasPreguntas[idPregunta] = ayuda.ayuda
+                                Swal.fire(
+                                {
+                                    title: ayuda.error ? 'Error' : 'Ayuda',
+                                    icon: ayuda.error ? 'error' : 'info',
+                                    text: ayuda.error ? 'Ocurrió un error al conseguir la información' : ayuda.ayuda,
+                                    confirmButtonColor: '#1D2D51'
+                                }); //end sweetAyuda
+                            }); //end getAyudaPregunta
+                        } //end onBeforeOpen
+                    }); //end sweetLoading
+                } //end else
             }
         </script>
         <script src="/scripts/crud.js"></script>
