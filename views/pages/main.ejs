@@ -60,7 +60,7 @@
                                         <td class="col-xs-2">Rechazada</td>
                                         <td class="col-xs-1"></td>
                                     <%}%>
-                                    <td class="col-xs-1"><i class="glyphicon glyphicon-trash"></i></td>
+                                    <td class="col-xs-1"><i class="glyphicon glyphicon-trash" onclick="borrarNotificacion(this, <%=solicitud.id%>)"></i></td>
                                 </tr>
                                 <%});%>
                             </tbody>
@@ -77,6 +77,8 @@
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
         <!-- jQuery Custom Scroller CDN -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
+        <!-- Sweetalert -->
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 
         <script type="text/javascript">
             $(document).ready(function () {
@@ -98,6 +100,52 @@
 
 
             });
+        </script>
+
+        <script type="text/javascript">
+            function borrarNotificacion(element, idNotificacion)
+            {
+                Swal.fire(
+                {
+                    title: 'Borrar notificación',
+                    text: '¿Desea borrar esta notificación?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#1D2D51',
+                    cancelButtonColor: '#e13c26',
+                    confirmButtonText: 'Sí',
+                    cancelButtonText: 'No'
+                }) //end sweetConfirmation
+                .then((result) =>
+                {
+                    if (result.value)
+                    {
+                        Swal.fire(
+                        {
+                            title: "Cargando...",
+                            allowOutsideClick: () => !Swal.isLoading(),
+                            onBeforeOpen: ()=>
+                            {
+                                Swal.showLoading();
+                                $.post("/deleteNotificacion", {"idNotificacion": idNotificacion}, function(data)
+                                {
+                                    Swal.fire(
+                                    {
+                                        title: data.error ? 'Error' : 'Éxito',
+                                        icon: data.error ? 'error' : 'success',
+                                        text: data.error ? 'Ocurrió un error al borrar la notificación' : 'La notificación se borró con éxito',
+                                        confirmButtonColor: '#1D2D51'
+                                    }) //end sweetResult
+                                    .then((result) =>
+                                    {
+                                        element.parentNode.parentNode.parentNode.removeChild(element.parentNode.parentNode);
+                                    })
+                                }); //end deleteNotificacion
+                            } //end onBeforeOpen
+                        }); //end sweetLoading
+                    } //end if
+                }) //end then
+            } //end borrarNotificacion
         </script>
         <script src="scripts/script.js"></script>
     </body>

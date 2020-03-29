@@ -202,7 +202,6 @@
                                 Swal.showLoading();
                                 $.post("/verSolicitudRegistroAsada/respuesta", parameters, function(data)
                                 {
-                                    console.log(data)
                                     if(data.error)
                                     {
                                         Swal.fire(

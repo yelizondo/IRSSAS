@@ -223,6 +223,7 @@ module.exports = {
             }
             else
             {
+                
                 res.render('pages/mainAsada.ejs', {"usuario": req.session.usuario});
             }
         }

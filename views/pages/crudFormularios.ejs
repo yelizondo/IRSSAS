@@ -57,7 +57,8 @@
                                 </tr>
                                 <%indicadores.forEach(function(indicador, index) {%>
                                 <tr>
-                                    <td><%=indicador.Nombre%></td>
+                                    <td><%=indicador.Nombre%>
+                                        <i class="glyphicon glyphicon-question-sign" onclick="mostrarAyudaPregunta(<%=indicador.ID%>)"></i></td>
                                     <%if(indicador.MEDIDA_ID==1){%>
                                     <td><select class="form-control hideinput" required name="<%=indicador.ID%>">
                                         <option value=""></option>
@@ -107,7 +108,9 @@
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
         <!-- jQuery Custom Scroller CDN -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
-
+        <!-- Sweetalert -->
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+        
         <script type="text/javascript">
             $(document).ready(function () {
                
@@ -128,6 +131,30 @@
 
 
             });
+        </script>
+        <script type="text/javascript">
+            function mostrarAyudaPregunta(idPregunta)
+            {
+                Swal.fire(
+                {
+                    title: "Cargando...",
+                    allowOutsideClick: () => !Swal.isLoading(),
+                    onBeforeOpen: ()=>
+                    {
+                        Swal.showLoading();
+                        $.get("/getAyudaPregunta", {"idPregunta": idPregunta}, function(ayuda)
+                        {
+                            Swal.fire(
+                            {
+                                title: ayuda.error ? 'Error' : 'Ayuda',
+                                icon: ayuda.error ? 'error' : 'info',
+                                text: ayuda.error ? 'Ocurrió un error al conseguir la información' : ayuda.ayuda,
+                                confirmButtonColor: '#1D2D51'
+                            });
+                        });
+                    }
+                });
+            }
         </script>
         <script src="/scripts/crud.js"></script>
         <script src="/scripts/script.js"></script>

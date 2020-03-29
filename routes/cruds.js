@@ -799,69 +799,76 @@ module.exports = {
         var insertarAsadaInfo = "insert into SOLICITUDASADAINFO (asada_id, ubicacion, telefono, poblacion, url, cantAbonados, celular) values (?, ?, ?, ?, ?, ?, ?);";
         var insertarAsadaInfoValues = [id_asada, req.body.ubicacion, req.body.telefono, req.body.poblacion, req.body.url, req.body.cantAbonados, req.body.celular];
 
-        var insertarUsuario = "insert into SOLICITUDUSUARIO (nombre, usuario, contrasenna, tipo, asada_id) values (?, ?, (SELECT SUBSTRING(MD5(RAND()) FROM 1 FOR 6)), ?, ?);";
-        var insertarUsuarioValues = [req.body.administrador, req.body.usuario, '2', id_asada];
+        var insertarUsuario = "insert into SOLICITUDUSUARIO (nombre, usuario, asada_id) values (?, ?, ?);";
+        var insertarUsuarioValues = [req.body.administrador, req.body.usuario, id_asada];
         
-        db.query(insertarAsada, insertarAsadaValues, function(err, rows, fields)
+        db.beginTransaction(function(error)
         {
-            if(err)
+            if(error)
             {
-                console.log("solicitudAsada. Error while performing query insertarAsada.\n" + err);
+                console.log("solicitudAsada. Error while performing beginTransaction.\n" + error);
                 res.send({"error": true});
-            }
-            else
+            } //end if
+            db.query(insertarAsada, insertarAsadaValues, function(err, rows, fields)
             {
-                id_asada = rows.insertId;
-                insertarAsadaInfoValues[0] = id_asada;
-                db.query(insertarAsadaInfo, insertarAsadaInfoValues, function(err2, rows2, fields2)
+                if(err)
                 {
-                    if(err2)
+                    console.log("solicitudAsada. Error while performing query insertarAsada.\n" + err);
+                    db.rollback();
+                    res.send({"error": true});
+                } //end if
+                else
+                {
+                    id_asada = rows.insertId;
+                    insertarAsadaInfoValues[0] = id_asada;
+                    db.query(insertarAsadaInfo, insertarAsadaInfoValues, function(err2, rows2, fields2)
                     {
-                        console.log("solicitudAsada. Error while performing query insertarAsadaInfo.\n" + err2);
-                        db.query("delete from SOLICITUDASADA where id = ?", id_asada);
-                        res.send({"error": true});
-                    }
-                    else
-                    {
-                        insertarUsuarioValues[3] = id_asada;
-                        db.query(insertarUsuario, insertarUsuarioValues, function(err3, rows3, fields3)
+                        if(err2)
                         {
-                            if(err3)
+                            console.log("solicitudAsada. Error while performing query insertarAsadaInfo.\n" + err2);
+                            db.rollback();
+                            res.send({"error": true});
+                        } //end if
+                        else
+                        {
+                            insertarUsuarioValues[2] = id_asada;
+                            db.query(insertarUsuario, insertarUsuarioValues, function(err3, rows3, fields3)
                             {
-                                console.log("solicitudAsada. Error while performing query insertarUsuario.\n" + err3);
-                                db.query("delete from SOLICITUDASADAINFO where asada_id = ?", id_asada);
-                                db.query("delete from SOLICITUDASADA where id = ?", id_asada);
-                                res.send({"error": true});
-                            }
-                            else
-                            {
-                                var mailOptions = {
-                                    from: 'irssastec@gmail.com',
-                                    to: req.body.usuario,
-                                    subject: 'Solicitud de registro de ASADA',
-                                    text: `Buenas, ${req.body.administrador}\nSu solicitud está siendo procesada por los administradores de la aplicación.\nSaludos cordiales`
-                                };
-                                transporter.sendMail(mailOptions, function (error) {
-                                    if (error)
-                                    {
-                                        console.log("solicitudAsada. Error enviando correo.\n" + error);
-                                        db.query("delete from SOLICITUDUSUARIO where asada_id = ?", id_asada);
-                                        db.query("delete from SOLICITUDASADAINFO where asada_id = ?", id_asada);
-                                        db.query("delete from SOLICITUDASADA where id = ?", id_asada);
-                                        res.send({"error": true});
-                                    }
-                                    else
-                                    {
-                                        res.send({"error": false});
-                                    }
-                                });
-                            }
-                        })
-                    }
-                })
-            }
-        });
-    },
+                                if(err3)
+                                {
+                                    console.log("solicitudAsada. Error while performing query insertarUsuario.\n" + err3);
+                                    db.rollback();
+                                    res.send({"error": true});
+                                } //end if
+                                else
+                                {
+                                    var mailOptions = {
+                                        from: 'irssastec@gmail.com',
+                                        to: req.body.usuario,
+                                        subject: 'Solicitud de registro de ASADA',
+                                        text: `Buenas, ${req.body.administrador}\nSu solicitud está siendo procesada por los administradores de la aplicación.\nSaludos cordiales`
+                                    };
+                                    transporter.sendMail(mailOptions, function (error) {
+                                        if (error)
+                                        {
+                                            console.log("solicitudAsada. Error enviando correo.\n" + error);
+                                            db.rollback();
+                                            res.send({"error": true});
+                                        } //end if
+                                        else
+                                        {
+                                            db.commit();
+                                            res.send({"error": false});
+                                        } //end else
+                                    }); //end sendMail
+                                } //end else
+                            }) //end insertarUsuario
+                        } //end else
+                    }) //end insertarAsadaInfo
+                } //end else
+            }); //end insertarAsada
+        }); //end transaction
+    }, //end sendSolicitudRegistroAsada
 
     aceptarRechazarSolicitudRegistroAsada: (req, res)=>
     {
@@ -876,11 +883,11 @@ module.exports = {
                     console.log("aceptarRechazarSolicitudRegistroAsada. Error while performing updateSolicitudAsada.\n" + err);
                     db.query("rollback;");
                     res.send({"error": true});
-                }
+                } //end if
                 else if(req.body.respuesta == 0)
                 {
                     respuestaSolicitudCorreo(req.body.respuesta, req.body.usuario, req.body.administrador, res);
-                }
+                } //end if
                 else
                 {
                     var insertarAsada = "insert into ASADA (nombre, distrito_id, latitud, longitud) values (?, ?, ?, ?);"
@@ -902,7 +909,7 @@ module.exports = {
                             console.log("aceptarRechazarSolicitudRegistroAsada. Error while performing insertarAsada.\n" + err2);
                             db.query("rollback;");
                             res.send({"error": true});
-                        }
+                        } //end if
                         else
                         {
                             db.query(insertarAsadaInfo, insertarAsadaInfoValues, function(err3, rows3, fields3)
@@ -912,7 +919,7 @@ module.exports = {
                                     console.log("aceptarRechazarSolicitudRegistroAsada. Error while performing insertarAsadaInfo.\n" + err3);
                                     db.query("rollback;");
                                     res.send({"error": true});
-                                }
+                                } //end if
                                 else
                                 {
                                     db.query(insertarUsuario, insertarUsuarioValues, function(err4, rows4, fields4)
@@ -922,7 +929,7 @@ module.exports = {
                                             console.log("aceptarRechazarSolicitudRegistroAsada. Error while performing insertarUsuario.\n" + err4);
                                             db.query("rollback;");
                                             res.send({"error": true});
-                                        }
+                                        } //end if
                                         else
                                         {
                                             db.query(insertarUsuarioxAsada, rows4.insertId, function(err5, rows5, fields5)
@@ -932,23 +939,22 @@ module.exports = {
                                                     console.log("aceptarRechazarSolicitudRegistroAsada. Error while performing insertarUsuario.\n" + err5);
                                                     db.query("rollback;");
                                                     res.send({"error": true});
-                                                }
+                                                } //end if
                                                 else
                                                 {
                                                     respuestaSolicitudCorreo(req.body.respuesta, req.body.usuario, req.body.administrador, res, password);
-                                                }
-                                            })
-                                        }
-                                    })
-                                }
-                            })
-                        }
-                    })
-                }
-            });
-        }
-        );
-    },
+                                                } //end else
+                                            }) //end insertarUsuarioxAsada
+                                        } //end else
+                                    }) //end insertarUsuario
+                                } //end else
+                            }) //end insertarAsadaInfo
+                        } //end else
+                    }) //end insertarAsada
+                } // end else
+            }); //end updateSolicitudAsada
+        }); //end transaction
+    }, //end aceptarRechazarSolicitudRegistroAsada
 
     getListaAsociaciones: (req, res) => {
         if (req.session.value == 1) {
@@ -1118,7 +1124,62 @@ module.exports = {
         }else{
             return res.status(402).send("Not authorized");
         }
-    }, 
+    },
+
+    getAyudaPregunta: (req, res) =>
+    {
+        if(req.session.value != 1)
+        {
+            res.status(402).send("Not authorized");
+        } //end if
+        else
+        {
+            var selectAyudaFormulario = "select ayuda from AYUDAFORMULARIO where indicador_id = ?;";
+            db.query(selectAyudaFormulario, req.query.idPregunta, function(err, rows, fields)
+            {
+                if(err)
+                {
+                    console.log('getAyudaPregunta. Error while performing selectAyudaFormulario.\n' + err);
+                    res.send({"error": true});
+                } //end if
+                else
+                {
+                    res.send({"error": false, "ayuda": rows[0].ayuda});
+                } //end else
+            }); //end selectAyudaFormulario
+        } //end else
+    },
+
+    deleteNotificacion: (req, res) =>
+    {
+        db.beginTransaction(function(error)
+        {
+            if(error)
+            {
+                db.rollback();
+                console.log('getAyudaPregunta. Error while performing selectAyudaFormulario.\n' + error);
+                res.send({"error": true});
+            } //end if
+            else
+            {
+                var deleteNotificacion = "delete from SOLICITUDASADA where id = ?";
+                db.query(deleteNotificacion, req.body.idNotificacion, function(err, rows, fields)
+                {
+                    if(err)
+                    {
+                        db.rollback();
+                        console.log('deleteNotificacion. Error while performing deleteNotificacion.\n' + err);
+                        res.send({"error": true});
+                    } //end if
+                    else
+                    {
+                        db.commit();
+                        res.send({"error": false});
+                    } //end else
+                }); //end deleteNotificacion
+            } //end else
+        }) //end beginTransaction
+    } //end deleteNotificacion
 };
 
 function borrarAsadasAsociaciones(res, data, next){
