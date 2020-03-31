@@ -1134,7 +1134,7 @@ module.exports = {
         } //end if
         else
         {
-            var selectAyudaFormulario = "select ayuda from AYUDAFORMULARIO where indicador_id = ?;";
+            var selectAyudaFormulario = "select ayuda, url from AYUDAFORMULARIO where indicador_id = ?;";
             db.query(selectAyudaFormulario, req.query.idPregunta, function(err, rows, fields)
             {
                 if(err)
@@ -1144,7 +1144,7 @@ module.exports = {
                 } //end if
                 else
                 {
-                    res.send({"error": false, "ayuda": rows[0].ayuda});
+                    res.send({"error": false, "ayuda": rows[0].ayuda, "url": rows[0].url});
                 } //end else
             }); //end selectAyudaFormulario
         } //end else
@@ -1186,7 +1186,7 @@ module.exports = {
                 } //end else
             }) //end beginTransaction
         } //end else
-    } //end deleteNotificacion
+    }, //end deleteNotificacion
 };
 
 function borrarAsadasAsociaciones(res, data, next){

@@ -2,6 +2,14 @@
 <html>
     <head>
         <% include ../partials/header %>
+        <style>
+            a, a:hover, a:focus
+            {
+                color: blue;
+                text-decoration: none;
+                transition: all 0.3s;
+            }
+        </style>
     </head>
 
     <body>
@@ -140,9 +148,9 @@
                 {
                     Swal.fire(
                     {
-                        title: 'Ayuda',
+                        title: '',
                         icon: 'info',
-                        text: ayudasPreguntas[idPregunta],
+                        html: `${ayudasPreguntas[idPregunta].ayuda}<br>${ayudasPreguntas[idPregunta].url == "" ? "" : `<a href="${ayudasPreguntas[idPregunta].url}" target="_blank">Click para más información</a>`}`,
                         confirmButtonColor: '#1D2D51'
                     }); //end sweetAyuda
                 } //end if
@@ -157,12 +165,12 @@
                             Swal.showLoading();
                             $.get("/getAyudaPregunta", {"idPregunta": idPregunta}, function(ayuda)
                             {
-                                ayudasPreguntas[idPregunta] = ayuda.ayuda
+                                ayudasPreguntas[idPregunta] = ayuda
                                 Swal.fire(
                                 {
-                                    title: ayuda.error ? 'Error' : 'Ayuda',
+                                    title: ayuda.error ? 'Error' : '',
                                     icon: ayuda.error ? 'error' : 'info',
-                                    text: ayuda.error ? 'Ocurrió un error al conseguir la información' : ayuda.ayuda,
+                                    html: ayuda.error ? 'Ocurrió un error al conseguir la información' : `${ayuda.ayuda}<br>${ayuda.url == "" ? "" : `<a href="${ayuda.url}" target="_blank">Click para más información</a>`}`,
                                     confirmButtonColor: '#1D2D51'
                                 }); //end sweetAyuda
                             }); //end getAyudaPregunta
