@@ -3,7 +3,7 @@
     <head>
         <% include ../partials/header %>
         <style>
-            a, a:hover, a:focus
+            .ayuda-link, .ayuda-link:hover, .ayuda-link:focus
             {
                 color: blue;
                 text-decoration: none;
@@ -150,7 +150,7 @@
                     {
                         title: '',
                         icon: 'info',
-                        html: `${ayudasPreguntas[idPregunta].ayuda}<br>${ayudasPreguntas[idPregunta].url == "" ? "" : `<a href="${ayudasPreguntas[idPregunta].url}" target="_blank">Click para más información</a>`}`,
+                        html: `${ayudasPreguntas[idPregunta].ayuda}<br>${ayudasPreguntas[idPregunta].url == "" ? "" : `<a class="ayuda-link" href="${ayudasPreguntas[idPregunta].url}" target="_blank">Click para más información</a>`}`,
                         confirmButtonColor: '#1D2D51'
                     }); //end sweetAyuda
                 } //end if
@@ -170,7 +170,7 @@
                                 {
                                     title: ayuda.error ? 'Error' : '',
                                     icon: ayuda.error ? 'error' : 'info',
-                                    html: ayuda.error ? 'Ocurrió un error al conseguir la información' : `${ayuda.ayuda}<br>${ayuda.url == "" ? "" : `<a href="${ayuda.url}" target="_blank">Click para más información</a>`}`,
+                                    html: ayuda.error ? 'Ocurrió un error al conseguir la información' : `${ayuda.ayuda}<br>${ayuda.url == "" ? "" : `<a class="ayuda-link" href="${ayuda.url}" target="_blank">Click para más información</a>`}`,
                                     confirmButtonColor: '#1D2D51'
                                 }); //end sweetAyuda
                             }); //end getAyudaPregunta
