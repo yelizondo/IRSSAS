@@ -676,6 +676,22 @@ module.exports = {
                 }
             });
         }
+    },
+    getEstadisticasGenerales: (req, res) => {
+        /*let query = "select p.ID as PROVINCIA_ID, c.ID as CANTON_ID, d.ID as DISTRITO_ID, a.*,p.Nombre as Provincia,c.Nombre as Canton,d.Nombre as Distrito,  ai.Ubicacion,ai.Telefono,ai.Poblacion,ai.Url,ai.cantAbonados from ASADA a left join ASADAINFO ai on a.ID=ai.Asada_ID inner join DISTRITO d on a.distrito_id=d.Codigo inner join CANTON c on d.Canton_ID=c.ID inner join PROVINCIA p on p.ID=c.Provincia_ID where d.Provincia_ID=p.ID;";
+        let query2 = "select * from PROVINCIA  order by nombre;"
+        db.query(query, function(err,rows,fields){
+            db.query(query2, function(err2,rows2,fields2){
+                if(!err){
+                    res.render('pages/EstadisticasGenerales.ejs',{"usuario": req.session.usuario, "asadas":rows, "prov": rows2 });
+                }
+                else{
+                    console.log('EstadisticasGenerales. Error while performing Query.');
+                    res.redirect('/');
+                }
+            });
+        });*/
+       res.render('pages/EstadisticasGenerales.ejs',{"rows":[], "usuario": req.session.usuario});  
     }
 };
 function getTipoRiesgo (valor)
