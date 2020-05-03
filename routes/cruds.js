@@ -535,7 +535,7 @@ module.exports = {
                     db.query(`UPDATE USUARIO SET CONTRASENNA = '${code}' WHERE USUARIO = '${usuario}'`, function (err2) {
                         if (!err2) {
                             var mailOptions = {
-                                from: 'guaposdecomu@gmail.com',
+                                from: 'irssastec@gmail.com',
                                 to: usuario,
                                 subject: 'Recuperación de contraseña',
                                 text: `La nueva contraseña es: ${code}`
@@ -1187,6 +1187,121 @@ module.exports = {
             }) //end beginTransaction
         } //end else
     }, //end deleteNotificacion
+
+    sendNotificacionFormulario: (req, res)=>
+    {
+        var notificaciones = [];
+        res.send({"error": false, "notificaciones": notificaciones});
+    }, //end sendNotificacionFormulario
+
+    getInformeUsuarioGeneral: (req, res) =>
+    {        
+        var selectIRSSASselect = "select AVG(iv.irssas) as irssas, SUM(ainfo.poblacion) as poblacion, comp1.componente as saneamiento, comp2.componente as recursoHidrico, comp3.componente as desarrolloSoc, comp4.componente as educacion, comp5.componente as riesgoEvNat "
+        var selectIRSSASfrom = "from IRSSAS_VIEW iv " +
+            "inner join ASADA a on (iv.asada_id = a.id) " +
+            "inner join ASADAINFO ainfo on (iv.asada_id = ainfo.asada_id) " +
+            "inner join DISTRITO d on (a.distrito_id = d.codigo) " +
+            "inner join CANTON c on (d.canton_id = c.id) " +
+            "inner join PROVINCIA p on (c.provincia_id = p.id and d.provincia_id = p.id) " +
+            "inner join (select componente, asada_id from COMPONENTE_IRSSAS_VIEW where componente_id = 1) comp1 on (iv.asada_id = comp1.asada_id) " +
+            "inner join (select componente, asada_id from COMPONENTE_IRSSAS_VIEW where componente_id = 2) comp2 on (iv.asada_id = comp2.asada_id) " +
+            "inner join (select componente, asada_id from COMPONENTE_IRSSAS_VIEW where componente_id = 3) comp3 on (iv.asada_id = comp3.asada_id) " +
+            "inner join (select componente, asada_id from COMPONENTE_IRSSAS_VIEW where componente_id = 4) comp4 on (iv.asada_id = comp4.asada_id) " +
+            "inner join (select componente, asada_id from COMPONENTE_IRSSAS_VIEW where componente_id = 5) comp5 on (iv.asada_id = comp5.asada_id) "
+        var selectInformeIRSSAS = ""
+        var selectInformeIRSSASValues = []
+        
+        if(req.body.object != undefined)
+        {
+            req.body = JSON.parse(req.body.object)
+        } //end if
+        switch(req.body.tipoInforme)
+        {
+            case 1: //provincia
+            {
+                selectInformeIRSSAS = selectIRSSASselect + ", p.id as provincia_id, p.nombre as nombre " + selectIRSSASfrom + "where "
+                req.body.provincias.forEach((provincia, index) =>
+                {
+                    if(index)
+                    {
+                        selectInformeIRSSAS += "or "
+                    } //end if
+                    selectInformeIRSSAS += "p.id = ? "
+                    selectInformeIRSSASValues.push(provincia)
+                }) //end forEach
+                selectInformeIRSSAS += "group by p.id order by p.nombre;"
+                break
+            } //end case
+            case 2: //canton
+            {
+                selectInformeIRSSAS = selectIRSSASselect + ", c.id as canton_id, c.nombre as nombre, p.id as provincia_id " + selectIRSSASfrom + "where "
+                req.body.cantones.forEach((canton, index) =>
+                {
+                    if(index)
+                    {
+                        selectInformeIRSSAS += "or "
+                    } //end if
+                    selectInformeIRSSAS += "(c.id = ? and p.id = ?) "
+                    selectInformeIRSSASValues.push(canton, req.body.provincias[index])
+                }) //end forEach
+                selectInformeIRSSAS += "group by c.id, p.id order by c.nombre;"
+                break
+            } //end case
+            case 3: //distrito
+            {
+                selectInformeIRSSAS = selectIRSSASselect + ", d.codigo, d.nombre as nombre " + selectIRSSASfrom + "where "
+                req.body.distritos.forEach((distrito, index) =>
+                {
+                    if(index)
+                    {
+                        selectInformeIRSSAS += "or "
+                    } //end if
+                    selectInformeIRSSAS += "d.codigo = ? "
+                    selectInformeIRSSASValues.push(distrito)
+                }) //end forEach
+                selectInformeIRSSAS += "group by d.codigo order by d.nombre;"
+                break
+            } //end case
+            case 4: //asada
+            {
+                selectInformeIRSSAS = selectIRSSASselect + ", a.id, a.nombre as nombre " + selectIRSSASfrom + "where "
+                req.body.asadas.forEach((asada, index) =>
+                {
+                    if(index)
+                    {
+                        selectInformeIRSSAS += "or "
+                    } //end if
+                    selectInformeIRSSAS += "a.id = ? "
+                    selectInformeIRSSASValues.push(asada)
+                }) //end forEach
+                selectInformeIRSSAS += "group by a.id order by a.nombre;"
+                break
+            } //end case
+            default:
+            {
+                selectInformeIRSSAS = null
+            } //end default
+        } //end switch
+        if(!selectInformeIRSSAS)
+        {
+            res.send({"error": true})
+        } //end if
+        else
+        {
+            db.query(selectInformeIRSSAS, selectInformeIRSSASValues, function(err, rows, fields)
+            {
+                if(err)
+                {
+                    console.log('getInformeUsuarioGeneral. Error while performing selectInformeIRSSAS.\n' + err + '\n' + selectInformeIRSSAS + '\n' + selectInformeIRSSASValues);
+                    res.send({"error": true})
+                } //end if
+                else
+                {
+                    res.send({"error": false, "informeIRSSAS": rows})
+                } //end else
+            }) //end selectInformeIRSSAS
+        } //end else
+    },//end getInformeUsuarioGeneral
 };
 
 function borrarAsadasAsociaciones(res, data, next){

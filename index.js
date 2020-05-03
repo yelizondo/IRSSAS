@@ -26,8 +26,8 @@ const PORT = process.env.PORT || 8000
 
 //llamar funciones de controller.js
 
-const {getCrudComponente, saveComponente, getCrudSubcomponente, saveSubComponente, getCrudIndicador, getIndicador, deleteIndicador, updateIndicador, newIndicador, createIndicador, getCrudAsadasR,getCrudAsadasU, getPresentAsada, saveAsada, newAsada, createAsada, deleteAsada, crudFormularios, sendForm, getCrudUsuario, saveUsuario, getUsuariosAsadas,setUsuariosAsada, guardarFormulario, cargarFormulario, getContacto, updateEstado, changePassword,forgetPassword, getListaAsociaciones, nuevaAsociacion, nuevaAsociacionGuardar, editarAsociacion, editarAsociacionGuardar, eliminarAsociacion, sendSolicitudRegistroAsada, aceptarRechazarSolicitudRegistroAsada, getAyudaPregunta, deleteNotificacion} = require('./routes/cruds');
-const {getHomePage, login, getMain, getVisor, getComponente, logout, getSites, grafico, getRiesgo, getAsada, getInfoGeneral, generarInforme, histFormulario, getAnno, getRespuestas, comparaMapas, statsComponentes,statsSubcomponentes, getCantones, getDistritos, getEstadisticas, getMapa, getManualData, getManualUsuario, getManualDataDescargar, getRutas, getRutasData, solicitudRegistroAsada, validarUsuario, getVerSolicitudRegistroAsada,getEstadisticasGenerales} = require('./routes/controller');
+const {getCrudComponente, saveComponente, getCrudSubcomponente, saveSubComponente, getCrudIndicador, getIndicador, deleteIndicador, updateIndicador, newIndicador, createIndicador, getCrudAsadasR,getCrudAsadasU, getPresentAsada, saveAsada, newAsada, createAsada, deleteAsada, crudFormularios, sendForm, getCrudUsuario, saveUsuario, getUsuariosAsadas,setUsuariosAsada, guardarFormulario, cargarFormulario, getContacto, updateEstado, changePassword,forgetPassword, getListaAsociaciones, nuevaAsociacion, nuevaAsociacionGuardar, editarAsociacion, editarAsociacionGuardar, eliminarAsociacion, sendSolicitudRegistroAsada, aceptarRechazarSolicitudRegistroAsada, getAyudaPregunta, deleteNotificacion, getInformeUsuarioGeneral} = require('./routes/cruds');
+const {getHomePage, login, getMain, getVisor, getComponente, logout, getSites, grafico, getRiesgo, getAsada, getInfoGeneral, generarInforme, histFormulario, getAnno, getRespuestas, comparaMapas, statsComponentes,statsSubcomponentes, getCantones, getDistritos, getEstadisticas, getMapa, getManualData, getManualUsuario, getManualDataDescargar, getRutas, getRutasData, solicitudRegistroAsada, validarUsuario, getVerSolicitudRegistroAsada, getEstadisticasGenerales} = require('./routes/controller');
 
 //conexion de BD
 /*
@@ -45,7 +45,7 @@ const db = mysql.createConnection ({
     host     : '35.184.65.113',//35.184.65.113
     user     : 'root',
     password : 'jdsakfidsajfklsñad56798416374',//jdsakfidsajfklsñad56798416374
-    database : 'asadas_test',//asadas
+    database : 'asadas',//asadas
     port : '3306'
 });
 
@@ -150,6 +150,7 @@ app.post('/verSolicitudRegistroAsada/respuesta', aceptarRechazarSolicitudRegistr
 app.get('/getAyudaPregunta', getAyudaPregunta);
 app.post('/deleteNotificacion', deleteNotificacion);
 app.get('/verEstadisticasGenerales', getEstadisticasGenerales)
+app.post('/getInformeUsuarioGeneral', getInformeUsuarioGeneral)
 
 // llamada al puerto 
 app.listen(PORT, () => {

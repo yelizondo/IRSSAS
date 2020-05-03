@@ -467,6 +467,10 @@ module.exports = {
                 if(!err){
                     res.send({"rows":rows})
                 }
+                else
+                {
+                    console.log('getCantones. Error while performing Query.');
+                }
             });
 
 
@@ -478,6 +482,10 @@ module.exports = {
             db.query(query,function(err,rows,fields){
                 if(!err){
                     res.send({"rows":rows})
+                }
+                else
+                {
+                    console.log('getDistritos. Error while performing Query.');
                 }
             });
 
@@ -677,22 +685,26 @@ module.exports = {
             });
         }
     },
-    getEstadisticasGenerales: (req, res) => {
-        /*let query = "select p.ID as PROVINCIA_ID, c.ID as CANTON_ID, d.ID as DISTRITO_ID, a.*,p.Nombre as Provincia,c.Nombre as Canton,d.Nombre as Distrito,  ai.Ubicacion,ai.Telefono,ai.Poblacion,ai.Url,ai.cantAbonados from ASADA a left join ASADAINFO ai on a.ID=ai.Asada_ID inner join DISTRITO d on a.distrito_id=d.Codigo inner join CANTON c on d.Canton_ID=c.ID inner join PROVINCIA p on p.ID=c.Provincia_ID where d.Provincia_ID=p.ID;";
-        let query2 = "select * from PROVINCIA  order by nombre;"
-        db.query(query, function(err,rows,fields){
-            db.query(query2, function(err2,rows2,fields2){
-                if(!err){
-                    res.render('pages/EstadisticasGenerales.ejs',{"usuario": req.session.usuario, "asadas":rows, "prov": rows2 });
-                }
-                else{
+    getEstadisticasGenerales: (req, res) => 
+    {
+        let selectAsadas = "select a.ID,a.Nombre,p.ID as Provincia,c.ID as Canton,d.ID as Distrito from ASADA a inner join DISTRITO d on a.distrito_id=d.Codigo inner join CANTON c on d.Canton_ID=c.ID inner join PROVINCIA p on p.ID=c.Provincia_ID where d.Provincia_ID=p.ID ";
+        let selectProvincias = "select * from PROVINCIA order by nombre;"
+        db.query(selectAsadas, function(err,rows,fields)
+        {
+            db.query(selectProvincias, function(err2,rows2,fields2)
+            {
+                if(!err2)
+                {
+                    res.render('pages/EstadisticasGenerales.ejs',{"usuario": req.session.usuario, "asadas":rows, "prov": rows2, "rows": rows2});
+                } //end if
+                else
+                {
                     console.log('EstadisticasGenerales. Error while performing Query.');
                     res.redirect('/');
-                }
-            });
-        });*/
-       res.render('pages/EstadisticasGenerales.ejs',{"rows":[], "usuario": req.session.usuario});  
-    }
+                } //end else
+            }); //end selectProvincias
+        }) //end selectAsadas
+    } //end getEstadisticasGenerales
 };
 function getTipoRiesgo (valor)
 {
