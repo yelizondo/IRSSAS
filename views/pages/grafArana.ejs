@@ -34,34 +34,34 @@
 
                     </div>
                     <div>
-    <h3>Estudios/Gráficos</h3>
-    <% if(usuario.Tipo == 1){%>
-    <% include ../partials/filtroCantonDistProvAsada %>
-    <%}else{%>
-        <input id="asada" type="text" value="<%=usuario.Asada_ID%>" disabled hidden>
-    <%}%>
-    <div>
-        <label for="riesgo">IRSSAS Total</label>
-        <br>
-        <input id="riesgo" type="number" disabled>
-        <br>
-        <br>
-        <label for="tipoRiesgo">Nivel de riesgo</label>
-        <p style="color: black;" id="tipoRiesgo"></p>
-    </div>
-    <div>
-        <label for="tipoGrafico">Tipo de gráfico</label>
-        <select id="tipoGrafico" onchange="location.reload()">
-            <option value="bar">Barras</option>
-            <option value="radar">Araña</option>
-        </select>
-    </div>
-    <div id="ID_DIV">
-        <canvas id="radar-chart"></canvas>
-    </div>
-    <br>
-    <button onclick="download();">Download</button>
-    </div>
+                        <h3>Estudios/Gráficos</h3>
+                        <% if(usuario.Tipo == 1){%>
+                        <% include ../partials/filtroCantonDistProvAsada %>
+                        <%}else{%>
+                            <input id="asada" type="text" value="<%=usuario.Asada_ID%>" disabled hidden>
+                        <%}%>
+                        <div>
+                            <label for="riesgo">IRSSAS Total</label>
+                            <br>
+                            <input id="riesgo" type="number" disabled>
+                            <br>
+                            <br>
+                            <label for="tipoRiesgo">Nivel de riesgo</label>
+                            <p style="color: black;" id="tipoRiesgo"></p>
+                        </div>
+                        <div>
+                            <label for="tipoGrafico">Tipo de gráfico</label>
+                            <select id="tipoGrafico" onchange="location.reload()">
+                                <option value="bar">Barras</option>
+                                <option value="radar">Araña</option>
+                            </select>
+                        </div>
+                        <div id="ID_DIV">
+                            <canvas id="radar-chart"></canvas>
+                        </div>
+                        <br>
+                        <button onclick="download();">Download</button>
+                    </div>
                 </nav>
             </div>
         </div>

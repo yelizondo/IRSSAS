@@ -3,13 +3,13 @@ var grafico = graficoNuevo ();
 function aranna(value, tipo, anno, idchart = ""){
 	var parameters = { "id": value, "tipo": tipo, "anno": anno};
     $.get('/getRiesgo',parameters,function(data) {
-		var tipoRiesgo = getTipoRiesgo (data.riesgo[0].valor);
+		var tipoRiesgo = getTipoRiesgo (data.riesgo[0].valor.toFixed(0));
 		grafico.data.labels = data.componentes;
 		grafico.data.datasets[0].label = data.nombre;
-		grafico.data.datasets[0].data = data.valores.map(function(valor){return valor.toFixed(2)});
+		grafico.data.datasets[0].data = data.valores.map(function(valor){return valor.toFixed(0)});
 		grafico.update();
 		pintarGrafico (grafico);
-		document.getElementById ("riesgo").value = data.riesgo[0].valor.toFixed(2);
+		document.getElementById ("riesgo").value = data.riesgo[0].valor.toFixed(0);
 		document.getElementById ("tipoRiesgo").textContent = (["Muy Alto", "Alto", "Intermedio", "Bajo", "Muy bajo"])[tipoRiesgo];
 	});
 };
