@@ -61,7 +61,8 @@
     <!-- jQuery Custom Scroller CDN -->
     <script
         src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
-
+      <!-- Sweetalert -->
+      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>  
     <script type="text/javascript">
 
         $(document).ready(function () {
@@ -94,19 +95,28 @@
                 $("#menucomps").toggle("slow", "linear");
                 $("#menufilts").toggle("slow", "linear");
             });
-
+            
             $("#menufilts").hide();
-
+            
+            $('.risk-help').click(evt=>{
+                evt.stopPropagation();
+                console.log(evt.target);
+                var id = evt.target.getAttribute("data-id");
+                console.log(`id on click: ${id}`);
+                if(id){
+                    mostrarAyudaRiesgo(id);
+                }
+            });
 
         });
 
 
     </script>
-
+    
     <script src="scripts/dom-to-image.min.js"></script>
     <script src="scripts/ol.js"></script>
     <script src="scripts/map.js"></script>
     <script src="scripts/script.js"></script>
-</body>
+    <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
 
 </html>
