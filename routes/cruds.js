@@ -1188,7 +1188,6 @@ module.exports = {
         } //end else
     }, //end deleteNotificacion
 
-<<<<<<< HEAD
     getAyudaRiesgo : (req, res)=>{
         //if(req.session.value != 1)
         //{
@@ -1216,7 +1215,6 @@ module.exports = {
         //} //end else
 
     },
-=======
     sendNotificacionFormulario: (req, res)=>
     {
         var notificaciones = [];
@@ -1331,7 +1329,6 @@ module.exports = {
             }) //end selectInformeIRSSAS
         } //end else
     },//end getInformeUsuarioGeneral
->>>>>>> db8140060434f2339afa127e8ff5bc2f3c4aacf1
 };
 
 function borrarAsadasAsociaciones(res, data, next){

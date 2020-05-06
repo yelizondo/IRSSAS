@@ -26,13 +26,9 @@ const PORT = process.env.PORT || 8000
 
 //llamar funciones de controller.js
 
-<<<<<<< HEAD
-const {getCrudComponente, saveComponente, getCrudSubcomponente, saveSubComponente, getCrudIndicador, getIndicador, deleteIndicador, updateIndicador, newIndicador, createIndicador, getCrudAsadasR,getCrudAsadasU, getPresentAsada, saveAsada, newAsada, createAsada, deleteAsada, crudFormularios, sendForm, getCrudUsuario, saveUsuario, getUsuariosAsadas,setUsuariosAsada, guardarFormulario, cargarFormulario, getContacto, updateEstado, changePassword,forgetPassword, getListaAsociaciones, nuevaAsociacion, nuevaAsociacionGuardar, editarAsociacion, editarAsociacionGuardar, eliminarAsociacion, sendSolicitudRegistroAsada, aceptarRechazarSolicitudRegistroAsada, getAyudaPregunta, deleteNotificacion, getAyudaRiesgo} = require('./routes/cruds');
+const {getCrudComponente, saveComponente, getCrudSubcomponente, saveSubComponente, getCrudIndicador, getIndicador, deleteIndicador, updateIndicador, newIndicador, createIndicador, getCrudAsadasR,getCrudAsadasU, getPresentAsada, saveAsada, newAsada, createAsada, deleteAsada, crudFormularios, sendForm, getCrudUsuario, saveUsuario, getUsuariosAsadas,setUsuariosAsada, guardarFormulario, cargarFormulario, getContacto, updateEstado, changePassword,forgetPassword, getListaAsociaciones, nuevaAsociacion, nuevaAsociacionGuardar, editarAsociacion, editarAsociacionGuardar, eliminarAsociacion, sendSolicitudRegistroAsada, aceptarRechazarSolicitudRegistroAsada, getAyudaPregunta, deleteNotificacion, getAyudaRiesgo, getInformeUsuarioGeneral} = require('./routes/cruds');
 const {getHomePage, login, getMain, getVisor, getComponente, logout, getSites, grafico, getRiesgo, getAsada, getInfoGeneral, generarInforme, histFormulario, getAnno, getRespuestas, comparaMapas, statsComponentes,statsSubcomponentes, getCantones, getDistritos, getEstadisticas, getMapa, getManualData, getManualUsuario, getManualDataDescargar, getRutas, getRutasData, solicitudRegistroAsada, validarUsuario, getVerSolicitudRegistroAsada,getEstadisticasGenerales} = require('./routes/controller');
-=======
-const {getCrudComponente, saveComponente, getCrudSubcomponente, saveSubComponente, getCrudIndicador, getIndicador, deleteIndicador, updateIndicador, newIndicador, createIndicador, getCrudAsadasR,getCrudAsadasU, getPresentAsada, saveAsada, newAsada, createAsada, deleteAsada, crudFormularios, sendForm, getCrudUsuario, saveUsuario, getUsuariosAsadas,setUsuariosAsada, guardarFormulario, cargarFormulario, getContacto, updateEstado, changePassword,forgetPassword, getListaAsociaciones, nuevaAsociacion, nuevaAsociacionGuardar, editarAsociacion, editarAsociacionGuardar, eliminarAsociacion, sendSolicitudRegistroAsada, aceptarRechazarSolicitudRegistroAsada, getAyudaPregunta, deleteNotificacion, getInformeUsuarioGeneral} = require('./routes/cruds');
-const {getHomePage, login, getMain, getVisor, getComponente, logout, getSites, grafico, getRiesgo, getAsada, getInfoGeneral, generarInforme, histFormulario, getAnno, getRespuestas, comparaMapas, statsComponentes,statsSubcomponentes, getCantones, getDistritos, getEstadisticas, getMapa, getManualData, getManualUsuario, getManualDataDescargar, getRutas, getRutasData, solicitudRegistroAsada, validarUsuario, getVerSolicitudRegistroAsada, getEstadisticasGenerales} = require('./routes/controller');
->>>>>>> db8140060434f2339afa127e8ff5bc2f3c4aacf1
+
 
 //conexion de BD
 /*
@@ -154,13 +150,9 @@ app.get('/verSolicitudRegistroAsada', getVerSolicitudRegistroAsada);
 app.post('/verSolicitudRegistroAsada/respuesta', aceptarRechazarSolicitudRegistroAsada);
 app.get('/getAyudaPregunta', getAyudaPregunta);
 app.post('/deleteNotificacion', deleteNotificacion);
-<<<<<<< HEAD
 app.get('/verEstadisticasGenerales', getEstadisticasGenerales);
 app.get('/getAyudaRiesgo/:idRiesgo', getAyudaRiesgo);
-=======
-app.get('/verEstadisticasGenerales', getEstadisticasGenerales)
 app.post('/getInformeUsuarioGeneral', getInformeUsuarioGeneral)
->>>>>>> db8140060434f2339afa127e8ff5bc2f3c4aacf1
 
 // llamada al puerto 
 app.listen(PORT, () => {
