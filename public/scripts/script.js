@@ -25,41 +25,59 @@ function graficoAranna()
 
 function graficoNuevo (asada = "")
 {
-	return new Chart(document.getElementById("radar-chart"+asada), {
+	return new Chart(document.getElementById("radar-chart"+asada),
+	{
 		type: (document.getElementById ("tipoGrafico") == null ? "bar" : document.getElementById ("tipoGrafico").value),
-		data: {
-		labels: null,
-	
-		datasets: [
-			{
-			label: null,
-			fill: true,
-			backgroundColor: "rgba(25,61,102,0.2)",
-			borderColor: "rgba(25,61,102,1)",
-			pointBorderColor: "#fff",
-			pointBackgroundColor: "rgba(179,181,198,1)",
-			pointRadius: 6,
-			pointHoverRadius: 10,
-			data: null
-			}]
-	
+		data:
+		{
+			labels: null,
+		
+			datasets:
+			[
+				{
+					label: null,
+					fill: true,
+					backgroundColor: "rgba(25,61,102,0.2)",
+					borderColor: "rgba(25,61,102,1)",
+					pointBorderColor: "#fff",
+					pointBackgroundColor: "rgba(179,181,198,1)",
+					pointRadius: 8,
+					pointHoverRadius: 12,
+					data: null,
+				}
+			],
 		},
-		options: {
-			title: {
+		options:
+		{
+			title:
+			{
 				display: true,
 				text: 'Nivel de Riesgo de la ASADA'
 			},
-			scale: //Extraido de: https://stackoverflow.com/questions/39249722/set-min-max-and-number-of-steps-in-radar-chart-js
+			scales: tipoGrafico != null && tipoGrafico.value == "radar" ? {} :
 			{
-				ticks:
-				{
-					beginAtZero: true,
-					max: 100,
-					min: 0,
-					stepSize: 10
-				}
-			}
-	}});
+				yAxes:
+				[
+					{
+						display: true,
+						ticks:
+						{
+							beginAtZero: true,
+							steps: 10,
+							max: 100
+						}
+					}
+				]
+			},
+		}
+	});
+}
+
+function cambiarGrafico()
+{
+	grafico.destroy();
+	grafico = graficoNuevo ();
+	graficoAranna();
 }
 
 function presentarAsada(){
