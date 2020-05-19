@@ -46,7 +46,7 @@
                             <input id="riesgo" type="number" disabled>
                             <br>
                             <br>
-                            <label for="tipoRiesgo">Nivel de riesgo</label>
+                            <label for="tipoRiesgo">Nivel de riesgo <i class="glyphicon glyphicon-question-sign risk-help"  onclick = mostrarAyuda() ></i></label>
                             <p style="color: black;" id="tipoRiesgo"></p>
                         </div>
                         <div>
@@ -110,5 +110,74 @@
                 }
             });}
         </script>
+
+        <script type="text/javascript">
+            function mostrarAyuda(){
+                var riesgo = document.getElementById("tipoRiesgo").innerHTML
+                console.log(riesgo);
+                if(riesgo == "Muy Alto"){
+                    mostrarAyudaRiesgo(1);
+                }
+                if(riesgo == "Alto"){
+                    mostrarAyudaRiesgo(2);
+                }
+                if(riesgo == "Intermedio"){
+                    mostrarAyudaRiesgo(3);
+                }
+                if(riesgo == "Bajo"){
+                    mostrarAyudaRiesgo(4);
+                }
+                if(riesgo == "Muy Bajo"){
+                    mostrarAyudaRiesgo(5);
+                }
+            }
+        </script>
+        <script type="text/javascript">
+
+            var ayudasRiesgo = {};
+            function mostrarAyudaRiesgo(idRiesgo)
+            {
+                if(ayudasRiesgo[idRiesgo] != undefined)
+                {
+                    console.log(idRiesgo),
+                    Swal.fire(
+                    {
+                        title: '',
+                        icon: 'info',
+                        text: ayudasRiesgo[idRiesgo],
+                        confirmButtonColor: '#1D2D51'
+                    }); //end sweetAyuda
+                } //end if
+                else
+                {
+                    console.log(idRiesgo),
+                    Swal.fire(
+                    {
+                        title: "Cargando...",
+                        allowOutsideClick: () => !Swal.isLoading(),
+                        onBeforeOpen: ()=>
+                        {
+                            $.get(`/getAyudaRiesgo/${idRiesgo}`,{},function(data){})
+                            .done(function(ayuda){
+                                console.log(ayuda);
+                                ayudasRiesgo[idRiesgo] = ayuda.ayuda;
+                                Swal.fire(
+                                {
+                                    title: ayuda.error ? 'Error' : '',
+                                    icon: ayuda.error ? 'error' : 'info',
+                                    html: ayuda.error ? 'Ocurrió un error al conseguir la información' : `${ayuda.ayuda}`,
+                                    confirmButtonColor: '#1D2D51'
+                                }); //end sweetAyuda
+                            })
+                            
+                            
+                        } //end onBeforeOpen
+                    }); //end sweetLoading
+                } //end else
+            }
+            
+        </script>
+         <!-- Sweetalert -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
     </body>
 </html>

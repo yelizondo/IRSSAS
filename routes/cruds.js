@@ -1188,6 +1188,33 @@ module.exports = {
         } //end else
     }, //end deleteNotificacion
 
+    getAyudaRiesgo : (req, res)=>{
+        //if(req.session.value != 1)
+        //{
+        //    res.status(402).send("Not authorized");
+        //} //end if
+        //else
+        //{
+            /* console.log("Estoy en getayudaRiesgo");
+            res.status(200).send({"error": false, "ayuda": "Hola"}); */
+            var selectAyudaRiesgo = "select AYUDA from AYUDARIESGO where ID_RIESGO = ?;";
+            db.query(selectAyudaRiesgo, [req.params.idRiesgo], function(err, rows, fields)
+            {
+                if(err)
+                {
+                    console.log('getAyudaRiesgo. Error while performing selectAyudaRiesgo.\n' + err);
+                    res.status(400).send({"error": true});
+                } //end if
+                else
+                {
+                    console.log(rows[0].ayuda);
+                    res.status(200).send({"error": false, "ayuda": rows[0].AYUDA});
+                    
+                } //end else
+            }); //end selectAyudaRiesgo
+        //} //end else
+
+    },
     sendNotificacionFormulario: (req, res)=>
     {
         var notificaciones = [];

@@ -1,21 +1,84 @@
         
         <div id="divbutton" style=" position: absolute; bottom: 6px; right: 8px;">
-                <button type="button" id="buttonrisk" class="btn btn-info navbar-btn">
-                                <i class="glyphicon glyphicon-leaf"></i>
-                                <span></span>
-                </button>
-        </div>
+            <button type="button" id="buttonrisk" class="btn btn-info navbar-btn">
+                            <i class="glyphicon glyphicon-leaf"></i>
+                            <span></span>
+            </button>
+    </div>
 
-        <div id="divrisk" style="border-radius: 20px; width: 200px; background-color: darkgray; position: absolute; bottom: 0px; right: 0px;">
-        <ul style="list-style-type: square;">
-        <li style="list-style-type: none; color: black;">Nivel de Riesgo</li>
-        <br>
-        <li style="color: rgb(234, 77, 70);">Muy Alto</li>
+    <div id="divrisk" style="border-radius: 20px; width: 200px; background-color: darkgray; position: absolute; bottom: 0px; right: 0px;">
+    <ul style="list-style-type: square;">
+    <li style="list-style-type: none; color: black;">Nivel de Riesgo</li>
+    <br>
+    <li class="risk-help" data-id="<%=1%>" style="color: rgb(234, 77, 70);">Muy Alto <i data-id="<%=1%>" class="glyphicon glyphicon-question-sign risk-help" ></i></li>
+    
 
-        <li style="color: rgb(232, 215, 75);">Alto</li>
-        <li style="color: rgb(72, 118, 90);">Intermedio</li>
+    <li class="risk-help" data-id="<%=2%>" style="color: rgb(232, 215, 75);">Alto <i data-id="<%=2%>" class="glyphicon glyphicon-question-sign risk-help"  ></i></li>
+    <li class="risk-help" data-id="<%=3%>" style="color: rgb(72, 118, 90);">Intermedio <i data-id="<%=3%>" class="glyphicon glyphicon-question-sign risk-help"  ></i></li>
 
-        <li style="color: rgb(22, 155, 220);">Bajo</li>
-        <li style="color: rgb(22, 87, 205);">Muy bajo</li>
-        </ul>
-        </div>
+    <li class="risk-help" data-id="<%=4%>" style="color: rgb(22, 155, 220);">Bajo <i data-id="<%=4%>" class="glyphicon glyphicon-question-sign risk-help" ></i></li>
+    <li class="risk-help" data-id="<%=5%>" style="color: rgb(22, 87, 205);">Muy bajo <i data-id="<%=5%>" class="glyphicon glyphicon-question-sign risk-help"></i></li>
+    </ul>
+    </div>
+
+
+    <script type="text/javascript">
+
+            var ayudasRiesgo = {};
+            function mostrarAyudaRiesgo(idRiesgo)
+            {
+                if(ayudasRiesgo[idRiesgo] != undefined)
+                {
+                    console.log(idRiesgo),
+                    Swal.fire(
+                    {
+                        title: '',
+                        icon: 'info',
+                        text: ayudasRiesgo[idRiesgo],
+                        confirmButtonColor: '#1D2D51'
+                    }); //end sweetAyuda
+                } //end if
+                else
+                {
+                    console.log(idRiesgo),
+                    Swal.fire(
+                    {
+                        title: "Cargando...",
+                        allowOutsideClick: () => !Swal.isLoading(),
+                        onBeforeOpen: ()=>
+                        {
+                            $.get(`/getAyudaRiesgo/${idRiesgo}`,{},function(data){})
+                            .done(function(ayuda){
+                                console.log(ayuda);
+                                ayudasRiesgo[idRiesgo] = ayuda.ayuda;
+                                Swal.fire(
+                                {
+                                    title: ayuda.error ? 'Error' : '',
+                                    icon: ayuda.error ? 'error' : 'info',
+                                    html: ayuda.error ? 'Ocurrió un error al conseguir la información' : `${ayuda.ayuda}`,
+                                    confirmButtonColor: '#1D2D51'
+                                }); //end sweetAyuda
+                            })
+                            
+                            /* Swal.showLoading();
+                            $.get (`/getAyudaRiesgo/${idRiesgo}`,{}, function(ayuda)
+                            {
+                                console.log("Ya hice el get"),
+                                ayudasRiesgo[idRiesgo] = ayuda
+                                Swal.fire(
+                                {
+                                    title: ayuda.error ? 'Error' : '',
+                                    icon: ayuda.error ? 'error' : 'info',
+                                    html: ayuda.error ? 'Ocurrió un error al conseguir la información' : `${ayuda.ayuda}`,
+                                    confirmButtonColor: '#1D2D51'
+                                }); //end sweetAyuda
+                            }); */ //end getAyudaRiesgo
+                        } //end onBeforeOpen
+                    }); //end sweetLoading
+                } //end else
+            }
+            
+        </script>
+        <!-- Sweetalert -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+        <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
