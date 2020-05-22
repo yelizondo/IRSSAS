@@ -31,22 +31,11 @@ const {getHomePage, login, getMain, getVisor, getComponente, logout, getSites, g
 
 
 //conexion de BD
-/*
-  host     : process.env.RDS_HOSTNAME,
-  user     : process.env.RDS_USERNAME,
-  password : process.env.RDS_PASSWORD,
-  port     : process.env.RDS_PORT
-    host     : 'aa1p73vf0lmbvdr.cyzdjp7x4zfl.us-east-2.rds.amazonaws.com',
-    user     : 'joseph',
-    password : '12345678',
-    database : 'ebdb',
-    port : '3306'
-*/
 const db = mysql.createConnection ({
-    host     : 'localhost',//35.184.65.113
+    host     : '35.184.65.113',//35.184.65.113
     user     : 'root',
-    password : 'mysql',//jdsakfidsajfklsñad56798416374
-    database : 'prueba',//asadas
+    password : 'jdsakfidsajfklsñad56798416374',//jdsakfidsajfklsñad56798416374
+    database : 'asadas_test',//asadas
     port : '3306'
 });
 
