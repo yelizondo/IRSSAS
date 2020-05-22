@@ -43,10 +43,10 @@ const {getHomePage, login, getMain, getVisor, getComponente, logout, getSites, g
     port : '3306'
 */
 const db = mysql.createConnection ({
-    host     : '35.184.65.113',//35.184.65.113
+    host     : 'localhost',//35.184.65.113
     user     : 'root',
-    password : 'jdsakfidsajfklsñad56798416374',//jdsakfidsajfklsñad56798416374
-    database : 'asadas_test',//asadas
+    password : 'mysql',//jdsakfidsajfklsñad56798416374
+    database : 'prueba',//asadas
     port : '3306'
 });
 
@@ -55,6 +55,7 @@ db.connect((err) => {
         throw err;
     }
     console.log('Connected to database');
+    db.query("SET SESSION sql_mode = 'STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION';")
 });
 global.db = db;
 
