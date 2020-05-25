@@ -8,6 +8,7 @@ const mysql = require('mysql');
 const path = require('path');
 const app = express();
 var nodemailer = require('nodemailer');
+var schedule = require('node-schedule');
 
 var transporter = nodemailer.createTransport({
   service: 'Gmail',
@@ -27,7 +28,7 @@ const PORT = process.env.PORT || 8000
 //llamar funciones de controller.js
 
 const {getCrudComponente, saveComponente, getCrudSubcomponente, saveSubComponente, getCrudIndicador, getIndicador, deleteIndicador, updateIndicador, newIndicador, createIndicador, getCrudAsadasR,getCrudAsadasU, getPresentAsada, saveAsada, newAsada, createAsada, deleteAsada, crudFormularios, sendForm, getCrudUsuario, saveUsuario, getUsuariosAsadas,setUsuariosAsada, guardarFormulario, cargarFormulario, getContacto, updateEstado, changePassword,forgetPassword, getListaAsociaciones, nuevaAsociacion, nuevaAsociacionGuardar, editarAsociacion, editarAsociacionGuardar, eliminarAsociacion, sendSolicitudRegistroAsada, aceptarRechazarSolicitudRegistroAsada, getAyudaPregunta, deleteNotificacion, getAyudaRiesgo, getInformeUsuarioGeneral} = require('./routes/cruds');
-const {getHomePage, login, getMain, getVisor, getComponente, logout, getSites, grafico, getRiesgo, getAsada, getInfoGeneral, generarInforme, histFormulario, getAnno, getRespuestas, comparaMapas, statsComponentes,statsSubcomponentes, getCantones, getDistritos, getEstadisticas, getMapa, getManualData, getManualUsuario, getManualDataDescargar, getRutas, getRutasData, solicitudRegistroAsada, validarUsuario, getVerSolicitudRegistroAsada,getEstadisticasGenerales} = require('./routes/controller');
+const {getHomePage, login, getMain, getVisor, getComponente, logout, getSites, grafico, getRiesgo, getAsada, getInfoGeneral, generarInforme, histFormulario, getAnno, getRespuestas, comparaMapas, statsComponentes,statsSubcomponentes, getCantones, getDistritos, getEstadisticas, getMapa, getManualData, getManualUsuario, getManualDataDescargar, getRutas, getRutasData, solicitudRegistroAsada, validarUsuario, getVerSolicitudRegistroAsada,getEstadisticasGenerales,generarInformeMejora, getInformeMejora} = require('./routes/controller');
 
 
 //conexion de BD
@@ -154,8 +155,14 @@ app.get('/verEstadisticasGenerales', getEstadisticasGenerales);
 app.get('/getAyudaRiesgo/:idRiesgo', getAyudaRiesgo);
 app.post('/getInformeUsuarioGeneral', getInformeUsuarioGeneral)
 
+app.get('/generarInformeMejora', generarInformeMejora)
+app.get('/generarInformeMejora/getInforme/:idAsada', getInformeMejora)
+
 // llamada al puerto 
 app.listen(PORT, () => {
     console.log(`Server running on port: ${PORT}`);
+    var correosRecordatorio = schedule.scheduleJob('15 19 * * *', function(){
+      console.log('The answer to life, the universe, and everything!');
+    });;
 });
 

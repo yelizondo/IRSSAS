@@ -73,9 +73,70 @@ module.exports = {
 		}
 		else
 			res.redirect('/');
-	},
-	
+    },
+    
+    
+    //Redirecciona a la página de informe de mejora dependiendo de si es admin o super usuario
+    generarInformeMejora: (req, res) => {
+        console.log("Usuario");
+        console.log(req.session.usuario);
+		if(req.session.value==1){
 
+            let query = "select p.ID as PROVINCIA_ID, c.ID as CANTON_ID, d.ID as DISTRITO_ID, a.*,p.Nombre as Provincia,c.Nombre as Canton,d.Nombre as Distrito,  ai.Ubicacion,ai.Telefono,ai.Poblacion,ai.Url,ai.cantAbonados from ASADA a left join ASADAINFO ai on a.ID=ai.Asada_ID inner join DISTRITO d on a.distrito_id=d.Codigo inner join CANTON c on d.Canton_ID=c.ID inner join PROVINCIA p on p.ID=c.Provincia_ID where d.Provincia_ID=p.ID;";
+            let query2 = "select * from PROVINCIA  order by nombre;"
+            let selectMejoras = "select ID_INDICADOR, ID_TEXTO_MEJORA, TEXTO_MEJORA, ixa.Texto, ind.Nombre from AYUDAXINDICADOR axi inner join INDICADORXASADA ixa on (axi.ID_INDICADOR = ixa.INDICADOR_ID) inner join INDICADOR ind on (ind.ID = axi.ID_INDICADOR) WHERE ixa.ASADA_ID = ? and ixa.Valor >= axi.LIMITE_INFERIOR and ixa.Valor <= axi.LIMITE_SUPERIOR;";
+			db.query(query, function(err,rows,fields){
+				db.query(query2, function(err2,rows2,fields2){
+                    db.query(selectMejoras,[req.session.usuario.Asada_ID], function(err3,rows3,fields){
+                        console.log("rows3");
+                        console.log(rows3);
+                        if(!err){
+                            if(req.session.usuario.Tipo == "2")
+                            {
+                                
+                                res.render('pages/generarInformeMejoraAsada.ejs',{"usuario": req.session.usuario, "asadas":rows, "prov": rows2, "mejoras" : rows3, "numAsada" : req.session.usuario.Asada_ID });
+                            }
+                            else{
+                                
+                                res.render('pages/generarInformeMejora.ejs',{"usuario": req.session.usuario, "asadas":rows, "prov": rows2, "mejoras" : rows3, "numAsada" : req.session.usuario.Asada_ID}); 
+                            }
+                            
+                        }
+                        else{
+                            console.log('generarInforme. Error while performing Query.');
+                            res.redirect('/');
+                        }
+                     });
+                 });
+             }); 
+		}
+		else
+			res.redirect('/');
+	},
+    getInformeMejora: (req, res) => {
+		if(req.session.value==1){
+            let selectMejoras = "select ID_INDICADOR, ID_TEXTO_MEJORA, TEXTO_MEJORA, ixa.Texto, ind.Nombre from AYUDAXINDICADOR axi inner join INDICADORXASADA ixa on (axi.ID_INDICADOR = ixa.INDICADOR_ID) inner join INDICADOR ind on (ind.ID = axi.ID_INDICADOR) WHERE ixa.ASADA_ID = ? and ixa.Valor >= axi.LIMITE_INFERIOR and ixa.Valor <= axi.LIMITE_SUPERIOR;";
+            //let indicadores = "select ID, Nombre from INDICADOR"
+            parametro = req.params.idAsada;
+            paramSubs = parametro.substring(1);
+            db.query(selectMejoras,[paramSubs], function(err,rows,fields){
+               // db.query(indicadores, function(err2, rows2, fields){
+
+                    if(!err){
+                        res.send({"error": false, "mejoras": rows});
+                        
+                    }
+                    else{
+                        console.log('generarInformeMejora. Error while performing Query.');
+                        res.redirect('/');
+                    }
+                //});   
+            });
+
+		}
+		else
+			res.redirect('/');
+	},
 
         
     //Función enviar datos del mapa al script map.js del frontend
@@ -706,7 +767,7 @@ module.exports = {
         }) //end selectAsadas
     } //end getEstadisticasGenerales
 };
-function getTipoRiesgo (valor)
+function getTipoRiesgo(valor)
 {
     
     if (valor < 47.0)

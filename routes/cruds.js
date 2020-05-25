@@ -1200,6 +1200,7 @@ module.exports = {
             var selectAyudaRiesgo = "select AYUDA from AYUDARIESGO where ID_RIESGO = ?;";
             db.query(selectAyudaRiesgo, [req.params.idRiesgo], function(err, rows, fields)
             {
+                console.log(req.params.idRiesgo);
                 if(err)
                 {
                     console.log('getAyudaRiesgo. Error while performing selectAyudaRiesgo.\n' + err);
