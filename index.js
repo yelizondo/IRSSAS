@@ -32,17 +32,6 @@ const {getHomePage, login, getMain, getVisor, getComponente, logout, getSites, g
 
 
 //conexion de BD
-/*
-  host     : process.env.RDS_HOSTNAME,
-  user     : process.env.RDS_USERNAME,
-  password : process.env.RDS_PASSWORD,
-  port     : process.env.RDS_PORT
-    host     : 'aa1p73vf0lmbvdr.cyzdjp7x4zfl.us-east-2.rds.amazonaws.com',
-    user     : 'joseph',
-    password : '12345678',
-    database : 'ebdb',
-    port : '3306'
-*/
 const db = mysql.createConnection ({
     host     : '35.184.65.113',//35.184.65.113
     user     : 'root',
@@ -56,6 +45,7 @@ db.connect((err) => {
         throw err;
     }
     console.log('Connected to database');
+    db.query("SET SESSION sql_mode = 'STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION';")
 });
 global.db = db;
 
