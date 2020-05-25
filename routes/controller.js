@@ -93,7 +93,7 @@ module.exports = {
                         if(!err){
                             if(req.session.usuario.Tipo == "2")
                             {
-                                
+                                console.log(req.session.usuario);
                                 res.render('pages/generarInformeMejoraAsada.ejs',{"usuario": req.session.usuario, "asadas":rows, "prov": rows2, "mejoras" : rows3, "numAsada" : req.session.usuario.Asada_ID });
                             }
                             else{
@@ -267,10 +267,14 @@ module.exports = {
         {
             if(req.session.usuario.Tipo == 1)
             {
+                
                 let notificacionesSolicitud = "select id, date(fechahora) as fecha, time(fechahora) as hora, nombre, pendiente from SOLICITUDASADA order by fechahora desc;"
                 // execute query
+                
+                
                 db.query(notificacionesSolicitud, function(err, rows, fields)
                 {
+                
                     if(err)
                     {
                         console.log("getMain. Error while performing query.\n" + err);
@@ -278,14 +282,19 @@ module.exports = {
                     }
                     else
                     {
+                        
                         res.render('pages/main.ejs', {"usuario": req.session.usuario, "notificaciones": rows});
                     }
                 })
             }
             else
             {
+                let notificacionesAdmin = "Select ID, date(FECHAHORA) as fecha, time(FECHAHORA) as hora, DETALLES, NOMBRE_USUARIO from NOTIFICACIONES_ADMIN where NOMBRE_USUARIO ='"+req.session.usuario.USUARIO+"';"
+                db.query(notificacionesAdmin, function(err2,rows2, fields)
+                {
+                    res.render('pages/mainAsada.ejs', {"usuario": req.session.usuario, "notificaciones":rows2});
+                });
                 
-                res.render('pages/mainAsada.ejs', {"usuario": req.session.usuario});
             }
         }
         else
@@ -765,8 +774,57 @@ module.exports = {
                 } //end else
             }); //end selectProvincias
         }) //end selectAsadas
-    } //end getEstadisticasGenerales
+    }, //end getEstadisticasGenerales
+    sendCorreosNotificacionesAdmin: () =>
+    {
+        let selectCorreos = "Select Nombre, Usuario as Correo from USUARIO Where Tipo = 2; "
+        var detalle = "Se le recuerda llenar el formulario correspondiente para este año"
+        db.query(selectCorreos, function(err, rows, fields)
+        {
+            rows.forEach(function(lineausuario)
+            {
+                if(lineausuario.Correo != null)
+                {
+                    db.query("insert into NOTIFICACIONES_ADMIN (NOMBRE_USUARIO, DETALLES) VALUES ('"+lineausuario.Correo +"','"+detalle+"');");
+                    var mailOptions = {
+                        from: 'irssastec@gmail.com',
+                        to: lineausuario.Correo,
+                        subject: 'Recordatorio de llenado de formulario',
+                        text: detalle
+                    };
+                    sendEmailAux(mailOptions);
+                }             
+            }); 
+                   /* var mailOptions = {
+                        from: 'irssastec@gmail.com',
+                        to: 'nahomymoya5@gmail.com',
+                        subject: 'Recordatorio de lenado de formulario',
+                        text: detalle
+                    };
+                    sendEmailAux(mailOptions);   */     
+        })
+    }
 };
+
+async function sendEmailAux(mailOptions)
+{
+    const result = await sendEmail(mailOptions);
+}
+function sendEmail(mailOptions){
+
+    return new Promise(function (resolve, reject){
+       transporter.sendMail(mailOptions, (err, info) => {
+          if (err) {
+             console.log("error: ", err);
+             reject(err);
+          } else {
+             console.log(`Mail sent successfully!`);
+             resolve(info);
+          }
+       });
+    });
+ 
+ }
 function getTipoRiesgo(valor)
 {
     

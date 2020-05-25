@@ -45,14 +45,16 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr class="row">
-                                    <td class="col-xs-1.5"></td>
-                                    <td class="col-xs-1.5"></td>
-                                    <td class="col-xs-5"></td>
-                                    <td class="col-xs-2">Pendiente</td>
-                                    <td class="col-xs-1">Ver</td>
-                                    <td class="col-xs-1"><i class="glyphicon glyphicon-trash"></i></td>
-                                </tr>
+                                <%notificaciones.forEach(function(solicitud){%>
+                                    <tr class="row">
+                                        <td class="col-xs-1.5"><%=solicitud.fecha.getDate() < 10 ? "0" + solicitud.fecha.getDate() : solicitud.fecha.getDate()%>/<%=solicitud.fecha.getMonth() + 1 < 10 ? "0" + (solicitud.fecha.getMonth() + 1) : solicitud.fecha.getMonth() + 1%>/<%=solicitud.fecha.getFullYear()%></td>
+                                        <td class="col-xs-1.5"><%=solicitud.hora%></td>
+                                        <td class="col-xs-5"> <%=solicitud.DETALLES%></td>
+                                        <td class="col-xs-1.5"> pendiente</td>
+                                        <td class="col-xs-1.5"> ver</td>
+                                        <td class="col-xs-1"><i class="glyphicon glyphicon-trash"></i></td>
+                                    </tr>
+                                    <%});%>
                             </tbody>
                         </table>
                     </div>
