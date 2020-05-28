@@ -618,55 +618,76 @@ module.exports = {
         }
     },
 
-    sendForm: (req, res) => {
-        var contador = 0.0;
-        db.query("select * from LINEAL;", function (err, rows, fields) {
-            if (!err) {
-                req.body.asada = req.body.asada === undefined ? req.session.usuario.Asada_ID : req.body.asada;
-                IDs = [];
-                var lista = req.body.ocultos.split(",");
-                rows.forEach(function (row) {
-                    IDs.push(row.INDICADOR_ID + "");
-                }) //end forEach
-                keys = Object.keys(req.body);
-                keys.pop();
-                keys.pop();
-                keys.pop();
-
-                db.query("insert into HISTORICORESPUESTA select * from INDICADORXASADA where Asada_ID = '" + req.body.asada + "';");
-                db.query("delete from HISTORICORESPUESTA where Asada_ID = '" + req.body.asada + "' and anno = '" + req.body.anno + "';");
-                db.query("delete from INDICADORXASADA where Asada_ID = '" + req.body.asada + "';");
-
-                var query = "insert into INDICADORXASADA (anno, Indicador_ID, Asada_ID, Valor, Texto) values ";
-                for (var i = 0; i < keys.length; i++) {
-                    if (i > 0) {
-                        query += ", ";
-                    }
-                    query += "('" + req.body.anno + "','" + keys[i] + "','" + req.body.asada + "','";
-                    var x = IDs.indexOf(keys[i]);
-                    if (x != -1) {
-                        var exp = parseFloat(req.body[keys[i]]) * parseFloat(rows[x].Pendiente) + parseFloat(rows[x].Ordenada)
-                        query += "" + (1 / (1 + Math.pow(Math.E, exp)));
-                    } //end if
-                    else {
-                        query += req.body[keys[i]]
-                    } //end else
-                    query += "','" + lista[i + 1] + "')"
-                } //end for
-                query += ";"
-                db.query(query, function (err, rows, fields) {
-                    if (err)
+    sendForm: (req, res) =>
+    {
+        db.beginTransaction(function(error)
+        {
+            db.query("select * from LINEAL;", function (err, rows, fields)
+            {
+                if (!err)
+                {
+                    req.body.asada = req.body.asada === undefined ? req.session.usuario.Asada_ID : req.body.asada;
+                    IDs = [];
+                    var lista = req.body.ocultos.split(",");
+                    rows.forEach(function (row) {
+                        IDs.push(row.INDICADOR_ID + "");
+                    }) //end forEach
+                    keys = Object.keys(req.body);
+                    keys.pop();
+                    keys.pop();
+                    keys.pop();
+                    keys.pop();
+                    keys.pop();
+                    keys.pop();
+    
+                    db.query("insert into HISTORICORESPUESTA select * from INDICADORXASADA where Asada_ID = '" + req.body.asada + "';");
+                    db.query("delete from HISTORICORESPUESTA where Asada_ID = '" + req.body.asada + "' and anno = '" + req.body.anno + "';");
+                    db.query("delete from INDICADORXASADA where Asada_ID = '" + req.body.asada + "';");
+                    
+                    var query = "insert into INDICADORXASADA (anno, Indicador_ID, Asada_ID, Valor, Texto) values ";
+                    for (var i = 0; i < keys.length; i++)
                     {
-                        console.log("sendForm. Error while performing query.\n" + err);
-                    } //end if
-                    res.redirect("/grafico?asada=" + req.body.asada);
-                }); //end query
-            } //end if
-            else {
-                res.redirect('/');
-            }
-        }); //end query
-    },
+                        if (i > 0) {
+                            query += ", ";
+                        }
+                        query += "('" + req.body.anno + "','" + keys[i] + "','" + req.body.asada + "','";
+                        var x = IDs.indexOf(keys[i]);
+                        if (x != -1)
+                        {
+                            var valor = rows[x].INDICADOR_ID == 24 ? 100 - parseFloat(req.body[keys[i]]) : parseFloat(req.body[keys[i]])
+                            
+                            var exp = valor * parseFloat(rows[x].Pendiente) + parseFloat(rows[x].Ordenada)
+                            query += "" + (1 / (1 + Math.pow(Math.E, exp)));
+                        } //end if
+                        else
+                        {
+                            query += req.body[keys[i]]
+                        } //end else
+                        query += "','" + lista[i + 1] + "')"
+                    } //end for
+                    query += ";"
+                    db.query(query, function (err2, rows, fields)
+                    {
+                        if (err2)
+                        {
+                            db.rollback();
+                            console.log("sendForm. Error while performing query.\n" + err2 + '\n' + query);
+                        } //end if
+                        else
+                        {
+                            db.commit();
+                            res.redirect("/grafico?asada=" + req.body.asada);
+                        } //end else
+                    }); //end query
+                } //end if
+                else
+                {
+                    db.rollback();
+                    res.redirect('/');
+                } //end else
+            }); //end query
+        }); //end beginTransaction
+    }, //end sendForm
 
     saveUsuario: (req, res) => {
         if (req.session.value == 1) {

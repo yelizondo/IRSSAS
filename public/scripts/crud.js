@@ -452,7 +452,7 @@ function manejoFormulario (funcion)
 		valores.push (document.getElementsByName (i)[0].value);
 	}
 
-	var data = {"respuestas": valores, "indicadores": keys, "anno": document.getElementById ("anno").value, "asada": document.getElementById ("asada").value};
+	var data = {"respuestas": valores, "indicadores": keys, "anno": document.getElementById("anno").value, "asada": document.getElementById("asada").value};
 	if (data.asada == "")
 	{
 		alert ("Seleccione una asada");
