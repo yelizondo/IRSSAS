@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <% include ../partials/header %>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+    </head>
+
+    <body>
+
+        <div class="wrapper">
+            <!-- Sidebar Holder -->
+            <% include ../partials/latAdmin %>
+            <!-- Page Content Holder -->
+            <div id="content">
+
+                <nav class="navbar navbar-default">
+                    <div class="container-fluid">
+
+                        <div class="navbar-header">
+                            <button type="button" id="sidebarCollapse" class="btn btn-info navbar-btn">
+                                <i class="glyphicon glyphicon-leaf"></i>
+                                <span></span>
+                            </button>
+                            
+                        </div>
+
+                        <div style="float: right;">
+                            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                                <form action="/logout">
+                                    <button type="submit" class="btn btn-info navbar-btn">Cerrar sesión</button>
+                                </form>
+                            </div>       
+                        </div>
+
+                    </div>
+                    <div>
+                        <div class="form-group">
+                            <h3>Mi informe de Mejora</h3>
+                            <br>
+                            <textarea id="asadasInforme" rows=5 readonly style="max-width:auto; min-width:500px; resize:none;" hidden ></textarea>
+                        </div>
+                        <div id="prueba" class="present" style="height: 500px; overflow-y: scroll;"> 
+                            <%mejoras.forEach(function(mejora, index) {%>
+                                <h4><%=mejora.Nombre%></h4>
+                                <p><b>Mi respuesta:</b> <%=mejora.Texto%></p>
+                                <p><b>Recomendación:</b> <%=mejora.TEXTO_MEJORA%></p>     
+                            <%});%>              
+                        </div>
+                        <div>
+                            <button id="downloadpdf" class="btn btn-info navbar-btn" onclick="downloadInformeMejora();">Download PDF</button>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </div>
+
+        <!-- jQuery CDN -->		
+        <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+        <!-- Bootstrap Js CDN -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <!-- jQuery Custom Scroller CDN -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
+		<!-- JS PDF -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/0.9.0rc1/jspdf.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.0.272/jspdf.debug.js"></script>
+
+        <script type="text/javascript">
+            function displayMejora(){
+                var mejoras = '<%= mejoras %>';
+                var idAsada = '<%= numAsada %>'; 
+
+                var indicadores = ["<h4> Existe sistema de tratamiento individual de aguas negras en la comunidad</h4><br>" ,"<h4> Existe presencia de aguas grises en los caños de recolección de agua lluvia</h4><br>" ,"<h4> Población cuenta con alcantarillado pluvial</h4><br>" ,"<h4> La población tiene Planta de tratamiento de aguas residuales</h4><br>" ,"<h4> Porcentaje de  liquidez para invertir en mejoras del acueducto</h4><br>" ,"<h4> % Cobertura de recolección de residuos sólidos no valorizables</h4><br>" ,"<h4> Existe recolección de residuos valorizables </h4><br>" ,"<h4> Producción per cápita de residuos sólidos</h4><br>","<h4> Inversión anual en Gestión Integral de Residuos Sólidos por persona por año en el cantón ($/persona/año) </h4><br>","<h4> Inversión anual en la limpieza de vías y áreas comunes por persona en el cada cantón ($/persona/año) </h4><br>","<h4> La ubicación de la captación está en área protegida o en zona de conservación</h4><br>" ,"<h4> Está demarcada la zona de protección legalmente</h4><br>" ,"<h4> Se cuenta con información del balance hídrico</h4><br>" ,"<h4> Consumo promedio de agua de la comunidad expresado en unidades de litros por persona por día </h4><br>" ,"<h4> La ASADA posee plan de atención integral de riesgos</h4><br>" ,"<h4> Cuentan con programas para adaptación al cambio climático</h4><br>" ,"<h4> Posee registros de aforos de las fuentes de abastecimiento</h4><br>" ,"<h4> Se diagnóstica el riesgo en los componentes del acueducto mediante la herramienta SERSA </h4><br>","<h4> La ASADA posee sistema de desinfección </h4><br>","<h4> Posee planta potabilizadora </h4><br>","<h4> Posee la ASADA sello de calidad sanitaria</h4><br>" ,"<h4> Porcentaje (%) de Morosidad en el pago del servicio de agua</h4><br>" ,"<h4> Porcentaje (%) de agua no contabilizada </h4><br>" ,"<h4> Índice de Desarrollo Social en MIDEPLAN </h4><br>" ,"<h4> Posee distinción de Bandera Azul ecológica (en la comunidad, microcuencas y municipalidades)</h4><br>" ,"<h4> Los operadores han desarrollado programas de educación ambiental para la comunidad y los imparten regularmente (una vez al año)</h4><br>" ,"<h4> ¿Posee su acueducto riesgo de inundación</h4><br>" ,"<h4> Posee su acueducto riesgo de deslizamientos </h4><br>","<h4> Posee su acueducto riesgos volcánicos </h4><br>","<h4> Su acueducto está ubicado zonas sísmicas </h4><br>"];
+                var lorem = "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec dictum magna. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Praesent ut augue id purus egestas porta. Suspendisse potenti. Nam id aliquet eros, vel pretium risus. Sed at sem id libero maximus viverra et ut sapien. Fusce et venenatis nulla. Ut nec porta mi, in euismod nulla. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam convallis sodales augue. Pellentesque facilisis, quam quis porta commodo, purus tortor tempor sem, quis pharetra leo turpis at arcu. Quisque consequat, sapien non ornare congue, elit mi pellentesque est, vel elementum lectus erat vitae tortor. Suspendisse ex justo, pretium ut convallis non, congue a elit. </p><br>"
+                var count = 0;
+                textosMejora = "";
+                console.log(mejoras);
+                mejoras.forEach(element => {
+                    textosMejora = textosMejora + indicadores[count] + "<p>"+element.TEXTO_MEJORA+"</p><br>";
+			        count = count + 1;
+                });
+                $("#prueba").html("Holis"
+                /*
+                "<div id="+numAsada+">"+
+                "<h2>ASADA #" + values_list[0] + ": " + values_list[1] + "</h2><br>" 
+                + lorem + textosMejora +"</div>"*/
+                );
+            }
+        </script>
+        
+        <script type="text/javascript">
+            $(document).ready(function () {
+
+				$("#agregarAsada").hide();
+				$("#borrarAsada").hide();
+				$("#asadasInforme").hide();
+                $('#sidebarCollapse').on('click', function () {
+                    $('#sidebar, #content').toggleClass('active');
+                    $('.collapse.in').toggleClass('in');
+                    $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+                });
+
+                $("#divrisk").click(function(){
+                     $("#divrisk").toggle("slow","linear");
+                });
+
+                $("#buttonrisk").click(function(){
+                     $("#divrisk").toggle("slow","linear");
+                });
+                //displayMejora();
+                
+            });
+            
+        </script>
+        
+        <script src="scripts/script.js"></script>
+        <script src="scripts/getProvCantDist.js"></script>
+    </body>
+</html>
