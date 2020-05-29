@@ -560,13 +560,14 @@ module.exports = {
 
     crudFormularios: (req, res) => {
         if (req.session.value == 1) {
-            let query = "select i.ID as ID , Codigo , SUBCOMPONENTE_ID , MEDIDA_ID , Nombre , Valor, MINIMO, MAXIMO from INDICADOR i left join RANGOXINDICADOR ri on (i.ID = ri.INDICADOR_ID);";
-            let query2 = "select * from NOMINAL;";
+            let query = "select i.ID as ID , Codigo , SUBCOMPONENTE_ID , MEDIDA_ID , Nombre , Valor, MINIMO, MAXIMO from INDICADOR i left join RANGOXINDICADOR ri on (i.ID = ri.INDICADOR_ID) order by i.ID;";
+            let query2 = "select * from NOMINAL order by id;";
             let query3 = "select a.ID,a.Nombre,p.ID as Provincia,c.ID as Canton,d.ID as Distrito from ASADA a inner join DISTRITO d on a.distrito_id=d.Codigo inner join CANTON c on d.Canton_ID=c.ID inner join PROVINCIA p on p.ID=c.Provincia_ID where d.Provincia_ID=p.ID "
             let query4 = "select * from PROVINCIA  order by nombre;"
 
             if (req.session.usuario.Tipo == 2)
-                query3 += " and a.ID='" + req.session.usuario.Asada_ID + "' ;";
+                query3 += " and a.ID='" + req.session.usuario.Asada_ID + "' ";
+            query3 += " order by a.Nombre ;";    
             db.query(query, function (err, rows, fields) {
                 if (!err)
                 {
