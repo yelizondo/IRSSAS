@@ -45,7 +45,7 @@
                             <% if(usuario.Tipo == 1){%>
                                 <% include ../partials/filtroCantonDistProvAsada %>
                             <%}else{%>
-                                <input id="asada" type="text" value="<%=usuario.Asada_ID%>" hidden>
+                                <input id="asada" name="asada" type="text" value="<%=usuario.Asada_ID%>" hidden>
                             <%}%>
                             <label for="anno">Año</label>
                             <input class="form-control" type="number" required step="1" min="2000" id="anno" name="anno">
@@ -65,7 +65,7 @@
                                 </tr>
                                 <%indicadores.forEach(function(indicador, index) {%>
                                 <tr>
-                                    <td><%=indicador.Nombre%>
+                                    <td><%=indicador.ID%>. <%=indicador.Nombre%>
                                         <i class="glyphicon glyphicon-question-sign" onclick="mostrarAyudaPregunta(<%=indicador.ID%>)"></i></td>
                                     <%if(indicador.MEDIDA_ID==1){%>
                                     <td><select class="form-control hideinput" required name="<%=indicador.ID%>">
