@@ -346,7 +346,7 @@ function generarPDFInformeMejora(numAsada){
 									{
 										console.log(mejora);
 										textosMejora = textosMejora + 
-										"<p>"+mejora.TEXTO_MEJORA+"</p><br>";
+										"<p style='white-space: pre-line'>"+mejora.TEXTO_MEJORA+"</p><br>";
 										count = count + 1;
 									}
 									console.log(count);
