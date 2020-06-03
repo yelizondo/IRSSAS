@@ -2,7 +2,7 @@ module.exports = {
     // crear nueva asada
 
     getCrudAsadasR: (req, res) => {
-        if (req.session.value == 1) {
+        if (req.session.value == 1 && req.session.usuario.Tipo == 1) {
 
             let query = "select a.ID,a.Nombre,p.Nombre as Provincia,c.Nombre as Canton,d.Nombre as Distrito,ai.Ubicacion, a.Estado as Estado from ASADA a left join ASADAINFO ai on a.ID=ai.Asada_ID inner join DISTRITO d on a.distrito_id=d.Codigo inner join CANTON c on d.Canton_ID=c.ID inner join PROVINCIA p on p.ID=c.Provincia_ID where d.Provincia_ID=p.ID order by Provincia ASC, Canton ASC, Distrito ASC, a.Nombre ASC;";
             // execute query
@@ -655,9 +655,7 @@ module.exports = {
                         var x = IDs.indexOf(keys[i]);
                         if (x != -1)
                         {
-                            var valor = rows[x].INDICADOR_ID == 24 ? 100 - parseFloat(req.body[keys[i]]) : parseFloat(req.body[keys[i]])
-                            
-                            var exp = valor * parseFloat(rows[x].Pendiente) + parseFloat(rows[x].Ordenada)
+                            var exp = parseFloat(req.body[keys[i]]) * parseFloat(rows[x].Pendiente) + parseFloat(rows[x].Ordenada)
                             query += "" + (1 / (1 + Math.pow(Math.E, exp)));
                         } //end if
                         else

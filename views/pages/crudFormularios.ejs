@@ -66,7 +66,7 @@
                                 <%indicadores.forEach(function(indicador, index) {%>
                                 <tr>
                                     <td><%=indicador.ID%>. <%=indicador.Nombre%>
-                                        <i class="glyphicon glyphicon-question-sign" onclick="mostrarAyudaPregunta(<%=indicador.ID%>)"></i></td>
+                                        <i id="ayuda-<%=indicador.ID%>" class="glyphicon glyphicon-question-sign" onclick="mostrarAyudaPregunta(<%=indicador.ID%>)"></i></td>
                                     <%if(indicador.MEDIDA_ID==1){%>
                                     <td><select class="form-control hideinput" required name="<%=indicador.ID%>">
                                         <option value=""></option>
@@ -150,7 +150,7 @@
                     {
                         title: '',
                         icon: 'info',
-                        html: `${ayudasPreguntas[idPregunta].ayuda}<br>${ayudasPreguntas[idPregunta].url == "" ? "" : `<a class="ayuda-link" href="${ayudasPreguntas[idPregunta].url}" target="_blank">Click para más información</a>`}`,
+                        html: `<p id="text-ayuda">${ayudasPreguntas[idPregunta].ayuda}<br>${ayudasPreguntas[idPregunta].url == "" ? "" : `<a class="ayuda-link" href="${ayudasPreguntas[idPregunta].url}" target="_blank">Click para más información</a>`}</p>`,
                         confirmButtonColor: '#1D2D51'
                     }); //end sweetAyuda
                 } //end if
@@ -170,7 +170,7 @@
                                 {
                                     title: ayuda.error ? 'Error' : '',
                                     icon: ayuda.error ? 'error' : 'info',
-                                    html: ayuda.error ? 'Ocurrió un error al conseguir la información' : `${ayuda.ayuda}<br>${ayuda.url == "" ? "" : `<a class="ayuda-link" href="${ayuda.url}" target="_blank">Click para más información</a>`}`,
+                                    html: ayuda.error ? '<p id="text-ayuda">Ocurrió un error al conseguir la información</p>' : `<p id="text-ayuda">${ayuda.ayuda}<br>${ayuda.url == "" ? "" : `<a class="ayuda-link" href="${ayuda.url}" target="_blank">Click para más información</a>`}</p>`,
                                     confirmButtonColor: '#1D2D51'
                                 }); //end sweetAyuda
                             }); //end getAyudaPregunta

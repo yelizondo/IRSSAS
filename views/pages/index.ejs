@@ -39,7 +39,7 @@
                                     Contraseña</button>
                                 <button type="button" onclick="cambiar()" class="btn btn-info navbar-btn">Cambiar
                                     Contraseña</button>
-                                <button type="button" class="btn btn-info navbar-btn" onclick="location.href='/solicitudRegistroAsada'">Solicitud de registro de ASADA</button>
+                                <button id="btnSolicitudRegistroAsada" type="button" class="btn btn-info navbar-btn" onclick="location.href='/solicitudRegistroAsada'">Solicitud de registro de ASADA</button>
                                 <p style="color: #f00;"><%= error%></p>
                             </form>
                         </div>
@@ -49,14 +49,6 @@
                 <a href="/contacto">Contacto de ASADAs</a>
                 <p id="mycomponent">índice de Riesgo Sostenible en el Servicio de Agua y Saneamiento</p>
                 <img onclick="location.href='/mapa'" src="/images/mapa.png" style="width: 100%;">
-
-                <!--     <div id="map">                   
-                    </div> 
-                    <div id="popup" class="ol-popup">
-                        <a href="#" id="popup-closer" class="ol-popup-closer"></a>
-                        <div id="popup-content"></div>
-                    </div>
-                    <% include ../partials/riesgo %>-->
             </nav>
             <% include ../partials/informacionProyecto.ejs %>
         </div>
