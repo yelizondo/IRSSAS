@@ -1,6 +1,7 @@
 @import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
 
 
+
 #map, #map2 {
     height: 500px;
     width: 100%;
@@ -42,13 +43,14 @@ a, a:hover, a:focus {
     border: none;
 }
 
-
+/*
 .btn,
 .btn:active,
 .btn:visited,
 .btn:focus {
     background: #193d66;
 }
+*/
 
 .btn:hover{
     background: #7f93aa;   
@@ -66,9 +68,7 @@ thead tr th {
     top: 0;
     background: #fff;
 }
-/* ---------------------------------------------------
-    SIDEBAR STYLE
------------------------------------------------------ */
+
 #sidebar {
     width: 250px;
     position: fixed;
@@ -137,7 +137,6 @@ a[aria-expanded="true"]::before {
     content: '\e260';
 }
 
-/*Color de los submenus*/
 ul ul a {
     font-size: 0.9em !important;
     padding-left: 30px !important;
@@ -165,9 +164,6 @@ a.article, a.article:hover {
 }
 
 
-/* ---------------------------------------------------
-    CONTENT STYLE
------------------------------------------------------ */
 #content {
     width: calc(100% - 250px);
     padding: 40px;
@@ -182,9 +178,6 @@ a.article, a.article:hover {
 }
 
 
-/* ---------------------------------------------------
-    MEDIAQUERIES
------------------------------------------------------ */
 @media (max-width: 768px) {
     #sidebar {
         margin-left: -250px;
@@ -203,10 +196,6 @@ a.article, a.article:hover {
     }
 }
 
-/*---------------------------------------------------
-DISPLAY LI UL NAVBAR
-
------------------------------------------------------*/
 .mainmenu li:hover .submenu {
   display: block;
   max-height: 200px;
@@ -239,7 +228,6 @@ DISPLAY LI UL NAVBAR
     outline: none;
 }
 
-/*_________POPUP_____________*/
 
 .ol-popup {
     position: absolute;
@@ -328,7 +316,6 @@ a.ol-popup-closer:hover{
 }
 
 .svg-container{
-    /* width: 800px;  */
     height: calc(100% - 300px); 
     border:2px solid #303030; 
 }
@@ -341,10 +328,15 @@ a.ol-popup-closer:hover{
     margin-right: 16px;
     /* padding-left: 1px !important; */
 }
-/* @media only screen and (max-width: 900px) {
+ @media only screen and (max-width: 900px) {
     .svg-container {
         width: 320px;
         height: 320px; 
         border:1px solid blue; 
     }
-  } */
+  } 
+
+
+  .form-control{
+      background-color: rgba(29, 45, 81, 0.05)!important;
+  }

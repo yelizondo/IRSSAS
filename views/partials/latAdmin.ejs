@@ -1,45 +1,47 @@
-            <nav id="sidebar">
-                <div class="sidebar-header">
-                    <h2 id="irss"><a href="/">Proyecto IRSSAS</a></h2>
-                </div>
-                <div>
-                <ul class="list-unstyled components mainmenu">
+<div class="border-right d-flex flex-column h-100" id="sidebar-wrapper"
+    style="background: linear-gradient(185.31deg, #00B396 -33.48%, #1D2D51 98.72%); position: sticky;  top:0">
+    <div class="mt-3 sidebar-heading text-center">
+        <a href="/">
+            <img src="/images/Logo.png" class="img-fluid" id="irss">
+        </a>
+    </div>
+    <div class="mt-5 list-group list-group-flush">
+        <% if(usuario.Tipo == 1){%>
+        <a href="/componente" class="list-group-item list-group-item-action"><i class="fas fa-circle mr-3"></i>
+            Componentes</a>
+        <a href="/subcomponente" class="list-group-item list-group-item-action"><i class="fas fa-circle mr-3"></i>
+            Subcomponentes</a>
+        <a href="/indicador" class="list-group-item list-group-item-action"><i class="fas fa-circle mr-3"></i>
+            Indicadores</a>
+        <a href="/asadas" class="list-group-item list-group-item-action"><i class="fas fa-circle mr-3"></i> Asadas</a>
+        <a href="/usuario" class="list-group-item list-group-item-action"><i class="fas fa-circle mr-3"></i>
+            Usuarios</a>
 
-                    <% if(usuario.Tipo == 1){%>
-                    
-                    <li class="active"><a onclick=""> <i class="glyphicon glyphicon-lock"></i> Administración</a>
-                    <ul class="components submenu">
-                    <li><a href="/componente">Componentes</a></li>
-                    <li><a href="/subcomponente">Subcomponentes</a></li>
-                    <li><a href="/indicador">Indicadores</a></li>
-                    <li><a href="/asadas">Asadas</a></li>
-                    <li><a href="/usuario">Usuarios</a></li>
-                    </ul></li>
-                    <%} else{%>
-                        <li class="active"><a href="/asadas/<%=usuario.Asada_ID%>"> <i class="glyphicon glyphicon-book"></i> ASADA</a></li>
-                    <%}%>
+        <%} else{%>
+        <a href="/asadas/<%=usuario.Asada_ID%>" class="list-group-item list-group-item-action"><i
+                class="fas fa-circle mr-3"></i> ASADA</a>
+        <%}%>
 
-                    <li class="active"><a onclick="" > <i class="glyphicon glyphicon-signal"></i> Estudios</a>
-                    <ul class="components submenu">
-                    <li><a href="/grafico">Gráficos</a></li>
-                    <li><a href="/statsComponentes">Estadísticas</a></li>
-                    </ul></li>
 
-                    <li class="active"><a onclick="" > <i class="glyphicon glyphicon-folder-open"></i> Históricos</a>
-                    <ul class="components submenu">
-                    <li><a href="/comparaMapas">Mapa de Comparación</a></li>
-                    <li><a href="/histFormulario">Formularios</a></li>
-                    </ul></li>
+ 
+  <a href="/grafico" class="list-group-item list-group-item-action"><i class="fas fa-circle mr-3"></i> Gráficos</a>
+  <a href="/statsComponentes" class="list-group-item list-group-item-action"><i class="fas fa-circle mr-3"></i> Estadísticas</a>
+  <a href="/comparaMapas" class="list-group-item list-group-item-action"><i class="fas fa-circle mr-3"></i> Mapa</a>
+  <a href="/histFormulario" class="list-group-item list-group-item-action"><i class="fas fa-circle mr-3"></i> Formulario</a>
 
-                    <li class="active"><a href="/generarInforme"> <i class="glyphicon glyphicon-book"></i> Informes</a></li>
-                    <li class="active"><a href="/visor"> <i class="glyphicon glyphicon-eye-open"></i> Visor</a></li>
-                    <li class="active"><a id="refCrudFormularios" href="/crudFormularios"><i class="glyphicon glyphicon-check"></i> Completar Formulario</a></li>
-                    <li class="active"><a href="/manual"><i class="glyphicon glyphicon-question-sign"></i> Manual de usuario</a></li>
-                    <li class="active"><a href="/rutas"><i class="glyphicon glyphicon-map-marker"></i> Rutas</a></li>
-                    <li class="active"><a href="/generarInformeMejora"> <i class="glyphicon glyphicon-book"></i> Informes de Mejora</a></li>
-                    
-                </ul>
-                </div>
+  <a href="/visor" class="list-group-item list-group-item-action"><i class="fas fa-circle mr-3"></i> Visor</a>
+  <a href="/crudFormularios" id="refCrudFormularios" class="list-group-item list-group-item-action"><i class="fas fa-circle mr-3"></i> Completar Formulario</a>
+  <a href="/manual" class="list-group-item list-group-item-action"><i class="fas fa-circle mr-3"></i> Manual de usuario</a>
+  <a href="/rutas" class="list-group-item list-group-item-action"><i class="fas fa-circle mr-3"></i> Rutas</a>
+  <a href="/generarInformeMejora" class="list-group-item list-group-item-action"><i class="fas fa-circle mr-3"></i> Informes de Mejora</a>
 
-                
-            </nav>
+
+</div>
+
+<form action="/logout" class="mt-auto ">
+    <button type="submit" class="text-center list-group-item list-group-item-action">Cerrar Sesión</button>
+</form>
+
+</div>          
+          
+    
