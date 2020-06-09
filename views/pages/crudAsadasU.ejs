@@ -7,64 +7,39 @@
 
 <body>
 
-    <div class="wrapper">
+    <div class="d-flex" id="wrapper">
         <!-- Sidebar Holder -->
         <% include ../partials/latAdmin %>
         <!-- Page Content Holder -->
-        <div id="content">
 
-            <nav class="navbar navbar-default">
-                <div class="container-fluid">
-
-                    <div class="navbar-header">
-                        <button type="button" id="sidebarCollapse" class="btn btn-info navbar-btn">
-                            <i class="glyphicon glyphicon-leaf"></i>
-                            <span></span>
-                        </button>
+        <div id="page-content-wrapper" style="background-color: #FAFAFA;">
+            <button class="btn" id="menu-toggle" style="background: none;"><i class="fas fa-bars"></i></button>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12 col-md">
+                        <p class="title mt-3 pb-2 font-weight-bold h3">ASADA: <%=asada.ID%></p>
+                    </div>
+                    <div class="col-auto d-flex align-items-center">
+                       
                         <form action="/asadas" id="compsub">
+                            <a href="/generarInformeMejora/getInforme/<%=asada.ID%>" class="btn btn-info">Ver informe de Mejora</a>
                             <button type="submit" onclick=" return saveAsada('<%=asada.ID%>');"
-                                style="visibility: hidden;" id="savebutton" class="btn btn-info navbar-btn">Guardar
+                                style="visibility: hidden;" id="savebutton" class="btn btn-info">Guardar
                                 cambios</button>
                             <p style="color: #f00;" id="error"></p>
                         </form>
                     </div>
-
-                    <div style="float: right;">
-                        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                            <form action="/logout">
-                                <button type="submit" class="btn btn-info navbar-btn">Cerrar Sesión</button>
-                            </form>
-                        </div>
-                    </div>
                 </div>
-                <div style="margin: 20px;">
-                    <h3>ASADA: <%=asada.ID%></h3>
+
+                <div class="bg-white shadow p-3 mb-5">
                     <form>
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="Nombre">Nombre de la ASADA</label>
-                                    <textarea class="form-control" style="resize: none;" id="Nombre"
-                                        onchange="updateComponent(this.id);" rows="3"
-                                        maxlength="250"><%=asada.Nombre%></textarea>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="Ubicacion">Dirección oficina ASADA</label>
-                                    <textarea class="form-control" style="resize: none;" id="Ubicacion"
-                                        onchange="updateComponent(this.id);" rows="3"
-                                        maxlength="200"><%=asada.Ubicacion%></textarea>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="Latitud">Latitud</label>
-                                    <input type="number" step="any" class="form-control" style="resize: none;"
-                                        id="Latitud" onchange="updateComponent(this.id);" maxlength="50"
-                                        value="<%=asada.Latitud%>">
+                                    <input class="form-control"  id="Nombre"
+                                        onchange="updateComponent(this.id);" 
+                                        maxlength="250" value="<%=asada.Nombre%>">
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -82,12 +57,26 @@
                                 </div>
                               
                             </div>
-                        </div>
-                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="Latitud">Latitud</label>
+                                    <input type="number" step="any" class="form-control" 
+                                        id="Latitud" onchange="updateComponent(this.id);" maxlength="50"
+                                        value="<%=asada.Latitud%>">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="Ubicacion">Dirección oficina ASADA</label>
+                                    <input class="form-control" id="Ubicacion"
+                                        onchange="updateComponent(this.id);" 
+                                        maxlength="200" value="<%=asada.Ubicacion%>">
+                                </div>
+                            </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="Longitud">Longitud</label>
-                                    <input type="number" step="any" class="form-control" style="resize: none;"
+                                    <input type="number" step="any" class="form-control" 
                                         id="Longitud" onchange="updateComponent(this.id);" maxlength="50"
                                         value="<%=asada.Longitud.replace('\r','')%>">
                                 </div>
@@ -95,19 +84,15 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="Telefono">Teléfono fijo</label>
-                                    <input class="form-control" style="resize: none;" id="Telefono"
+                                    <input class="form-control"  id="Telefono"
                                         onchange="updateComponent(this.id);" maxlength="15"
                                         value="<%=asada.Telefono%>" />
                                 </div>
                             </div>
-                        </div>
-
-
-                        <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="Enlace">Enlace (URL)</label>
-                                    <input class="form-control" style="resize: none;" id="Url"
+                                    <input class="form-control"  id="Url"
                                         onchange="updateComponent(this.id);" maxlength="200" value="<%=asada.Url%>" />
                                 </div>
                             </div>
@@ -116,12 +101,10 @@
                                 <input class="form-control" style="resize: none;" id="Celular"
                                     onchange="updateComponent(this.id);" maxlength="15" value="<%=asada.Celular%>" />
                             </div>
-                        </div>
-                        <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="Poblacion">Población abastecida</label>
-                                    <input class="form-control" style="resize: none;" id="Poblacion"
+                                    <input class="form-control" id="Poblacion"
                                         onchange="updateComponent(this.id);" maxlength="6"
                                         value="<%=asada.Poblacion%>" />
                                 </div>
@@ -138,30 +121,33 @@
                         </div>
                       
                     </form>
+                    <div id="divbutton" style=" position: absolute; bottom: 6px; right: 8px;">
+                    </div>
+
+
                 </div>
-                <div id="divbutton" style=" position: absolute; bottom: 6px; right: 8px;">
-                </div>
-            </nav>
+
+
+            </div>
         </div>
+
+
+
+
+
+     
     </div>
 
 
-    <!-- jQuery CDN -->
-    <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
-    <!-- Bootstrap Js CDN -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <!-- jQuery Custom Scroller CDN -->
-    <script
-        src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
+  
 
     <script type="text/javascript">
         $(document).ready(function () {
 
 
-            $('#sidebarCollapse').on('click', function () {
-                $('#sidebar, #content').toggleClass('active');
-                $('.collapse.in').toggleClass('in');
-                $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+            $("#menu-toggle").click(function (e) {
+                e.preventDefault();
+                $("#wrapper").toggleClass("toggled");
             });
 
             $("#divrisk").click(function () {
@@ -171,6 +157,8 @@
             $("#buttonrisk").click(function () {
                 $("#divrisk").toggle("slow", "linear");
             });
+
+            $("a[href$='/asadas']") .addClass("active");
 
 
         });

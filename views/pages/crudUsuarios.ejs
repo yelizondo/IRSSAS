@@ -1,52 +1,42 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <% include ../partials/header %>
-    </head>
 
-    <body>
+<head>
+    <% include ../partials/header %>
+</head>
 
-        <div class="wrapper">
-            <!-- Sidebar Holder -->
-            <% include ../partials/latAdmin %>
-            <!-- Page Content Holder -->
-            <div id="content">
+<body>
 
-                <nav class="navbar navbar-default">
-                    <div class="container-fluid">
-
-                        <div class="navbar-header">
-                            <div class="row-group">
-                                <div class="form-group col-md-5">
-                                    <button type="button" id="sidebarCollapse" class="btn btn-info navbar-btn">
-                                        <i class="glyphicon glyphicon-leaf"></i>
-                                        <span></span>
-                                    </button>  
-                                </div>
-                                <div class="form-group col-md-5">
-                                    <button type="button" onclick="location.href='/changeAsadaUser';" class="btn btn-info navbar-btn">
-                                        <i class="glyphicon glyphicon-arrow-right"></i>
-                                        <span></span>
-                                    </button>
-                                </div>
-                            </div>
-                            <form action="/usuario" id="usersub">
-                                <button type="submit" onclick=" return saveUser();" style="visibility: hidden;"  id="savebutton" class="btn btn-info navbar-btn" >Guardar cambios</button>
-                                <p style="color: #f00;" id="error"></p>
-                            </form>
-                        </div>
-
-                        <div style="float: right;">
-                            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                                <form action="/logout">
-                                    <button type="submit" class="btn btn-info navbar-btn">Cerrar Sesión</button>
-                                </form>
-                            </div>                           
-                        </div>
+    <div class="d-flex" id="wrapper">
+        <!-- Sidebar Holder -->
+        <% include ../partials/latAdmin %>
+        <!-- Page Content Holder -->
+        <div id="page-content-wrapper" style="background-color: #FAFAFA;">
+            <button class="btn" id="menu-toggle" style="background: none;"><i class="fas fa-bars"></i></button>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12 col-md">
+                        <p class="title mt-3 pb-2 font-weight-bold h3">Usuarios</p>
                     </div>
-                    <div style="margin: 20px;">
-                        <h3>Administración/Usuarios</h3>
-                        <table class="table">
+                    <div class="col-auto d-flex align-items-center">
+                        <form action="/usuario" id="usersub">
+                                <button type="button" onclick="addUser();" class="btn btn-info">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                            <button type="button" onclick="location.href='/changeAsadaUser';" class="btn btn-info">
+                                <i class="fas fa-arrow-right"></i>
+                            </button>
+                           
+                            <button type="submit" onclick="return saveUser();" style="visibility: hidden;"
+                                id="savebutton" class="btn btn-info">Guardar cambios</button>
+                            <p style="color: #f00;" id="error"></p>
+                        </form>
+
+                    </div>
+                </div>
+                <div class="bg-white shadow p-3 mb-5">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-borderless">
                             <thead>
                                 <tr>
                                     <th scope="col">ID</th>
@@ -54,81 +44,94 @@
                                     <th scope="col">Usuario</th>
                                     <th scope="col">Contraseña</th>
                                     <th scope="col">Tipo</th>
-                                    <th scope="col">Eliminar</th>
+                                    <th scope="col" class="text-center">Eliminar</th>
                                 </tr>
                             </thead>
-                        <tbody id="usertable">
+                            <tbody id="usertable">
                                 <%rows.forEach(function(user, index) {%>
                                 <tr>
+                                    <th scope="row" class="align-middle text-center"><%=user.ID%></th>
+                                    <td>
+                                        <input class="form-control hideinput" style="min-width: 20vh;"
+                                            onchange="updateUser(<%= user.ID%>)" name="name-<%=user.ID%>"
+                                            value="<%=user.Nombre%>">
+                                    </td>
+                                    <td>
+                                        <input class="form-control hideinput" style="min-width: 20vh;" disabled
+                                            onchange="updateUser(<%= user.ID%>)" name="user-<%=user.ID%>"
+                                            value="<%=user.USUARIO%>">
+                                    </td>
+                                    <td>
+                                        <input type="password" class="form-control hideinput" value="Usuario 1"
+                                            style="min-width: 20vh;" readonly onchange="updateUser(<%= user.ID%>)"
+                                            name="pass-<%=user.ID%>" value="<%=user.Contrasenna%>">
+                                    </td>
 
-
-                                    <td><%=user.ID%></td>
-                                    <td><input type="text" class="form-control hideinput" onchange="updateUser(<%= user.ID%>)" name="name-<%=user.ID%>" value="<%=user.Nombre%>"></td>
-                                    <td><input type="text" class="form-control hideinput" disabled onchange="updateUser(<%= user.ID%>)" name="user-<%=user.ID%>" value="<%=user.USUARIO%>"></td>
-                                    <td><input type="password" class="form-control hideinput" onchange="updateUser(<%= user.ID%>)" name="pass-<%=user.ID%>" value="<%=user.Contrasenna%>"></td>
                                     <%if (usuario.ID != user.ID) {%>
-									<td><select class="form-control hideinput" onchange="updateUser(<%= user.ID%>)" name="type-<%=user.ID%>">
-										<%if (user.Tipo == 1){%>
-										<option value=1>Superusuario</option>
-										<option value=2>Administrador</option>										
-										<%} else {%>
-										<option value=2>Administrador</option>
-										<option value=1>Superusuario</option>
-										<% } %>
-									</select></td>
-                                    <td><i class="glyphicon glyphicon-trash" onclick="deleteUser(this, <%=user.ID%>);"></i></td>
-									<%}else{%>
-                                    <td><select class="form-control hideinput">
-                                        <option value=1>Superusuario</option>
-                                    </select></td>
-                                    <td></td>                                    
+                                    <td>
+                                        <select class="form-control hideinput" onchange="updateUser(<%= user.ID%>)"
+                                            name="type-<%=user.ID%>" style="min-width: 20vh;">
+                                            <%if (user.Tipo == 1){%>
+                                            <option value=1>Superusuario</option>
+                                            <option value=2>Administrador</option>
+                                            <%} else {%>
+                                            <option value=2>Administrador</option>
+                                            <option value=1>Superusuario</option>
+                                            <% } %>
+                                        </select>
+                                    </td>
+                                    <td class="align-middle text-center">
+                                        <button class="btn" onclick="deleteUser(this, <%=user.ID%>);">
+                                            <i class="fas fa-trash text-danger"></i>
+                                        </button>
+                                    </td>
+                                    <%}else{%>
+                                    <td>
+                                        <select class="form-control hideinput">
+                                            <option value=1>Superusuario</option>
+                                        </select></td>
+                                    <td></td>
                                     <%}%>
 
 
-                                </tr>
-                                <%});%>
-                        </tbody>
+                            </tr>
+                            <%});%>
+                            </tbody>
                         </table>
                     </div>
-                    <div id="divbutton" style=" position: absolute; bottom: 6px; right: 8px;">
-                        <button type="button" onclick="addUser();" class="btn btn-info navbar-btn">
-                                <i class="glyphicon glyphicon-plus"></i>
-                                <span></span>
-                        </button>
-                    </div>
-                </nav>
+                </div>
             </div>
         </div>
+    </div>
 
 
-        <!-- jQuery CDN -->
-        <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
-        <!-- Bootstrap Js CDN -->
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-        <!-- jQuery Custom Scroller CDN -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
+   
+    <!-- jQuery Custom Scroller CDN -->
+   
 
-        <script type="text/javascript">
-            $(document).ready(function () {
-               
-
-                $('#sidebarCollapse').on('click', function () {
-                    $('#sidebar, #content').toggleClass('active');
-                    $('.collapse.in').toggleClass('in');
-                    $('a[aria-expanded=true]').attr('aria-expanded', 'false');
-                });
-
-                $("#divrisk").click(function(){
-                     $("#divrisk").toggle("slow","linear");
-                });
-
-                $("#buttonrisk").click(function(){
-                     $("#divrisk").toggle("slow","linear");
-                });
-
-
+        <script>
+            $("#menu-toggle").click(function (e) {
+                e.preventDefault();
+                $("#wrapper").toggleClass("toggled");
             });
-        </script>
-        <script src="scripts/crud.js"></script>
-    </body>
+            </script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#divrisk").click(function () {
+                $("#divrisk").toggle("slow", "linear");
+            });
+
+            $("#buttonrisk").click(function () {
+                $("#divrisk").toggle("slow", "linear");
+            });
+
+            $("a[href$='/usuario']") .addClass("active");
+
+
+        });
+    </script>
+    <script src="scripts/crud.js"></script>
+</body>
+
 </html>
