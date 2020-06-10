@@ -269,7 +269,7 @@
                 Swal.fire(
                 {
                     title: 'Confirmar',
-                    text: '¿Desea enviar la solicitud?',
+                    html: '<p id="confim-popup">¿Desea enviar la solicitud?</p>',
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#1D2D51',
@@ -297,7 +297,7 @@
                                         {
                                             title: 'Error',
                                             icon: 'error',
-                                            text: 'Ocurrió un error al enviar la solicitud',
+                                            html: '<p id="result-popup">Ocurrió un error al enviar la solicitud</p>',
                                             confirmButtonColor: '#1D2D51'
                                         })
                                     }
@@ -307,7 +307,7 @@
                                         {
                                             title: 'Éxito',
                                             icon: 'success',
-                                            text: 'La solicitud fue enviada con éxito',
+                                            html: '<p id="result-popup">La solicitud fue enviada con éxito</p>',
                                             confirmButtonColor: '#1D2D51'
                                         })
                                         .then((result)=>

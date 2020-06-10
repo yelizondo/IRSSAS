@@ -29,7 +29,7 @@ const PORT = process.env.PORT || 8000
 //llamar funciones de controller.js
 
 const {getCrudComponente, saveComponente, getCrudSubcomponente, saveSubComponente, getCrudIndicador, getIndicador, deleteIndicador, updateIndicador, newIndicador, createIndicador, getCrudAsadasR,getCrudAsadasU, getPresentAsada, saveAsada, newAsada, createAsada, deleteAsada, crudFormularios, sendForm, getCrudUsuario, saveUsuario, getUsuariosAsadas,setUsuariosAsada, guardarFormulario, cargarFormulario, getContacto, updateEstado, changePassword,forgetPassword, getListaAsociaciones, nuevaAsociacion, nuevaAsociacionGuardar, editarAsociacion, editarAsociacionGuardar, eliminarAsociacion, sendSolicitudRegistroAsada, aceptarRechazarSolicitudRegistroAsada, getAyudaPregunta, deleteNotificacion, getAyudaRiesgo, getInformeUsuarioGeneral} = require('./routes/cruds');
-const {getHomePage, login, getMain, getVisor, getComponente, logout, getSites, grafico, getRiesgo, getAsada, getInfoGeneral, generarInforme, histFormulario, getAnno, getRespuestas, comparaMapas, statsComponentes,statsSubcomponentes, getCantones, getDistritos, getEstadisticas, getMapa, getManualData, getManualUsuario, getManualDataDescargar, getRutas, getRutasData, solicitudRegistroAsada, validarUsuario, getVerSolicitudRegistroAsada,getEstadisticasGenerales,generarInformeMejora, getInformeMejora, sendCorreosNotificacionesAdmin} = require('./routes/controller');
+const {getHomePage, login, getMain, getVisor, getComponente, logout, getSites, grafico, getRiesgo, getAsada, getInfoGeneral, generarInforme, histFormulario, getAnno, getRespuestas, comparaMapas, statsComponentes,statsSubcomponentes, getCantones, getDistritos, getEstadisticas, getMapa, getManualData, getManualUsuario, getManualDataDescargar, getRutas, getRutasData, solicitudRegistroAsada, validarUsuario, getVerSolicitudRegistroAsada,getEstadisticasGenerales,generarInformeMejora, getInformeMejora, sendCorreosNotificacionesAdmin, getInfoAsada, getAllSubcomponentes} = require('./routes/controller');
 
 
 //conexion de BD
@@ -149,11 +149,13 @@ app.post('/getInformeUsuarioGeneral', getInformeUsuarioGeneral)
 app.get('/generarInformeMejora', generarInformeMejora)
 app.get('/generarInformeMejora/getInforme/:idAsada', getInformeMejora)
 
+app.get('/getInfoAsada/:idAsada', getInfoAsada)
+app.get('/getAllSubcomponentes', getAllSubcomponentes)
 
 // llamada al puerto 
 app.listen(PORT, () => {
     console.log(`Server running on port: ${PORT}`);
-    var correosRecordatorio = schedule.scheduleJob('0 0 1 1 *', function(){
+    var correosRecordatorio = schedule.scheduleJob('0 48 13 26 5 *', function(){
       sendCorreosNotificacionesAdmin();
   });;
 });

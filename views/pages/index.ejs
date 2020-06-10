@@ -13,51 +13,42 @@
         <!-- Page Content Holder -->
         <div id="content">
 
-            <nav class="navbar navbar-default">
-                <div class="container-fluid">
+            <div class="container-fluid">
 
-                    <div class="navbar-header">
-                        <button type="button" id="sidebarCollapse" class="btn btn-info navbar-btn">
-                            <i class="glyphicon glyphicon-leaf"></i>
-                            <span></span>
-                        </button>
-
-                    </div>
-
-                    <div style="float: right;">
-                        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                            <form class="form-inline" method="post">
-                                <div class="form-group">
-                                    <input type="text" class="form-control" id="usr" name="usr" placeholder="Usuario">
-                                </div>
-                                <div class="form-group">
-                                    <input type="password" class="form-control" id="pwd" name="pwd"
-                                        placeholder="Contraseña">
-                                </div>
-                                <button type="submit" class="btn btn-info navbar-btn">Ingresar</button>
-                                <button type="button" onclick="olvide()" class="btn btn-info navbar-btn">Olvide mi
-                                    Contraseña</button>
-                                <button type="button" onclick="cambiar()" class="btn btn-info navbar-btn">Cambiar
-                                    Contraseña</button>
-                                <button type="button" class="btn btn-info navbar-btn" onclick="location.href='/solicitudRegistroAsada'">Solicitud de registro de ASADA</button>
-                                <p style="color: #f00;"><%= error%></p>
-                            </form>
-                        </div>
-                    </div>
+                <div class="navbar-header">
+                    <button type="button" id="sidebarCollapse" class="btn btn-info navbar-btn">
+                        <i class="glyphicon glyphicon-leaf"></i>
+                        <span></span>
+                    </button>
 
                 </div>
-                <a href="/contacto">Contacto de ASADAs</a>
-                <p id="mycomponent">índice de Riesgo Sostenible en el Servicio de Agua y Saneamiento</p>
-                <img onclick="location.href='/mapa'" src="/images/mapa.png" style="width: 100%;">
 
-                <!--     <div id="map">                   
-                    </div> 
-                    <div id="popup" class="ol-popup">
-                        <a href="#" id="popup-closer" class="ol-popup-closer"></a>
-                        <div id="popup-content"></div>
-                    </div>
-                    <% include ../partials/riesgo %>-->
-            </nav>
+                <div>
+
+                    <form class="form-inline" method="post">
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="usr" name="usr" placeholder="Usuario">
+                        </div>
+                        <div class="form-group">
+                            <input type="password" class="form-control" id="pwd" name="pwd" placeholder="Contraseña">
+                        </div>
+                        <button type="submit" class="btn btn-info navbar-btn">Ingresar</button>
+                        <button type="button" onclick="olvide()" class="btn btn-info navbar-btn">Olvide mi
+                            Contraseña</button>
+                        <button type="button" onclick="cambiar()" class="btn btn-info navbar-btn">Cambiar
+                            Contraseña</button>
+                        <button id="btnSolicitudRegistroAsada" type="button" class="btn btn-info navbar-btn"
+                            onclick="location.href='/solicitudRegistroAsada'">Solicitud de registro de ASADA</button>
+                        <p style="color: #f00;"><%= error%></p>
+                    </form>
+
+                </div>
+
+            </div>
+            <a href="/contacto">Contacto de ASADAs</a>
+            <p id="mycomponent">índice de Riesgo Sostenible en el Servicio de Agua y Saneamiento</p>
+            <img onclick="location.href='/mapa'" src="/images/mapa.png" style="width: 100%;">
+
             <% include ../partials/informacionProyecto.ejs %>
         </div>
     </div>
@@ -169,7 +160,7 @@
             }).then((result) => {
                 if (result.value) {
                     var usuario = $('#swal-input5').val();
-                    var parameters = { "usuario": usuario};
+                    var parameters = { "usuario": usuario };
                     $.get('/forgetPassword', parameters, function (data) {
                     }).done(function (res) {
                         console.log(res);

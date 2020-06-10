@@ -78,27 +78,27 @@ module.exports = {
     
     //Redirecciona a la página de informe de mejora dependiendo de si es admin o super usuario
     generarInformeMejora: (req, res) => {
-        console.log("Usuario");
-        console.log(req.session.usuario);
+
 		if(req.session.value==1){
 
             let query = "select p.ID as PROVINCIA_ID, c.ID as CANTON_ID, d.ID as DISTRITO_ID, a.*,p.Nombre as Provincia,c.Nombre as Canton,d.Nombre as Distrito,  ai.Ubicacion,ai.Telefono,ai.Poblacion,ai.Url,ai.cantAbonados from ASADA a left join ASADAINFO ai on a.ID=ai.Asada_ID inner join DISTRITO d on a.distrito_id=d.Codigo inner join CANTON c on d.Canton_ID=c.ID inner join PROVINCIA p on p.ID=c.Provincia_ID where d.Provincia_ID=p.ID;";
             let query2 = "select * from PROVINCIA  order by nombre;"
-            let selectMejoras = "select ID_INDICADOR, ID_TEXTO_MEJORA, TEXTO_MEJORA, ixa.Texto, ind.Nombre from AYUDAXINDICADOR axi inner join INDICADORXASADA ixa on (axi.ID_INDICADOR = ixa.INDICADOR_ID) inner join INDICADOR ind on (ind.ID = axi.ID_INDICADOR) WHERE ixa.ASADA_ID = ? and ixa.Valor >= axi.LIMITE_INFERIOR and ixa.Valor <= axi.LIMITE_SUPERIOR;";
-			db.query(query, function(err,rows,fields){
+            db.query(query, function(err,rows,fields){
 				db.query(query2, function(err2,rows2,fields2){
-                    db.query(selectMejoras,[req.session.usuario.Asada_ID], function(err3,rows3,fields){
-                        console.log("rows3");
-                        console.log(rows3);
                         if(!err){
                             if(req.session.usuario.Tipo == "2")
                             {
-                                console.log(req.session.usuario);
-                                res.render('pages/generarInformeMejoraAsada.ejs',{"usuario": req.session.usuario, "asadas":rows, "prov": rows2, "mejoras" : rows3, "numAsada" : req.session.usuario.Asada_ID });
+            
+                                
+                                        res.render('pages/generarInformeMejoraAsada.ejs',{"usuario": req.session.usuario, "asadas":rows, "prov": rows2, "numAsada" : req.session.usuario.Asada_ID});
+
+                                    
+                                
+                                
                             }
                             else{
                                 
-                                res.render('pages/generarInformeMejora.ejs',{"usuario": req.session.usuario, "asadas":rows, "prov": rows2, "mejoras" : rows3, "numAsada" : req.session.usuario.Asada_ID}); 
+                                res.render('pages/generarInformeMejora.ejs',{"usuario": req.session.usuario, "asadas":rows, "prov": rows2}); 
                             }
                             
                         }
@@ -106,20 +106,22 @@ module.exports = {
                             console.log('generarInforme. Error while performing Query.');
                             res.redirect('/');
                         }
-                     });
-                 });
-             }); 
+                    });
+                    });
+               
 		}
 		else
 			res.redirect('/');
 	},
     getInformeMejora: (req, res) => {
 		if(req.session.value==1){
-            let selectMejoras = "select ID_INDICADOR, ID_TEXTO_MEJORA, TEXTO_MEJORA, ixa.Texto, ind.Nombre from AYUDAXINDICADOR axi inner join INDICADORXASADA ixa on (axi.ID_INDICADOR = ixa.INDICADOR_ID) inner join INDICADOR ind on (ind.ID = axi.ID_INDICADOR) WHERE ixa.ASADA_ID = ? and ixa.Valor >= axi.LIMITE_INFERIOR and ixa.Valor <= axi.LIMITE_SUPERIOR;";
+            let selectMejoras = "select axi.SUBCOMPONENTE, sub.NOMBRE, ID_INDICADOR, ID_TEXTO_MEJORA, TEXTO_MEJORA, ixa.Texto, ind.Nombre from AYUDAXINDICADOR axi inner join INDICADORXASADA ixa on (axi.ID_INDICADOR = ixa.INDICADOR_ID) inner join INDICADOR ind on (ind.ID = axi.ID_INDICADOR) inner join SUBCOMPONENTE sub on (sub.ID = axi.SUBCOMPONENTE) WHERE ixa.ASADA_ID = ? and ixa.Valor >= axi.LIMITE_INFERIOR and ixa.Valor <= axi.LIMITE_SUPERIOR;";
+            let selectSubcomponentes = "select ID, Nombre from SUBCOMPONENTE;";
             //let indicadores = "select ID, Nombre from INDICADOR"
             parametro = req.params.idAsada;
             paramSubs = parametro.substring(1);
             db.query(selectMejoras,[paramSubs], function(err,rows,fields){
+                db.query(selectSubcomponentes, function(err2,rows2,fields2){
                // db.query(indicadores, function(err2, rows2, fields){
 
                     if(!err){
@@ -130,7 +132,8 @@ module.exports = {
                         console.log('generarInformeMejora. Error while performing Query.');
                         res.redirect('/');
                     }
-                //});   
+                //});
+                });   
             });
 
 		}
@@ -422,7 +425,8 @@ module.exports = {
             let query = "select a.ID, a.Nombre,p.ID as Provincia,c.ID as Canton,d.ID as Distrito from ASADA a inner join DISTRITO d on a.distrito_id=d.Codigo inner join CANTON c on d.Canton_ID=c.ID inner join PROVINCIA p on p.ID=c.Provincia_ID where d.Provincia_ID=p.ID ";
             let query2 = "SELECT * from PROVINCIA order by nombre;"
             if(req.session.usuario.Tipo=="2")
-                query+=" and a.ID='"+req.session.usuario.Asada_ID+"' ;";
+                query+=" and a.ID='"+req.session.usuario.Asada_ID+"' ";
+            query+=" order by a.Nombre;";
             db.query(query, function(err,rows,fields)
             {
                 if(!err)
@@ -755,6 +759,39 @@ module.exports = {
             });
         }
     },
+    getInfoAsada: (req, res) => {
+        parametro = req.params.idAsada;
+        paramSubs = parametro.substring(1);
+		let query = "select a.ID,a.Nombre,ai.Poblacion ,p.Nombre as Provincia,c.Nombre as Canton,d.Nombre as Distrito from ASADA a inner join DISTRITO d on a.distrito_id=d.Codigo inner join CANTON c on d.Canton_ID=c.ID inner join PROVINCIA p on p.ID=c.Provincia_ID inner join ASADAINFO ai on (ai.ASADA_ID = a.ID) where d.Provincia_ID=p.ID and a.ID= '"+paramSubs+"';"
+		db.query(query, function(err, rows, fields) {
+		if (!err){
+			res.send({"asadaInfo":rows[0]})
+		}
+		else{
+			console.log('getInfoAsada. Error while performing Query.');
+			res.send({"error": true});
+		}
+		
+		});
+		
+
+    },
+
+    getAllSubcomponentes: (req, res) => {
+        let query = "select ID, Nombre from SUBCOMPONENTE;"
+		db.query(query, function(err, rows, fields) {
+		if (!err){
+			res.send({"AllSubcomponentes":rows})
+		}
+		else{
+			console.log('getAllSubcomponentes. Error while performing Query.');
+			res.send({"error": true});
+		}
+		
+		});
+		
+
+    },
     getEstadisticasGenerales: (req, res) => 
     {
         let selectAsadas = "select a.ID,a.Nombre,p.ID as Provincia,c.ID as Canton,d.ID as Distrito from ASADA a inner join DISTRITO d on a.distrito_id=d.Codigo inner join CANTON c on d.Canton_ID=c.ID inner join PROVINCIA p on p.ID=c.Provincia_ID where d.Provincia_ID=p.ID ";
@@ -825,6 +862,35 @@ function sendEmail(mailOptions){
     });
  
  }
+function getCurrentDate()
+{   
+    var today = new Date();
+    if(today.getMonth()<= 10)
+    {
+        var date = today.getDate() +'-0'+(today.getMonth()+1)+'-'+today.getFullYear();
+    }
+    else{
+        var date = today.getDate() +'-'+(today.getMonth()+1)+'-'+today.getFullYear();
+    }
+    
+    console.log(date);
+    return date;
+}
+function getRiesgoAsada(idAsada){
+    let query = "select s.ASADA_ID, SUM(s.valor*i.valor)*100 as valor from INDICADORXASADA s, INDICADOR i where s.Indicador_ID=i.ID and s.ASADA_ID = '"+idAsada+"'  group by (s.ASADA_ID);"
+    db.query(query, function(err,rows,fields){
+        if(!err){
+            var result = parseInt(rows[0].valor.toFixed());
+            console.log(typeof(result));
+            console.log(result);
+            return result;
+        }
+        else{
+            return null;
+        }
+
+    });
+}
 function getTipoRiesgo(valor)
 {
     

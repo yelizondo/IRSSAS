@@ -307,40 +307,93 @@ function comparar(){
     });
 };
 
-function generarPDFInformeMejora(){
-	$("#prueba").show();
-    var asada = document.getElementById("asada").value;
-	var values_list = asada.split(",");
-	textosMejora = "";	
-	//var indicadores = ["<h4> Existe sistema de tratamiento individual de aguas negras en la comunidad</h4><br>" ,"<h4> Existe presencia de aguas grises en los caños de recolección de agua lluvia</h4><br>" ,"<h4> Población cuenta con alcantarillado pluvial</h4><br>" ,"<h4> La población tiene Planta de tratamiento de aguas residuales</h4><br>" ,"<h4> Porcentaje de  liquidez para invertir en mejoras del acueducto</h4><br>" ,"<h4> % Cobertura de recolección de residuos sólidos no valorizables</h4><br>" ,"<h4> Existe recolección de residuos valorizables </h4><br>" ,"<h4> Producción per cápita de residuos sólidos</h4><br>","<h4> Inversión anual en Gestión Integral de Residuos Sólidos por persona por año en el cantón ($/persona/año) </h4><br>","<h4> Inversión anual en la limpieza de vías y áreas comunes por persona en el cada cantón ($/persona/año) </h4><br>","<h4> La ubicación de la captación está en área protegida o en zona de conservación</h4><br>" ,"<h4> Está demarcada la zona de protección legalmente</h4><br>" ,"<h4> Se cuenta con información del balance hídrico</h4><br>" ,"<h4> Consumo promedio de agua de la comunidad expresado en unidades de litros por persona por día </h4><br>" ,"<h4> La ASADA posee plan de atención integral de riesgos</h4><br>" ,"<h4> Cuentan con programas para adaptación al cambio climático</h4><br>" ,"<h4> Posee registros de aforos de las fuentes de abastecimiento</h4><br>" ,"<h4> Se diagnóstica el riesgo en los componentes del acueducto mediante la herramienta SERSA </h4><br>","<h4> La ASADA posee sistema de desinfección </h4><br>","<h4> Posee planta potabilizadora </h4><br>","<h4> Posee la ASADA sello de calidad sanitaria</h4><br>" ,"<h4> Porcentaje (%) de Morosidad en el pago del servicio de agua</h4><br>" ,"<h4> Porcentaje (%) de agua no contabilizada </h4><br>" ,"<h4> Índice de Desarrollo Social en MIDEPLAN </h4><br>" ,"<h4> Posee distinción de Bandera Azul ecológica (en la comunidad, microcuencas y municipalidades)</h4><br>" ,"<h4> Los operadores han desarrollado programas de educación ambiental para la comunidad y los imparten regularmente (una vez al año)</h4><br>" ,"<h4> ¿Posee su acueducto riesgo de inundación</h4><br>" ,"<h4> Posee su acueducto riesgo de deslizamientos </h4><br>","<h4> Posee su acueducto riesgos volcánicos </h4><br>","<h4> Su acueducto está ubicado zonas sísmicas </h4><br>"];
-	var lorem = "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec dictum magna. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Praesent ut augue id purus egestas porta. Suspendisse potenti. Nam id aliquet eros, vel pretium risus. Sed at sem id libero maximus viverra et ut sapien. Fusce et venenatis nulla. Ut nec porta mi, in euismod nulla. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam convallis sodales augue. Pellentesque facilisis, quam quis porta commodo, purus tortor tempor sem, quis pharetra leo turpis at arcu. Quisque consequat, sapien non ornare congue, elit mi pellentesque est, vel elementum lectus erat vitae tortor. Suspendisse ex justo, pretium ut convallis non, congue a elit. </p><br>"
-	var count = 0;
-	$.get(`./generarInformeMejora/getInforme/:${values_list[0]}`,{},function(data){
-		//console.log(data);
+function generarPDFInformeMejora(numAsada){
+	if(numAsada == null)
+	{
+		$("#prueba").show();
+		var asada = document.getElementById("asada").value;
+		var values_list = asada.split(",");
+		numAsada = values_list[0];
+		$("#downloadpdf").show();
+	}
+
+	textosMejora = "";	            
+	$.get(`./generarInformeMejora/getInforme/:${numAsada}`,{},function(data){
 	}).done(function(mejoras){
-		//console.log(typeof(mejoras));
-		//console.log(mejoras);
-		mejoras.mejoras.forEach(mejora=>
-		{
-
-			console.log(mejora.TEXTO_MEJORA);
-			textosMejora = textosMejora + 
-			"<h4>"+mejora.Nombre+"</h4>" +
-			"<p><b>Mi Respuesta:</b>" + mejora.Texto +"</p>"+
-			"<p> <b>Recomendación:</b>"+mejora.TEXTO_MEJORA+"</p><br>";
-			count = count + 1;
+		console.log("entre al get de mejoras");
+		var parameters = { "id": numAsada, "tipo": "INDICADORXASADA", "anno": 0};
+		$.get('/getRiesgo',parameters,function(data2) {
+			$.get(`/getInfoAsada/:${numAsada}` , function(data3){
+				$.get("/getAllSubcomponentes", function(data4){
+					console.log("Entre a todos los gets")
+					var tipoRiesgo = getTipoRiesgo (data2.riesgo[0].valor.toFixed(0));
+					var tipo = (["Muy Alto", "Alto", "Intermedio", "Bajo", "Muy bajo"])[tipoRiesgo]
+					textosMejora = textosMejora + 
+					"<p><b>ASADA: </b>" +data3.asadaInfo.ID+"-"+data3.asadaInfo.Nombre+"</p>" +
+					"<p><b>Provincia: </b>" +data3.asadaInfo.Provincia+"</p>" +
+					"<p><b>Cantón: </b>" +data3.asadaInfo.Canton+"</p>" +
+					"<p><b>Población atendida: </b>" +data3.asadaInfo.Poblacion+"</p>" +
+					"<p><b>IRSSAS: </b>" +data2.riesgo[0].valor.toFixed(0)+"</p>" +
+					"<p><b>Riesgo: </b>" + tipo +"</p>" +
+					"<p><b>Fecha: </b>" + getCurrentDate() +"</p>";
+					var count = 0;
+					data4.AllSubcomponentes.forEach(Sub =>
+						{
+							textosMejora = textosMejora + "<h4>"+Sub.Nombre+"</h4><br>";
+							mejoras.mejoras.forEach(mejora=>
+								{
+									if(mejora.SUBCOMPONENTE == Sub.ID)
+									{
+										console.log(mejora);
+										textosMejora = textosMejora + 
+										"<p style='white-space: pre-line'>"+mejora.TEXTO_MEJORA+"</p><br>";
+										count = count + 1;
+									}
+									console.log(count);
+									
+								});
+								if(count==0)
+								{
+									textosMejora = textosMejora + "<p>No se presentan recomendaciones para este subcomponente</p><br>";
+								}
+								count = 0;
+						});
+					
+						
+						$("#prueba").html(
+							"<div id="+numAsada+">"+
+							"<h2>Informe de Mejora</h2><br>" 
+							+ textosMejora +"</div>"
+						
+					
+							);
+				});
+				
+			});
+			
 		});
-		$("#prueba").html(
-			"<div id="+values_list[0]+">"+
-			"<h2>ASADA #" + values_list[0] + ": " + values_list[1] + "</h2><br>" 
-			+ lorem + textosMejora +"</div>"
 		
-	
-			);
 		
-	});       
+	});
 
-	$("#downloadpdf").show();
+	
+};
+
+
+
+function getCurrentDate()
+{   
+    var today = new Date();
+    if(today.getMonth()<= 10)
+    {
+        var date = today.getDate() +'-0'+(today.getMonth()+1)+'-'+today.getFullYear();
+    }
+    else{
+        var date = today.getDate() +'-'+(today.getMonth()+1)+'-'+today.getFullYear();
+    }
+    
+    console.log(date);
+    return date;
 };
 
 
