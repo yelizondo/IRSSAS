@@ -63,3 +63,10 @@ body {
   background-color: #FAFAFA;
   border:none;
 }
+
+.list-group-item{
+}
+
+.list-group-flush > .list-group-item{
+  border: none !important;
+}
