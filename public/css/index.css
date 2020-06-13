@@ -340,3 +340,32 @@ a.ol-popup-closer:hover{
   .form-control{
       background-color: rgba(29, 45, 81, 0.05)!important;
   }
+
+
+  /*.list-group-item-HMenu{
+    background-color: transparent;
+    color:#1D2D51;
+  }
+  
+  .list-group-item-HMenu.active{
+    z-index: 2;
+    color: #fafafa;
+    background-color: #1D2D51;
+    border:none;
+  }*/
+
+  ul.HMenu{
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #FAFAFA;
+  }
+
+  a.Hmenu{
+   
+    display: inline;
+    border: none;
+    color: #000;
+  
+  }

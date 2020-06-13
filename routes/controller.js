@@ -292,7 +292,7 @@ module.exports = {
             }
             else
             {
-                let notificacionesAdmin = "Select ID, date(FECHAHORA) as fecha, time(FECHAHORA) as hora, DETALLES, NOMBRE_USUARIO from NOTIFICACIONES_ADMIN where NOMBRE_USUARIO ='"+req.session.usuario.USUARIO+"';"
+                let notificacionesAdmin = "Select ID, date(FECHAHORA) as fecha, time(FECHAHORA) as hora, DETALLES, NOMBRE_USUARIO from NOTIFICACIONES_ADMIN where NOMBRE_USUARIO ='"+req.session.usuario.USUARIO+"' ORDER BY fecha,hora desc;;"
                 db.query(notificacionesAdmin, function(err2,rows2, fields)
                 {
                     res.render('pages/mainAsada.ejs', {"usuario": req.session.usuario, "notificaciones":rows2});
@@ -812,6 +812,22 @@ module.exports = {
             }); //end selectProvincias
         }) //end selectAsadas
     }, //end getEstadisticasGenerales
+    getStatsSubcomponentesAsada: (req, res) => 
+    {
+        let query = "SELECT c.Nombre as NombreComponente, d.ID as idSubcomponente, d.Nombre as NombreSubComponente , (SUM(s.valor * i.valor) * 1000000) / (d.valor * c.valor) AS valor FROM INDICADORXASADA s, INDICADOR i, SUBCOMPONENTE d, COMPONENTE c, ASADA a WHERE s.Indicador_ID = i.ID and i.Subcomponente_ID=d.ID and d.Componente_ID= c.ID and a.ID = s.Asada_ID and s.Asada_ID = '"+req.params.idAsada+"' GROUP BY c.Nombre, d.Nombre, s.Asada_ID ORDER BY d.ID;";
+        db.query(query, function(err,rows,fields)
+        {
+            if(!err)
+            {
+                res.send({"statsSubcomponentes" : rows})
+            } 
+            else
+            {
+                console.log('getStatsSubcomponentes. Error while performing Query.');
+                res.redirect('/');
+            } 
+        }) 
+    }, 
     sendCorreosNotificacionesAdmin: () =>
     {
         let selectCorreos = "Select Nombre, Usuario as Correo from USUARIO Where Tipo = 2; "

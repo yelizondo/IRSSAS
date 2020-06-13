@@ -320,53 +320,61 @@ function generarPDFInformeMejora(numAsada){
 	textosMejora = "";	            
 	$.get(`./generarInformeMejora/getInforme/:${numAsada}`,{},function(data){
 	}).done(function(mejoras){
-		console.log("entre al get de mejoras");
 		var parameters = { "id": numAsada, "tipo": "INDICADORXASADA", "anno": 0};
 		$.get('/getRiesgo',parameters,function(data2) {
 			$.get(`/getInfoAsada/:${numAsada}` , function(data3){
 				$.get("/getAllSubcomponentes", function(data4){
-					console.log("Entre a todos los gets")
-					var tipoRiesgo = getTipoRiesgo (data2.riesgo[0].valor.toFixed(0));
-					var tipo = (["Muy Alto", "Alto", "Intermedio", "Bajo", "Muy bajo"])[tipoRiesgo]
-					textosMejora = textosMejora + 
-					"<p><b>ASADA: </b>" +data3.asadaInfo.ID+"-"+data3.asadaInfo.Nombre+"</p>" +
-					"<p><b>Provincia: </b>" +data3.asadaInfo.Provincia+"</p>" +
-					"<p><b>Cantón: </b>" +data3.asadaInfo.Canton+"</p>" +
-					"<p><b>Población atendida: </b>" +data3.asadaInfo.Poblacion+"</p>" +
-					"<p><b>IRSSAS: </b>" +data2.riesgo[0].valor.toFixed(0)+"</p>" +
-					"<p><b>Riesgo: </b>" + tipo +"</p>" +
-					"<p><b>Fecha: </b>" + getCurrentDate() +"</p>";
-					var count = 0;
-					data4.AllSubcomponentes.forEach(Sub =>
-						{
-							textosMejora = textosMejora + "<h4>"+Sub.Nombre+"</h4><br>";
-							mejoras.mejoras.forEach(mejora=>
-								{
-									if(mejora.SUBCOMPONENTE == Sub.ID)
+					$.get("/getStatsSubcomponentes/" + numAsada, function(data5){
+						console.log(data5.statsSubcomponentes);
+						console.log("Entre a todos los gets")
+						var tipoRiesgo = getTipoRiesgo (data2.riesgo[0].valor.toFixed(0));
+						var tipo = (["Muy Alto", "Alto", "Intermedio", "Bajo", "Muy bajo"])[tipoRiesgo]
+						textosMejora = textosMejora + 
+						"<p><b>ASADA: </b>" +data3.asadaInfo.ID+"-"+data3.asadaInfo.Nombre+"</p>" +
+						"<p><b>Provincia: </b>" +data3.asadaInfo.Provincia+"</p>" +
+						"<p><b>Cantón: </b>" +data3.asadaInfo.Canton+"</p>" +
+						"<p><b>Población atendida: </b>" +data3.asadaInfo.Poblacion+"</p>" +
+						"<p><b>IRSSAS: </b>" +data2.riesgo[0].valor.toFixed(0)+"</p>" +
+						"<p><b>Riesgo: </b>" + tipo +"</p>" +
+						"<p><b>Fecha: </b>" + getCurrentDate() +"</p>";
+						var count = 0;
+						var index = 0;
+						data4.AllSubcomponentes.forEach(Sub =>
+							{
+								textosMejora = textosMejora + "<h4>"+Sub.Nombre+": Nivel de Riesgo " + data5.statsSubcomponentes[index].valor.toFixed(2) +"</h4><br>";
+								mejoras.mejoras.forEach(mejora=>
 									{
-										console.log(mejora);
-										textosMejora = textosMejora + 
-										"<p style='white-space: pre-line'>"+mejora.TEXTO_MEJORA+"</p><br>";
-										count = count + 1;
+										if(mejora.SUBCOMPONENTE == Sub.ID)
+										{
+											console.log(mejora);
+											textosMejora = textosMejora + 
+											"<p style='white-space: pre-line'>"+mejora.TEXTO_MEJORA+"</p><br>";
+											count = count + 1;
+										}
+										console.log(count);
+										
+									});
+									if(count==0)
+									{
+										textosMejora = textosMejora + "<p>No se presentan recomendaciones para este subcomponente</p><br>";
 									}
-									console.log(count);
-									
-								});
-								if(count==0)
-								{
-									textosMejora = textosMejora + "<p>No se presentan recomendaciones para este subcomponente</p><br>";
-								}
-								count = 0;
-						});
-					
+									count = 0;
+									index = index + 1;
+							});
 						
-						$("#prueba").html(
-							"<div id="+numAsada+">"+
-							"<h2>Informe de Mejora</h2><br>" 
-							+ textosMejora +"</div>"
+							
+							$("#prueba").html(
+								"<div id="+numAsada+">"+
+								"<h2>Informe de Mejora</h2><br>" 
+								+ textosMejora +"</div>"
+							
 						
+								);
 					
-							);
+					
+					
+					});
+					
 				});
 				
 			});
@@ -409,7 +417,7 @@ function downloadInformeMejora(){
 		//if(key < indicadores.childNodes.length && key > 0) pdfdoc.addPage();
 		pdfdoc.fromHTML(indicadores.innerHTML, 10, 10, {
 			'width': 190,
-			'elementHandlers': specialElementHandlers
+			'elementHandlers': specialElementHandlers,
 		});
 	//});
 	pdfdoc.save('informe-mejora.pdf');

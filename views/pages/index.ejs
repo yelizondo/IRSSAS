@@ -7,21 +7,20 @@
 
 <body>
 
-    <div class="wrapper">
+    <div class="d-flex" id="wrapper">
+
         <!-- Sidebar Holder -->
         <% include ../partials/lateral %>
         <!-- Page Content Holder -->
-        <div id="content">
+        <div id="page-content-wrapper" style="background-color: #FAFAFA;">
+            <br>
+            <% include ../partials/horizontalMenu %>
+            <button class="btn" id="menu-toggle" style="background: none;"><i class="fas fa-bars"></i></button>
 
+            
             <div class="container-fluid">
 
-                <div class="navbar-header">
-                    <button type="button" id="sidebarCollapse" class="btn btn-info navbar-btn">
-                        <i class="glyphicon glyphicon-leaf"></i>
-                        <span></span>
-                    </button>
-
-                </div>
+                
 
                 <div>
 
@@ -65,13 +64,12 @@
 
     <script type="text/javascript">
         $(document).ready(function () {
-
-
-            $('#sidebarCollapse').on('click', function () {
-                $('#sidebar, #content').toggleClass('active');
-                $('.collapse.in').toggleClass('in');
-                $('a[aria-expanded=true]').attr('aria-expanded', 'false');
-            });
+   
+            
+            $("#menu-toggle").click(function (e) {
+                e.preventDefault();
+            $("#wrapper").toggleClass("toggled");
+        });
 
             $("#divrisk").click(function () {
                 $("#divrisk").toggle("slow", "linear");
@@ -94,6 +92,8 @@
                 $("#menucomps").toggle("slow", "linear");
                 $("#menufilts").toggle("slow", "linear");
             });
+
+            
 
             $("#menufilts").hide();
 

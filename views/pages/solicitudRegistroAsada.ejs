@@ -14,23 +14,25 @@
 </head>
 
 <body>
-    <div class="wrapper">
+    <div class="d-flex" id="wrapper">
         <!-- Sidebar Holder -->
-        <nav id="sidebar" style="overflow-y: scroll">
-            <div id="menucomps">
-            <div class="sidebar-header">
-                <h2 id="irss"><a href="/">Proyecto IRSSAS</a></h2>
-            </div>
-            </div>
-        </nav>
+            <div class="border-right d-flex flex-column h-100" id="sidebar-wrapper"
+            style="background: linear-gradient(185.31deg, #00B396 -33.48%, #1D2D51 98.72%)">
+                <div class = "mt-3 sidebar-heading text-center">
+                <h2 id="irss"><a href="/" style="color: #FAFAFA; position: relative;">Proyecto IRSSAS</a></h2>
+            </div></div>
+
         <!-- Page Content Holder -->
-        <div id="content">
-            <nav class="navbar navbar-default">
+        <div id="page-content-wrapper" style="background-color: #FAFAFA;">
+            <br>
+            <button class="btn" id="menu-toggle" style="background: none;"><i class="fas fa-bars"></i></button>
+            <br>
+            <h3>Solicitud de registro de ASADA</h3>
+            <button type="button" class="btn btn-info navbar-btn" onclick="validarDatos()"">Enviar</button>
                 <div class="container-fluid">
-                    <div class="flex-box">
-                        <h3>Solicitud de registro de ASADA</h3>
-                        <button type="button" class="btn btn-info navbar-btn" onclick="validarDatos()"">Enviar</button>
-                    </div>
+                    
+                        
+                    
                     <form>
                     <table class="table">
                         <tbody>
@@ -131,7 +133,7 @@
                     </table>
                 </form>
                 </div>
-            </nav>
+            
         </div>
         <!-- jQuery CDN -->
         <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
@@ -143,7 +145,12 @@
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
         <!-- Local -->
         <script src="/scripts/getProvCantDist.js"></script>
-
+        <script>
+            $("#menu-toggle").click(function (e) {
+                e.preventDefault();
+                $("#wrapper").toggleClass("toggled");
+            });
+            </script>
         <script type="text/javascript">
             function errorPopUp(mensaje = 'Debe llenar todos los campos con *')
             {

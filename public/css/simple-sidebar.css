@@ -23,6 +23,8 @@ body {
 
 #sidebar-wrapper .list-group {
   width: 16rem;
+  max-height: 73vh;
+  overflow-y: auto;
 }
 
 #page-content-wrapper {
@@ -63,3 +65,5 @@ body {
   background-color: #FAFAFA;
   border:none;
 }
+
+

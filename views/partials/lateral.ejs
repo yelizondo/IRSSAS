@@ -1,53 +1,83 @@
-            <nav id="sidebar" style="overflow-y: scroll">
-                <div id="menucomps">
-                <div class="sidebar-header">
-                    <h2 id="irss"><a href="/">Proyecto IRSSAS</a></h2>
+<div class="border-right d-flex flex-column h-100" id="sidebar-wrapper"
+style="background: linear-gradient(185.31deg, #00B396 -33.48%, #1D2D51 98.72%); position:sticky;  top:0">
+                <div class="mt-3 sidebar-heading text-center">
+                    <a href="/">
+                        <img src="/images/Logo.png" class="img-fluid" id="irss">
+                    </a>
                 </div>
+                <div id="menucomps" class="mt-5 list-group list-group-flush">
+                   
 
                 <ul class="list-unstyled components mainmenu">
-                    <h3>Componentes</h3>
-                    <li class="active"><a id="Saneamiento" onclick="changeComponent('Componente',1, this.id);">Saneamiento</a>
+                    <h4 style="color: #FAFAFA" >Componentes</h4>
+                    <li class="active"><a href="#" class="list-group-item list-group-item-action" id="Saneamiento" onclick="changeComponent('Componente',1, this.id);">Saneamiento</a>
                     <ul class="components submenu">
-                    <li><a id="Gestión de Aguas Residuales" onclick="changeComponent('SubComponente',1, this.id);">Gestión de Aguas Residuales</a></li>
-                    <li><a id="Gestión de Residuos Sólidos" onclick="changeComponent('SubComponente',2, this.id);">Gestión de Residuos Sólidos</a></li>
+                    <a href="#" class="list-group-item list-group-item-action" id="Gestión de Aguas Residuales" onclick="changeComponent('SubComponente',1, this.id);">Gestión de Aguas Residuales</a>
+                    <a href="#" class="list-group-item list-group-item-action"  id="Gestión de Residuos Sólidos" onclick="changeComponent('SubComponente',2, this.id);">Gestión de Residuos Sólidos</a>
                     </ul></li>
 
-                    <li class="active"><a id="Gestión del Recurso Hídrico" onclick="changeComponent('Componente',2, this.id);" >Gestión del Recurso Hídrico</a>
+                    <li class="active"><a href="#" class="list-group-item list-group-item-action" id="Gestión del Recurso Hídrico" onclick="changeComponent('Componente',2, this.id);" >Gestión del Recurso Hídrico</a>
                     <ul class="components submenu">
-                    <li><a id="Gestión de Protección del Recurso Hídrico" onclick="changeComponent('SubComponente',3, this.id);">Gestión de Protección del Recurso Hídrico</a></li>
-                    <li><a id="Calidad de Agua Potable" onclick="changeComponent('SubComponente',4, this.id);">Calidad de Agua Potable</a></li>
-                    <li><a  id="Gestión Administrativo/Financiero" onclick="changeComponent('SubComponente',5, this.id);">Gestión Administrativo/Financiero</a></li>
+                    <a href="#" class="list-group-item list-group-item-action" id="Gestión de Protección del Recurso Hídrico" onclick="changeComponent('SubComponente',3, this.id);">Gestión de Protección del Recurso Hídrico</a>
+                    <a href="#" class="list-group-item list-group-item-action" id="Calidad de Agua Potable" onclick="changeComponent('SubComponente',4, this.id);">Calidad de Agua Potable</a>
+                    <a  href="#" class="list-group-item list-group-item-action" id="Gestión Administrativo/Financiero" onclick="changeComponent('SubComponente',5, this.id);">Gestión Administrativo/Financiero</a>
                     </ul></li>
 
-                    <li class="active"><a id="Índice de Desarrollo" onclick="changeComponent('Componente',3, this.id);" >Índice de Desarrollo</a></li>
-                    <li class="active"><a id="Educación" onclick="changeComponent('Componente',4, this.id);">Educación</a></li>
-                    <li class="active"><a id="Fenómenos Naturales"  onclick="changeComponent('Componente',5, this.id);">Fenómenos Naturales</a></li>
-                    <li class="active laclase"><a id="Índice de Riesgo Sostenible en el Servicio de Agua y Saneamiento"  onclick="changeComponent('IRSSAS',0, this.id);">IRSSAS Total</a></li>
+                    <a href="#" class="list-group-item list-group-item-action" id="Índice de Desarrollo" onclick="changeComponent('Componente',3, this.id);" >Índice de Desarrollo</a>
+                    <a href="#" class="list-group-item list-group-item-action" id="Educación" onclick="changeComponent('Componente',4, this.id);">Educación</a>
+                    <a href="#" class="list-group-item list-group-item-action" id="Fenómenos Naturales"  onclick="changeComponent('Componente',5, this.id);">Fenómenos Naturales</a>
+                    <a href="#" class="list-group-item list-group-item-action" id="Índice de Riesgo Sostenible en el Servicio de Agua y Saneamiento"  onclick="changeComponent('IRSSAS',0, this.id);">IRSSAS Total</a>
+                    
                     <hr>
-                    <li class="active"><a href="/presentacionAsadas">Presentación de ASADAS</a></li>
-                    <li class="active"> <a  href="/infoGeneral">Información General</a></li>
-                    <li class="active"> <a  href="/rutas">Rutas</a></li>
-                    <li class="active"> <a  href="/verEstadisticasGenerales">Estadisticas generales</a></li>
-                    <li class="active"> <a id="filts">Filtros</a></li>
+
+
+
+                    <a href="/presentacionAsadas" class="list-group-item list-group-item-action"><i class="fas fa-circle mr-3"></i>Presentación de ASADAS</a>
+                    <a href="/infoGeneral" class="list-group-item list-group-item-action"><i class="fas fa-circle mr-3"></i>Información General</a>
+                    <a href="/rutas" class="list-group-item list-group-item-action"><i class="fas fa-circle mr-3"></i>Rutas</a>
+                    <a href="/verEstadisticasGenerales" class="list-group-item list-group-item-action"><i class="fas fa-circle mr-3"></i>Estadisticas generales</a>
+                    <a href="#" class="list-group-item list-group-item-action" id="filts" ><i class="fas fa-circle mr-3"></i> Filtros</a>
                     
                 </ul>
                 </div>
-                <div id="menufilts">
+                <div id="menufilts" class="mt-5 list-group list-group-flush">
                         <ul class="list-unstyled components mainmenu">
-                                <li class="active"><a>Provincia  <select class="form-control" onchange="getCanton()" id="prov">
-                                        <option value="0">Sin filtro</option>
+                            <h5 style="color: #FAFAFA" >Ubicación</h5>
+                                <li class="active"><a style = "color: #FAFAFA;">Provincia  <select class="form-control" onchange="getCanton()" id="prov">
+                                        <option value="0" style="color: #FAFAFA;">Sin filtro</option>
                                     <%rows.forEach(function(row, index) {%>
                                         <option value="<%= row.ID%>"><%= row.Nombre%></option>
                                     <%});%>
                                 </select></a></li>
-                                <li class="active"><a>Cantón<select class="form-control" onchange="getDistrito()" id="cant">
-                                        <option value="0">Sin filtro</option>
+                                <li class="active"><a style = "color: #FAFAFA;">Cantón<select class="form-control" onchange="getDistrito()" id="cant">
+                                        <option value="0" style = "color: #FAFAFA;" >Sin filtro</option>
                                     </select></a></li>
-                                <li class="active"><a>Distrito<select class="form-control" id="dist">
+                                <li class="active"><a style = "color: #FAFAFA;">Distrito<select class="form-control" id="dist">
                                         <option value="0">Sin filtro</option>
                                 </select></a></li>
-                                <li class="active"><a onclick="filtrarMap();">Filtrar</a></li>
-                                <hr>                                
+                                <br>
+
+                                <li class="active"><a class="list-group-item list-group-item-action" style="color: #FAFAFA;" onclick="filtrarMap();">Filtrar</a></li>
+                                <hr>  
+                                
+                                <h4 style="color: #FAFAFA" >Componentes</h4>
+                    <li class="active"><a href="#" class="list-group-item list-group-item-action" id="Saneamiento" onclick="changeComponent('Componente',1, this.id);">Saneamiento</a>
+                    <ul class="components submenu">
+                    <a href="#" class="list-group-item list-group-item-action" id="Gestión de Aguas Residuales" onclick="changeComponent('SubComponente',1, this.id);">Gestión de Aguas Residuales</a>
+                    <a href="#" class="list-group-item list-group-item-action"  id="Gestión de Residuos Sólidos" onclick="changeComponent('SubComponente',2, this.id);">Gestión de Residuos Sólidos</a>
+                    </ul></li>
+
+                    <li class="active"><a href="#" class="list-group-item list-group-item-action" id="Gestión del Recurso Hídrico" onclick="changeComponent('Componente',2, this.id);" >Gestión del Recurso Hídrico</a>
+                    <ul class="components submenu">
+                    <a href="#" class="list-group-item list-group-item-action" id="Gestión de Protección del Recurso Hídrico" onclick="changeComponent('SubComponente',3, this.id);">Gestión de Protección del Recurso Hídrico</a>
+                    <a href="#" class="list-group-item list-group-item-action" id="Calidad de Agua Potable" onclick="changeComponent('SubComponente',4, this.id);">Calidad de Agua Potable</a>
+                    <a  href="#" class="list-group-item list-group-item-action" id="Gestión Administrativo/Financiero" onclick="changeComponent('SubComponente',5, this.id);">Gestión Administrativo/Financiero</a>
+                    </ul></li>
+
+                    <a href="#" class="list-group-item list-group-item-action" id="Índice de Desarrollo" onclick="changeComponent('Componente',3, this.id);" >Índice de Desarrollo</a>
+                    <a href="#" class="list-group-item list-group-item-action" id="Educación" onclick="changeComponent('Componente',4, this.id);">Educación</a>
+                    <a href="#" class="list-group-item list-group-item-action" id="Fenómenos Naturales"  onclick="changeComponent('Componente',5, this.id);">Fenómenos Naturales</a>
+                    <a href="#" class="list-group-item list-group-item-action" id="Índice de Riesgo Sostenible en el Servicio de Agua y Saneamiento"  onclick="changeComponent('IRSSAS',0, this.id);">IRSSAS Total</a>
                                 <li class="active"><a id="filt-5" onclick="checkear(this.id);"><i id="filts-5" class="glyphicon glyphicon-ok"></i>  Provincia</a></li>
                                 <li class="active"><a id="filt-4" onclick="checkear(this.id);"><i id="filts-4" class="glyphicon glyphicon-ok"></i>  Cantón</a></li>
                                 <li class="active"><a id="filt-3" onclick="checkear(this.id);"><i id="filts-3" class="glyphicon glyphicon-ok"></i>  Distrito</a></li>
@@ -59,4 +89,4 @@
                 </div>
 
                 
-            </nav>
+            </div>
