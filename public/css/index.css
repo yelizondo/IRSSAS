@@ -342,8 +342,12 @@ a.ol-popup-closer:hover{
       background-color: rgba(29, 45, 81, 0.05)!important;
   }
 
-  input.form-control, select.form-control{
+  input.form-control, select.form-control, textarea.form-control{
       border: 0px solid !important;
+  }
+
+  .form-group label{
+      font-weight: 700;
   }
 
   /* .table-striped tr:nth-child(odd) input, .table-striped tr:nth-child(odd) select{

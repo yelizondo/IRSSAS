@@ -6,118 +6,84 @@
 </head>
 
 <body>
-
-    <div class="wrapper">
-        <!-- Sidebar Holder -->
+    <div class="d-flex" id="wrapper">
         <% include ../partials/latAdmin %>
-        <!-- Page Content Holder -->
-        <div id="content">
-
-            <nav class="navbar navbar-default">
-                <div class="container-fluid">
-
-                    <div class="navbar-header">
-                        <button type="button" id="sidebarCollapse" class="btn btn-info navbar-btn">
-                            <i class="glyphicon glyphicon-leaf"></i>
-                            <span></span>
-                        </button>
-                        <form action="/asadas" id="compsub">
-                            <button type="submit" onclick=" return deleteAsada();" style="visibility: hidden;"
-                                id="savebutton" class="btn btn-info navbar-btn">Guardar cambios</button>
-                            <p style="color: #f00;" id="error"></p>
-                        </form>
+        <div id="page-content-wrapper" style="background-color: #FAFAFA;">
+            <button class="btn" id="menu-toggle" style="background: none;"><i class="fas fa-bars"></i></button>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12 col-md">
+                        <p class="title mt-3 pb-2 font-weight-bold h3">ASADAS</p>
+                        <p id="totalAsadas" style="color: black; font-family: Arial, Helvetica, sans-serif;">Total de
+                            ASADAS
+                            registradas: <%=rows.length%></p>
                     </div>
-
-                    <div style="float: right;">
-                        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                            <form action="/logout">
-                                <button type="submit" class="btn btn-info navbar-btn">Cerrar Sesión</button>
-                            </form>
-                        </div>
+                    <div class="col-auto d-flex align-items-center">
+                        <button type="button" onclick="location.href='/newasada';" class="btn btn-info">
+                            <i class="fas fa-plus"></i>
+                        </button>
                     </div>
                 </div>
-                <!-- <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1"> -->
-                <button type="submit" onclick="window.location.replace('/asociaciones');"
-                    class="btn btn-info navbar-btn">Asociaciones</button>
-                <!-- </div> -->
-                <h3>Administración/Asadas</h3>
-                <p id="totalAsadas" style="color: black; font-family: Arial, Helvetica, sans-serif;">Total de ASADAS
-                    registradas: <%=rows.length%></p>
-                <div style="margin: 20px;">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th scope="col">ID</th>
-                                <th scope="col">Nombre</th>
-                                <th scope="col">Provincia</th>
-                                <th scope="col">Cantón</th>
-                                <th scope="col">Distrito</th>
-                                <th scope="col">Ubicación</th>
-                                <th scope="col">Estado</th>
-                                <th scope="col">Ver</th>
-                            </tr>
-                        </thead>
-                        <tbody id="componenttable">
-                            <%rows.forEach(function(asada, index) {%>
-                            <tr>
-                                <td><%=asada.ID%></td>
-                                <td><%=asada.Nombre%></td>
-                                <td><%=asada.Provincia%></td>
-                                <td><%=asada.Canton%></td>
-                                <td><%=asada.Distrito%></td>
-                                <td><%=asada.Ubicacion%></td>
-                                <td>
-                                    <select class="form-select" onchange="changeEstado('<%=asada.ID%>',this.value)">
-                                        <% if(asada.Estado == 1) {%>
-                                        <option value="1" selected>Activo</option>
-                                        <option value="0">Inactivo</option>
-                                        <%}else{%>
-                                        <option value="1">Activo</option>
-                                        <option value="0" selected>Inactivo</option>
-                                        <%}%>
-                                                
+                <div class="bg-white shadow p-3 mb-5">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-borderless" id="asadas-table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">ID</th>
+                                    <th scope="col">Nombre</th>
+                                    <th scope="col">Provincia</th>
+                                    <th scope="col">Cantón</th>
+                                    <th scope="col">Distrito</th>
+                                    <th scope="col">Ubicación</th>
+                                    <th scope="col">Estado</th>
+                                    <th scope="col">Ver</th>
+                                </tr>
+                            </thead>
+                            <tbody id="componenttable">
+                                <%rows.forEach(function(asada, index) {%>
+                                <tr>
+                                    <td><%=asada.ID%></td>
+                                    <td><%=asada.Nombre%></td>
+                                    <td><%=asada.Provincia%></td>
+                                    <td><%=asada.Canton%></td>
+                                    <td><%=asada.Distrito%></td>
+                                    <td><%=asada.Ubicacion%></td>
+                                    <td>
+                                        <select class="form-select" onchange="changeEstado('<%=asada.ID%>',this.value)">
+                                            <% if(asada.Estado == 1) {%>
+                                            <option value="1" selected>Activo</option>
+                                            <option value="0">Inactivo</option>
+                                            <%}else{%>
+                                            <option value="1">Activo</option>
+                                            <option value="0" selected>Inactivo</option>
+                                            <%}%>
+                                                            
                                         </select>
                                     </td>
-                                  
-
                                     <td>
                                         <button class="btn" onclick="location.href='/asadas/<%=asada.ID%>';">
-                                            <i class="fas fa-info-circle"  style="color: #325276"></i>
-                                        </button>
-                                </td>
-
-                            </tr>
-                            <%});%>
-                        </tbody>
-                    </table>
+                                            <i class="fas fa-info-circle" style="color: #325276"></i>
+                                            </button>
+                                    </td>
+                                </tr>
+                                <%});%>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-                <div id="divbutton" style=" position: absolute; bottom: 6px; right: 8px;">
-                    <button type="button" onclick="location.href='/newasada';" class="btn btn-info navbar-btn">
-                        <i class="glyphicon glyphicon-plus"></i>
-                        <span></span>
-                    </button>
-                </div>
-            </nav>
+            </div>
         </div>
     </div>
-
-
-    <!-- jQuery CDN -->
-    <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
-    <!-- Bootstrap Js CDN -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <!-- jQuery Custom Scroller CDN -->
-    <script
-        src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
 
     <script type="text/javascript">
         $(document).ready(function () {
 
 
-            $('#sidebarCollapse').on('click', function () {
-                $('#sidebar, #content').toggleClass('active');
-                $('.collapse.in').toggleClass('in');
-                $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+            $("a[href$='/asadas']").addClass("active");
+
+            $("#menu-toggle").click(function (e) {
+                e.preventDefault();
+                $("#wrapper").toggleClass("toggled");
             });
 
             $("#divrisk").click(function () {
@@ -134,8 +100,16 @@
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
+
+
     <script src="scripts/crud.js"></script>
     <script>
+        $(document).ready(function () {
+            $('#asadas-table').DataTable();
+        });
         function changeEstado(id, estado) {
             Swal.fire({
                 title: '¿Está seguro de cambiar el estado?',
