@@ -5,7 +5,8 @@
         <select id="asada" name="asada" class="form-control hideinput" onchange="graficoAranna();">
             <option value="">Sin filtro</option>
             <%asadas.forEach(function(asada){%>
-                <option hidden value="<%=asada.ID%>" distrito="<%=asada.Distrito%>" canton="<%=asada.Canton%>" provincia="<%=asada.Provincia%>"><%=asada.Nombre%></option>
+            <option hidden value="<%=asada.ID%>" distrito="<%=asada.Distrito%>" canton="<%=asada.Canton%>"
+                provincia="<%=asada.Provincia%>"><%=asada.Nombre%></option>
             <%});%>
         </select>
     </div>
