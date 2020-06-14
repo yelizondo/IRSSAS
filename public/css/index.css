@@ -1,5 +1,5 @@
-@import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
-
+/* @import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700"; */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
 
 
 #map, #map2 {
@@ -10,14 +10,15 @@
 
 
 body {
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
     background: #fafafa;
 }
 
 p, .lista {
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Roboto', sans-serif;
     font-size: 1.1em;
-    font-weight: 300;
+    font-weight: 700;
     line-height: 1.7em;
     color: #999;
 }
@@ -341,31 +342,14 @@ a.ol-popup-closer:hover{
       background-color: rgba(29, 45, 81, 0.05)!important;
   }
 
-
-  /*.list-group-item-HMenu{
-    background-color: transparent;
-    color:#1D2D51;
-  }
-  
-  .list-group-item-HMenu.active{
-    z-index: 2;
-    color: #fafafa;
-    background-color: #1D2D51;
-    border:none;
-  }*/
-
-  ul.HMenu{
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    background-color: #FAFAFA;
+  input.form-control, select.form-control, textarea.form-control{
+      border: 0px solid !important;
   }
 
-  a.Hmenu{
-   
-    display: inline;
-    border: none;
-    color: #000;
-  
+  .form-group label{
+      font-weight: 700;
   }
+
+  /* .table-striped tr:nth-child(odd) input, .table-striped tr:nth-child(odd) select{
+    background-color: rgba(29, 45, 81, 1)!important;
+  } */
