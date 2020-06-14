@@ -1,5 +1,6 @@
-<div class="form-row">
-    <div class="form-group col-md-3" id="provincia-select">
+
+
+    <div class="col-md" id="provincia-select">
         <label for="prov">Provincia</label>
         <select class="form-control" onchange="getCanton()" id="prov" name="prov">
             <option value="0">Sin filtro</option>
@@ -8,17 +9,18 @@
             <%});%>
         </select>
     </div>
-    <div class="form-group col-md-3" id="canton-select">
+    <div class="col-md" id="canton-select">
         <label for="cant">Cantón</label>
         <select class="form-control" onchange="getDistrito()" id="cant" name="cant">
                 <option value="0">Sin filtro</option>
         </select>
     </div>
-    <div class="form-group col-md-3" id="distrito-select">
+    <div class="col-md" id="distrito-select">
         <label for="dist">Distrito</label>
         <select class="form-control" onchange="getAsada()" id="dist" name="dist">
             <option value="0">Sin filtro</option>
         </select>
     </div>
-</div>
+
+    
 <script src="/scripts/getProvCantDist.js"></script>

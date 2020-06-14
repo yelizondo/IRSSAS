@@ -10,13 +10,12 @@
     <div class="d-flex" id="wrapper">
 
         <!-- Sidebar Holder -->
-        <% include ../partials/lateral %>
+       
         <!-- Page Content Holder -->
         <div id="page-content-wrapper" style="background-color: #FAFAFA;">
             <br>
             <% include ../partials/horizontalMenu %>
-            <button class="btn" id="menu-toggle" style="background: none;"><i class="fas fa-bars"></i></button>
-
+            
             
             <div class="container-fluid">
 
@@ -42,11 +41,18 @@
                     </form>
 
                 </div>
-
+                <a href="/contacto">Contacto de ASADAs</a>
+                <div class="bg-white shadow p-3 mb-5">
+                    <div class="bg-white shadow p-3 mb-5">
+                        <p id="mycomponent">índice de Riesgo Sostenible en el Servicio de Agua y Saneamiento</p>
+                    <img onclick="location.href='/mapa'" src="/images/IRSSAS-DEF.png" style="width: 100%;">
+                    </div>
+                    
+                    <% include ../partials/informacionProyecto.ejs %>
+                </div>
+                
             </div>
-            <a href="/contacto">Contacto de ASADAs</a>
-            <p id="mycomponent">índice de Riesgo Sostenible en el Servicio de Agua y Saneamiento</p>
-            <img onclick="location.href='/mapa'" src="/images/mapa.png" style="width: 100%;">
+            
 
             <% include ../partials/informacionProyecto.ejs %>
         </div>

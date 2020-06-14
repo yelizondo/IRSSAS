@@ -13,6 +13,7 @@ module.exports = {
         db.query(query,function(err,rows,fields){
             if(!err){
                 res.render('pages/index.ejs', {"rows":rows, "error":""});
+                //res.render('pages/inicio.ejs', {"rows":rows, "error":""});
             }
         });
 

@@ -14,17 +14,24 @@
         <div id="page-content-wrapper" style="background-color: #FAFAFA;">
 
                 <div class="container-fluid" style="position: relative;">
+
                     <button class="btn" id="menu-toggle" style="background: none;"><i class="fas fa-bars"></i></button>
-                    <a id="export-png" class="btn btn-primary"><i class="fa fa-download"></i> Descargar PNG</a>
-                    <a id="image-download" download="map.png"></a>
-                    <p id="mycomponent">Indice de Riesgo Sostenible en el Servicio de Agua y Saneamiento</p>
-                    <div id="map">
+                    <div class="col-12 col-md">
+                        <p class="title mt-3 pb-2 font-weight-bold h3">Visor del Mapa</p>
                     </div>
-                    <div id="popup" class="ol-popup">
-                        <a href="#" id="popup-closer" class="ol-popup-closer"></a>
-                        <div id="popup-content"></div>
+                    <div class="bg-white shadow p-3 mb-5">
+                        <a id="export-png" class="btn btn-primary"><i class="fa fa-download"></i> Descargar PNG</a>
+                        <a id="image-download" download="map.png"></a>
+                        <p id="mycomponent">Indice de Riesgo Sostenible en el Servicio de Agua y Saneamiento</p>
+                        <div id="map">
+                        </div>
+                        <div id="popup" class="ol-popup">
+                            <a href="#" id="popup-closer" class="ol-popup-closer"></a>
+                            <div id="popup-content"></div>
+                        </div>
+                        <% include ../partials/riesgo %>
                     </div>
-                    <% include ../partials/riesgo %>
+                    
                     
                 </div>
                

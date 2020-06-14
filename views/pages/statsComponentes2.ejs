@@ -1,122 +1,97 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <% include ../partials/header %>
-    </head>
 
-    <body>
+<head>
+    <% include ../partials/header %>
+</head>
 
-        <div class="wrapper">
-            <!-- Sidebar Holder -->
-            <% include ../partials/latAdmin %>
-            <!-- Page Content Holder -->
-            <div id="content">
+<body>
 
-                <nav class="navbar navbar-default">
-                    <div class="container-fluid">
+    <div class="d-flex" id="wrapper">
+        <!-- Sidebar Holder -->
+        <% include ../partials/latAdmin %>
+        <!-- Page Content Holder -->
 
-                        <div class="navbar-header">
-                            <button type="button" id="sidebarCollapse" class="btn btn-info navbar-btn">
-                                <i class="glyphicon glyphicon-leaf"></i>
-                                <span></span>
-                            </button>
+        <div id="page-content-wrapper" style="background-color: #FAFAFA;">
+            <button class="btn" id="menu-toggle" style="background: none;"><i class="fas fa-bars"></i></button>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12 col-md">
+                        <p class="title mt-3 pb-2 font-weight-bold h3">Estadísticas</p>
+                    </div>
+                </div>
+                <div class="bg-white shadow p-3 mb-5">
+                    <div class="form-row">
+                        <div class="form-group col-12 col-md">
+                            <label> Provincia </label>
+                            <select class="form-control" onchange="getCanton()" id="prov">
+                                <option value="0">Sin filtro</option>
+                                <%rows.forEach(function(row, index) {%>
+                                <option value="<%= row.ID%>"><%= row.Nombre%></option>
+                                <%});%>
+                            </select>
                         </div>
-
-                        <div style="float: right;">
-                            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                                <form action="/logout">
-                                    <button type="submit" class="btn btn-info navbar-btn">Cerrar Sesión</button>
-                                </form>
-                            </div>                           
+                        <div class="form-group col-12 col-md">
+                            <label> Canton </label>
+                            <select class="form-control" onchange="getDistrito()" id="cant">
+                                <option value="0">Sin filtro</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-12 col-md">
+                            <label> Distrito </label>
+                            <select class="form-control" id="dist">
+                                <option value="0">Sin filtro</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-12 col-md">
+                            <label> Orden </label>
+                            <select class="form-control" id="ord">
+                                <option value="ASC">Ascendente</option>
+                                <option value="DESC">Descendente</option>
+                            </select>
+                        </div>
+                        <div class="col-auto mt-md-4">
+                            <button class="btn btn-lg btn-info" onclick="getEstadisticas()"><i class="fas fa-search"></i></button>
                         </div>
                     </div>
-                    <h3>Estudios/Estadísticas</h3>
-                    <div style="margin: 20px;">
-                            <div class="form-row">
-                                    <div class="form-group col-md-3">
-                                        <label> Provincia </label>
-                                        <select class="form-control" onchange="getCanton()" id="prov">
-                                                <option value="0">Sin filtro</option>
-                                            <%rows.forEach(function(row, index) {%>
-                                                <option value="<%= row.ID%>"><%= row.Nombre%></option>
-                                            <%});%>
-                                        </select>
-                                    </div>
-                                    <div class="form-group col-md-3">
-                                        <label> Canton </label>
-                                        <select class="form-control" onchange="getDistrito()" id="cant">
-                                            <option value="0">Sin filtro</option>
-                                        </select>
-                                    </div>
-                                    <div class="form-group col-md-3">
-                                        <label> Distrito </label>
-                                        <select class="form-control" id="dist">
-                                                <option value="0">Sin filtro</option>
-                                        </select>
-                                    </div>
-                                    <div class="form-group col-md-3">
-                                        <label> Orden </label>
-                                        <select class="form-control" id="ord">
-                                            <option value="ASC">Ascendente</option>
-                                            <option value="DESC">Descendente</option>
-                                        </select>
-                                    </div>
-                                </div>
-                        <button onclick="getEstadisticas()">Filtrar</button>
-                        <p id="totalAsadas" style="color: black; font-family: Arial, Helvetica, sans-serif;"></p>
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th scope="col">Asada</th>
-                                    <th scope="col">Distrito</th>
-                                    <th scope="col">Canton</th>
-                                    <th scope="col">Provincia</th>
-                                    <th scope="col">IRSSAS</th>
-                                    <th scope="col">Detalles</th>
-                                </tr>
-                            </thead>
+                   
+                    <p id="totalAsadas" style="color: black; font-family: Arial, Helvetica, sans-serif;"></p>
+                   <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th scope="col">Asada</th>
+                                <th scope="col">Distrito</th>
+                                <th scope="col">Canton</th>
+                                <th scope="col">Provincia</th>
+                                <th scope="col">IRSSAS</th>
+                                <th scope="col">Detalles</th>
+                            </tr>
+                        </thead>
                         <tbody id="componenttable">
                         </tbody>
-                        </table>
-                    </div>
-
-
-                </nav>
+                    </table>
+                </div></div>
             </div>
         </div>
-
-
-        <!-- jQuery CDN -->
-        <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
-        <!-- Bootstrap Js CDN -->
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-        <!-- jQuery Custom Scroller CDN -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
-
-        <script type="text/javascript">
-            $(document).ready(function () {
-               
-
-                $('#sidebarCollapse').on('click', function () {
-                    $('#sidebar, #content').toggleClass('active');
-                    $('.collapse.in').toggleClass('in');
-                    $('a[aria-expanded=true]').attr('aria-expanded', 'false');
-                });
-
-                $("#divrisk").click(function(){
-                     $("#divrisk").toggle("slow","linear");
-                });
-
-                $("#buttonrisk").click(function(){
-                     $("#divrisk").toggle("slow","linear");
-                });
-
-
+    </div>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#menu-toggle").click(function (e) {
+                e.preventDefault();
+                $("#wrapper").toggleClass("toggled");
             });
-            
+            $("#divrisk").click(function () {
+                $("#divrisk").toggle("slow", "linear");
+            });
+            $("#buttonrisk").click(function () {
+                $("#divrisk").toggle("slow", "linear");
+            });
+            $("a[href$='/statsComponentes']").addClass("active");
+        });
+    </script>
+    <script src="scripts/script.js"></script>
+    <script src="scripts/getProvCantDist.js"></script>
+</body>
 
-        </script>
-        <script src="scripts/script.js"></script>
-        <script src="scripts/getProvCantDist.js"></script>
-    </body>
 </html>

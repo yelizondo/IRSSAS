@@ -16,86 +16,91 @@
 
 <body>
 
-    <div class="wrapper">
+    <div class="d-flex" id="wrapper">
         <!-- Sidebar Holder -->
-        <nav id="sidebar" style="overflow-y: scroll">
-            <div id="menucomps">
-            <div class="sidebar-header">
-                <h2 id="irss"><a href="/">Proyecto IRSSAS</a></h2>
-            </div>
-            </div>
-        </nav>
+        
         <!-- Page Content Holder -->
-        <div id="content">
-
-            <nav class="navbar navbar-default svg-h-100">
-                <div class="container-fluid">
-
-                    <div class="navbar-header">
-                        <button type="button" id="sidebarCollapse" class="btn btn-info navbar-btn">
-                            <i class="glyphicon glyphicon-leaf"></i>
-                            <span></span>
-                        </button>
-
-                    </div>
-
-                    <div style="float: right;">
-                        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                            <form action="/visor">
-                                <button type="submit" class="btn btn-info navbar-btn">Volver al mapa</button>
-                            </form>
+        <div id="page-content-wrapper" style="background-color: #FAFAFA;">
+                
+            <% include ../partials/horizontalMenu %>
+                    <div class="container-fluid">
+                        <h2 class="text-center title">Estadisticas Generales</h2>
+                        <div class="bg-white shadow p-3 mb-5">
+                            
+                            
+                              
+                            <div class="container">
+                            
+                                <div class="row">
+                                    <div class="col-md"> 
+                                        <button style = "margin-top: 8px;" type="button" class="btn btn-info navbar-btn" id="informeProvincia" onclick="cambiarTipoInformeGeneral(1, this);">Informe por provincia</button>
+                                    </div>
+                                    <div class="col-md"> 
+                                        <button style = "margin-top: 8px;" type="button" class="btn btn-info navbar-btn" id="informeCanton" onclick="cambiarTipoInformeGeneral(2, this);">Informe por cantón</button>
+                                    </div>
+                                    <div class="col-md"> 
+                                        <button style = "margin-top: 8px;" type="button" class="btn btn-info navbar-btn" id="informeDistrito" onclick="cambiarTipoInformeGeneral(3, this);">Informe por distrito</button>
+                                    </div>
+                                    <div class="col-md"> 
+                                        <button style = "margin-top: 8px;" type="button" class="btn btn-info navbar-btn" id="informeAsada" onclick="cambiarTipoInformeGeneral(4, this);">Informe por ASADA</button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <br>                        
+                        <div class = "container">
+                            <% include ../partials/filtroCantonDistProvAsada %>
                         </div>
-                    </div>
-
-                </div>
-                <div>
-                    <div class="form-group">
-                        <h3>Estadisticas Generales</h3>
-                        <div>
-                            <button type="button" class="btn btn-info navbar-btn" id="informeProvincia" onclick="cambiarTipoInformeGeneral(1, this);">Informe por provincia</button>
-                            &nbsp;&nbsp;&nbsp;&nbsp;
-                            <button type="button" class="btn btn-info navbar-btn" id="informeCanton" onclick="cambiarTipoInformeGeneral(2, this);">Informe por cantón</button>
-                            &nbsp;&nbsp;&nbsp;&nbsp;
-                            <button type="button" class="btn btn-info navbar-btn" id="informeDistrito" onclick="cambiarTipoInformeGeneral(3, this);">Informe por distrito</button>
-                            &nbsp;&nbsp;&nbsp;&nbsp;
-                            <button type="button" class="btn btn-info navbar-btn" id="informeAsada" onclick="cambiarTipoInformeGeneral(4, this);">Informe por ASADA</button>
+                            
+                            <br>
+                            <div class="container">
+                                <button type="submit" class="btn btn-info navbar-btn" onclick="add2Informe()">+</button>
+                                <button type="submit" class="btn btn-info navbar-btn" onclick="removeFromInforme()">-</button>
+                            </div>
+                            
+                            <br>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Nombre</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="selectedInforme">
+                                </tbody>
+                            </table>
+                            <br> 
+                            <div>
+                                <button type="submit" class="btn btn-info navbar-btn" onclick="requestInformeGeneral()">Generar informe</button>
+                            </div>   
+                            <br>
+                            <div class="bg-white shadow p-3 mb-5">
+                                <div class="table-responsive">
+                                    <table id="informe" class="table table-striped table-borderless" hidden>
+                                        <thead>
+                                            <tr>
+                                                <th>Nombre</th>
+                                                <th>Población atendida</th>
+                                                <th>Saneamiento</th>
+                                                <th>Recurso hídrico</th>
+                                                <th>Educación ambiental</th>
+                                                <th>Índice de desarrollo social</th>
+                                                <th>Eventos naturales</th>
+                                                <th>IRSSAS promedio</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="informeBody">
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
                         </div>
-                        <br>                        
+                        
                     </div>
-                    <% include ../partials/filtroCantonDistProvAsada %>
-                    <br><br><br><br>
-                    <button type="submit" class="btn btn-info navbar-btn" onclick="add2Informe()">+</button>
-                    <button type="submit" class="btn btn-info navbar-btn" onclick="removeFromInforme()">-</button>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Nombre</th>
-                            </tr>
-                        </thead>
-                        <tbody id="selectedInforme">
-                        </tbody>
-                    </table>
-                    <br>    
-                    <button type="submit" class="btn btn-info navbar-btn" onclick="requestInformeGeneral()">Generar informe</button>
-                    <br>
-                    <table id="informe" class="table" hidden>
-                        <thead>
-                            <tr class="row">
-                                <th>Nombre</th>
-                                <th>Población atendida</th>
-                                <th>Saneamiento</th>
-                                <th>Recurso hídrico</th>
-                                <th>Educación ambiental</th>
-                                <th>Índice de desarrollo social</th>
-                                <th>Eventos naturales</th>
-                                <th>IRSSAS promedio</th>
-                            </tr>
-                        </thead>
-                        <tbody id="informeBody">
-                        </tbody>
-                    </table>
-                </div>
-            </nav>
+                    
+                    
+                    
+                
+            
         </div>
     </div>
     <!-- jQuery CDN -->
