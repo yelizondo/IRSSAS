@@ -7,37 +7,54 @@
 
     <body>
 
-        <div class="wrapper">
+        <div class="d-flex" id="wrapper">
             <!-- Sidebar Holder -->
             <% include ../partials/latAdmin %>
             <!-- Page Content Holder -->
-            <div id="content">
-
-                <nav class="navbar navbar-default">
-                    <div class="container-fluid">
-
-                        <div class="navbar-header">
-                            <button type="button" id="sidebarCollapse" class="btn btn-info navbar-btn">
-                                <i class="glyphicon glyphicon-leaf"></i>
-                                <span></span>
+            <div id="page-content-wrapper" style="background-color: #FAFAFA;">
+                <button class="btn" id="menu-toggle" style="background: none;"><i class="fas fa-bars"></i></button>
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-12 col-md">
+                            <p class="title mt-3 pb-2 font-weight-bold h3">Formulario</p>
+                        </div>
+                        <div class="col-auto d-flex align-items-center">
+                            <button type="button" id="btnCrearFormulario" hidden onclick="crearFormulario()" class="btn btn-info">
+                                Crear formulario
                             </button>
                         </div>
-
-                        <div style="float: right;">
-                            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                                <form action="/logout">
-                                    <button type="submit" class="btn btn-info navbar-btn">Cerrar Sesión</button>
-                                </form>
-                            </div>                           
-                        </div>
                     </div>
-                    <div style="margin: 20px;">
-                        <h3>Históricos/Formularios</h3>
-                        <div class="form-group">
-                            
-                            <div class="form-row">
-                                <% include ../partials/filtroCantonDistProv %>
-                                <div class="form-group col-md-3">
+                    <div class="bg-white shadow p-3 mb-5">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="prov">Provincia</label>
+                                    <select class="form-control" onchange="getCanton()" id="prov" name="prov">
+                                        <option value="0">Sin filtro</option>
+                                        <%prov.forEach(function(row, index) {%>
+                                            <option value="<%= row.ID%>"><%= row.Nombre%></option>
+                                        <%});%>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="cant">Cantón</label>
+                                    <select class="form-control" onchange="getDistrito()" id="cant" name="cant">
+                                            <option value="0">Sin filtro</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="dist">Distrito</label>
+                                    <select class="form-control" onchange="getAsada()" id="dist" name="dist">
+                                        <option value="0">Sin filtro</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
                                     <label for="asada">ASADA</label>
                                     <select id="asada" name="asada" onclick="getAnnos(this)" class="form-control hideinput">
                                         <option value=""></option>
@@ -47,55 +64,48 @@
                                     </select>
                                 </div>
                             </div>
+                            <div class="col-md-3">
                                 <label for="anno">Año</label>
-                                <div class="form-row">
-                                    <div class="form-group col-md-6">
-                                        <button id="buttonAnno" onclick="getRespuestas(this.value,'actual')" value="0" class="btn btn-info navbar-btn">Año actual</button>
-                                        <p style="color: #f00;" id="error"></p>
-                                    </div>
-                                    <div class="form-group col-md-6">
-                                        <label for="anno">Años anteriores</label>
-                                        <select class="form-control hideinput" id="anno" onclick="getRespuestas(this.value,'historico')">
-                                        </select>
-                                    </div>
-                                </div>
+                                <select class="form-control hideinput" id="anno">
+                                </select>
+                            </div>
                         </div>
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th scope="col">Pregunta</th>
-                                    <th scope="col">Respuesta</th>
-                                </tr>
-                            </thead>
-                        <tbody id="componenttable">                            
-                        </tbody>
-                        </table>
-                        <div id="radar-chart-div"  style="visibility: hidden;">
-                            <canvas id="radar-chart"></canvas>
+                        <div class="table-responsive">
+                            <table class="table table-striped table-borderless">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Pregunta</th>
+                                        <th scope="col">Respuesta</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="componenttable">                            
+                                </tbody>
+                            </table>
+                            <input type="number" name="riesgo" id="riesgo" hidden>
+                            <input type="text" name="tipoRiesgo" id="tipoRiesgo" hidden>
+                            <select name="tipoGrafico" id="tipoGrafico" hidden>
+                                <option value="bar"></option>
+                            </select>
+                            <div id="radar-chart-div" style="visibility: hidden;">
+                                <canvas id="radar-chart"></canvas>
+                            </div>
                         </div>
-
-
                     </div>
-                </nav>
+                </div>
             </div>
         </div>
 
-
         <!-- jQuery CDN -->
         <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
-        <!-- Bootstrap Js CDN -->
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-        <!-- jQuery Custom Scroller CDN -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
 
         <script type="text/javascript">
             $(document).ready(function () {
                
 
-                $('#sidebarCollapse').on('click', function () {
-                    $('#sidebar, #content').toggleClass('active');
-                    $('.collapse.in').toggleClass('in');
-                    $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+                
+                $("#menu-toggle").click(function (e) {
+                    e.preventDefault();
+                    $("#wrapper").toggleClass("toggled");
                 });
 
                 $("#divrisk").click(function(){
@@ -105,14 +115,17 @@
                 $("#buttonrisk").click(function(){
                      $("#divrisk").toggle("slow","linear");
                 });
-
+                $("a[href$='/histFormulario']") .addClass("active");
 
             });
         </script>
-        <script src="/scripts/script.js"></script>
-        <script>
-            getAnnos(document.getElementById("asada"));
+        <script type="text/javascript">
+            function crearFormulario()
+            {
+                location.href = "/crudFormularios?asada=" + $("#asada")[0].value + "&anno=" + (new Date()).getFullYear()
+            }
         </script>
+        <script src="/scripts/script.js"></script>
         <script src="scripts/getProvCantDist.js"></script>
     </body>
 </html>

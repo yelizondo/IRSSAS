@@ -7,51 +7,30 @@
 
 <body>
 
-    <div class="wrapper">
+    <div class="d-flex" id="wrapper">
         <!-- Sidebar Holder -->
         <% include ../partials/latAdmin %>
         <!-- Page Content Holder -->
-        <div id="content">
-
-            <nav class="navbar navbar-default">
-                <div class="container-fluid">
-
-                    <div class="navbar-header">
-                        <button type="button" id="sidebarCollapse" class="btn btn-info navbar-btn">
-                            <i class="glyphicon glyphicon-leaf"></i>
-                            <span></span>
-                        </button>
+        <div id="page-content-wrapper" style="background-color: #FAFAFA;">
+            <button class="btn" id="menu-toggle" style="background: none;"><i class="fas fa-bars"></i></button>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12 col-md">
+                        <p class="title mt-3 pb-2 font-weight-bold h3">Formulario</p>
                     </div>
-
-                    <div style="float: right;">
-                        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                            <form action="/logout">
-                                <button type="submit" class="btn btn-info navbar-btn">Cerrar Sesión</button>
-                            </form>
-                        </div>
+                    <div class="col-auto d-flex align-items-center">
+                        <button type="submit" onclick="window.location.replace('/manual/descargar');" class="btn btn-info navbar-btn">Descargar manual</button>
                     </div>
                 </div>
-                <div class="container-fluid">
-                    <div style="float: right;">
-                        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                            <button type="submit" onclick="window.location.replace('/manual/descargar');" class="btn btn-info navbar-btn">Descargar manual</button>
-                        </div>
-                    </div>
+                <div class="bg-white shadow p-3 mb-5">
+                    <iframe src="/manual.pdf" width="100%" height="500px"></iframe>
                 </div>
-                
-               
-                <div style="margin: 20px;">
-                    <iframe src="/manual.pdf" width="100%" height="500px">
-                </div>
-            
-            </nav>
+            </div>
         </div>
     </div>
 
-
     <!-- jQuery CDN -->
     <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
-    <!-- Bootstrap Js CDN -->
     <!-- jQuery Custom Scroller CDN -->
     <script
         src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
@@ -60,11 +39,10 @@
         $(document).ready(function () {
 
 
-            $('#sidebarCollapse').on('click', function () {
-                $('#sidebar, #content').toggleClass('active');
-                $('.collapse.in').toggleClass('in');
-                $('a[aria-expanded=true]').attr('aria-expanded', 'false');
-            });
+            $("#menu-toggle").click(function (e) {
+                    e.preventDefault();
+                    $("#wrapper").toggleClass("toggled");
+                });
 
             $("#divrisk").click(function () {
                 $("#divrisk").toggle("slow", "linear");
@@ -73,7 +51,7 @@
             $("#buttonrisk").click(function () {
                 $("#divrisk").toggle("slow", "linear");
             });
-
+            $("a[href$='/manual']") .addClass("active");
 
         });
     </script>

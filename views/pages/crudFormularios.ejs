@@ -14,108 +14,89 @@
 
     <body>
 
-        <div class="wrapper">
+        <div class="d-flex" id="wrapper">
             <!-- Sidebar Holder -->
             <% include ../partials/latAdmin %>
             <!-- Page Content Holder -->
-            <div id="content">
-
-                <nav class="navbar navbar-default">
-                    <div class="container-fluid">
-
-                        <div class="navbar-header">
-                            <button type="button" id="sidebarCollapse" class="btn btn-info navbar-btn">
-                                <i class="glyphicon glyphicon-leaf"></i>
-                                <span></span>
+            <div id="page-content-wrapper" style="background-color: #FAFAFA;">
+                <button class="btn" id="menu-toggle" style="background: none;"><i class="fas fa-bars"></i></button>
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-12 col-md">
+                            <p class="title mt-3 pb-2 font-weight-bold h3">Formulario / Crear formulario</p>
+                        </div>
+                        <div class="col-auto d-flex align-items-center">
+                            <button type="button" id="btnCrearFormulario" class="btn btn-info" onclick="manejoFormulario(guardarFormulario)">
+                                Guardar
                             </button>
                         </div>
-
-                        <div style="float: right;">
-                            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                                <form action="/logout">
-                                    <button type="submit" class="btn btn-info navbar-btn">Cerrar Sesión</button>
-                                </form>
-                            </div>                           
-                        </div>
                     </div>
-                    <h3>Formulario</h3>
-                    <form id="formulario" action="/sendForm" method="POST" >
-                    <div style="margin: 20px;">
-                        <div class="form-group">
-                            <% if(usuario.Tipo == 1){%>
-                                <% include ../partials/filtroCantonDistProvAsada %>
-                            <%}else{%>
-                                <input id="asada" name="asada" type="text" value="<%=usuario.Asada_ID%>" hidden>
-                            <%}%>
-                            <label for="anno">Año</label>
-                            <input class="form-control" type="number" required step="1" min="2000" id="anno" name="anno">
-                            <button type="button" onclick="return manejoFormulario(cargarFormulario);" class="btn btn-info navbar-btn">Cargar Formulario</button>
-                        </div>
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th scope="col">Pregunta</th>
-                                    <th scope="col">Respuesta</th>
-                                </tr>
-                            </thead>
-                        <tbody id="componenttable">
-                                <tr hidden>
-                                    <td>Nada</td>
-                                    <td><input type="text" name="ocultos" id="ocultos"></td>
-                                </tr>
-                                <%indicadores.forEach(function(indicador, index) {%>
-                                <tr>
-                                    <td><%=indicador.ID%>. <%=indicador.Nombre%>
-                                        <i id="ayuda-<%=indicador.ID%>" class="glyphicon glyphicon-question-sign" onclick="mostrarAyudaPregunta(<%=indicador.ID%>)"></i></td>
-                                    <%if(indicador.MEDIDA_ID==1){%>
-                                    <td><select class="form-control hideinput" required name="<%=indicador.ID%>">
-                                        <option value=""></option>
-                                        <option value="0">SI</option>    
-                                        <option value="1">NO</option>
-                                    </select>
-                                    </td>
-                                    <%}else if(indicador.MEDIDA_ID==2){%>
-                                    <td><select class="form-control hideinput" required name="<%=indicador.ID%>"> 
-                                        <option value=""></option>
-                                        <option value="1">SI</option> 
-                                        <option value="0">NO</option>
-                                    </select>
-                                    </td>
-                                    <%}else if(indicador.MEDIDA_ID==3 || indicador.MEDIDA_ID==4){%>
-                                    <td><input type="number" step="any" min="<%=indicador.MINIMO%>" max="<%=indicador.MAXIMO%>" required class="form-control hideinput" placeholder="<%=indicador.MINIMO%>-<%=indicador.MAXIMO%>" name="<%=indicador.ID%>"></td>
-                                    <%}else{%>
-                                        <td><select class="form-control hideinput" required name="<%=indicador.ID%>">
-                                            <option value=""></option>
-                                        <%nominales.forEach(function(nominal,index){%>
-                                            <%if(nominal.INDICADOR_ID==indicador.ID){%>
-                                                <option value="<%=nominal.Porcentaje%>"><%=nominal.Simbolo%> <%=nominal.Valor%></option>
-                                            <%}%>
-                                        <%});%>
-                                        </select></td>
-                                    <%}%>
-                                </tr>
-                                <%});%>
-                        </tbody>
-                        </table>
-
+                    <div class="bg-white shadow p-3 mb-5">
+                        <form id="formulario" action="/sendForm" method="POST" >
+                            <div class="form-group">
+                                <% if(usuario.Tipo == 1){%>
+                                    <input id="asada" name="asada" type="text" value="" hidden>
+                                <%}else{%>
+                                    <input id="asada" name="asada" type="text" value="<%=usuario.Asada_ID%>" hidden>
+                                <%}%>
+                                <input class="form-control" type="number" hidden required step="1" min="2000" value="" id="anno" name="anno">
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table table-striped table-borderless">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Pregunta</th>
+                                            <th scope="col">Respuesta</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="componenttable">
+                                            <tr hidden>
+                                                <td>Nada</td>
+                                                <td><input type="text" name="ocultos" id="ocultos"></td>
+                                            </tr>
+                                            <%indicadores.forEach(function(indicador, index) {%>
+                                            <tr>
+                                                <td><%=indicador.ID%>. <%=indicador.Nombre%>
+                                                    <button type="button" id="ayuda-<%=indicador.ID%>" class="btn" onclick="mostrarAyudaPregunta(<%=indicador.ID%>)"><i class="far fa-question-circle"></i></button></td>
+                                                <%if(indicador.MEDIDA_ID==1){%>
+                                                <td><select class="form-control hideinput" required name="<%=indicador.ID%>">
+                                                    <option value=""></option>
+                                                    <option value="0">SI</option>    
+                                                    <option value="1">NO</option>
+                                                </select>
+                                                </td>
+                                                <%}else if(indicador.MEDIDA_ID==2){%>
+                                                <td><select class="form-control hideinput" required name="<%=indicador.ID%>"> 
+                                                    <option value=""></option>
+                                                    <option value="1">SI</option> 
+                                                    <option value="0">NO</option>
+                                                </select>
+                                                </td>
+                                                <%}else if(indicador.MEDIDA_ID==3 || indicador.MEDIDA_ID==4){%>
+                                                <td><input type="number" step="any" min="<%=indicador.MINIMO%>" max="<%=indicador.MAXIMO%>" required class="form-control hideinput" placeholder="<%=indicador.MINIMO%>-<%=indicador.MAXIMO%>" name="<%=indicador.ID%>"></td>
+                                                <%}else{%>
+                                                    <td><select class="form-control hideinput" required name="<%=indicador.ID%>">
+                                                        <option value=""></option>
+                                                    <%nominales.forEach(function(nominal,index){%>
+                                                        <%if(nominal.INDICADOR_ID==indicador.ID){%>
+                                                            <option value="<%=nominal.Porcentaje%>"><%=nominal.Simbolo%> <%=nominal.Valor%></option>
+                                                        <%}%>
+                                                    <%});%>
+                                                    </select></td>
+                                                <%}%>
+                                            </tr>
+                                            <%});%>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </form>
                     </div>
-                    <br>
-                    <div id="divbutton" style=" position: absolute; bottom: 6px; right: 8px;">
-                        <button type="button" onclick="return manejoFormulario(guardarFormulario);" class="btn btn-info navbar-btn">Guardar Formulario</button>
-                        <button type="submit" onclick="return valoresForm();" class="btn btn-info navbar-btn">Enviar Formulario</button>
-                    </div>
-                    </form>
-                </nav>
+                </div>
             </div>
         </div>
-
-
+        
         <!-- jQuery CDN -->
         <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
-        <!-- Bootstrap Js CDN -->
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-        <!-- jQuery Custom Scroller CDN -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
         <!-- Sweetalert -->
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
         
@@ -123,10 +104,9 @@
             $(document).ready(function () {
                
 
-                $('#sidebarCollapse').on('click', function () {
-                    $('#sidebar, #content').toggleClass('active');
-                    $('.collapse.in').toggleClass('in');
-                    $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+                $("#menu-toggle").click(function (e) {
+                    e.preventDefault();
+                    $("#wrapper").toggleClass("toggled");
                 });
 
                 $("#divrisk").click(function(){
@@ -136,8 +116,7 @@
                 $("#buttonrisk").click(function(){
                      $("#divrisk").toggle("slow","linear");
                 });
-
-
+                $("a[href$='/histFormulario']") .addClass("active");
             });
         </script>
         <script type="text/javascript">
@@ -181,5 +160,10 @@
         </script>
         <script src="/scripts/crud.js"></script>
         <script src="/scripts/script.js"></script>
+        <script type="text/javascript">
+            $("#asada")[0].value = (new URL(document.URL)).searchParams.get("asada")
+            $("#anno")[0].value = (new URL(document.URL)).searchParams.get("anno")
+            manejoFormulario(cargarFormulario)
+        </script>
     </body>
 </html>

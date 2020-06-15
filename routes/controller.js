@@ -474,7 +474,7 @@ module.exports = {
     
     getRespuestas: (req,res) =>{
         if(req.session.value=1){
-            let query = "select h.texto as respuesta, i.Nombre as pregunta from "+req.query.tipo+" h inner join INDICADOR i on h.Indicador_ID=i.ID where h.anno like '"+req.query.anno+"' and h.Asada_ID='"+req.query.asada+"' ;"
+            let query = "select h.texto as respuesta, i.Nombre as pregunta, i.id as id from "+req.query.tipo+" h inner join INDICADOR i on (h.Indicador_ID = i.ID) where h.anno = '"+req.query.anno+"' and h.Asada_ID = '"+req.query.asada+"' order by i.id;"
             db.query(query, function(err,rows,fields){
                 if(!err){
                     res.send({"preguntas": rows});

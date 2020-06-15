@@ -637,9 +637,6 @@ module.exports = {
                     keys.pop();
                     keys.pop();
                     keys.pop();
-                    keys.pop();
-                    keys.pop();
-                    keys.pop();
     
                     db.query("insert into HISTORICORESPUESTA select * from INDICADORXASADA where Asada_ID = '" + req.body.asada + "';");
                     db.query("delete from HISTORICORESPUESTA where Asada_ID = '" + req.body.asada + "' and anno = '" + req.body.anno + "';");

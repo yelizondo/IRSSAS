@@ -360,12 +360,20 @@ function saveUser(){
 function valoresForm(){
 	valores = [""];
 	var table = document.getElementById("componenttable");
-	for (var i = 1; i < table.rows.length; i++){
+	for (var i = 1; i < table.rows.length; i++)
+	{
 		var select = table.rows[i].cells[1].childNodes[0];
 		if (select.nodeName + "" == "SELECT")
+		{
 			valores.push (select.options[select.selectedIndex].text);
-		else{
+		}
+		else
+		{
 			valores.push (select.value);
+		}
+		if(!valores[valores.length - 1])
+		{
+			return false
 		}
 	}
 	document.getElementById("ocultos").value = valores.toString ();
@@ -473,19 +481,29 @@ function guardarFormulario (data)
 		{
 			if (res.exito)
 			{
-				if (res.error)
+				Swal.fire(
 				{
-					alert ("Error al guardar");
-				}
-				else
+					title: res.error ? 'Error' : '',
+					icon: res.error ? 'error' : 'info',
+					html: res.error ? 'Ocurrió un error guardando el formulario' : 'Se guardó el formulario',
+					confirmButtonColor: '#1D2D51'
+				}).then((value)=>
 				{
-					alert ("Se guardo");
-					location.replace("/grafico?asada=" + data.asada);
-				}
+					if(valoresForm())
+					{
+						$("#formulario")[0].submit()
+					}
+				}); //end sweetAyuda
 			} //end if
 			else
 			{
-				alert (res.error);
+				Swal.fire(
+				{
+					title: 'Error',
+					icon: 'error',
+					html: res.error,
+					confirmButtonColor: '#1D2D51'
+				}); //end sweetAyuda
 			} //end else
 		}) //end done
 		.fail (function (err){console.log (err)});

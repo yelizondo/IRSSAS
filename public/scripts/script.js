@@ -27,7 +27,7 @@ function graficoNuevo (asada = "")
 {
 	return new Chart(document.getElementById("radar-chart"+asada),
 	{
-		type: (document.getElementById ("tipoGrafico") == null ? "bar" : document.getElementById ("tipoGrafico").value),
+		type: (document.getElementById("tipoGrafico") == null ? "bar" : document.getElementById("tipoGrafico").value),
 		data:
 		{
 			labels: null,
@@ -178,6 +178,7 @@ function generarPDF(){
         if (incluirHist != null)
             pdfdoc.addImage(canvasImg, 'JPEG', 10, 110, 100, 100);    
         */
+	   $("#prueba")[0].hidden = false
     }
     else{
 		var lista = $("#listaAsadas").val().split("|");
@@ -253,16 +254,17 @@ function getAnnos(object){
     $.get('/getAnno',{"asada": val},function(data) {
       jsonsites = data;
      }).done(function(res){
-        var select = document.getElementById("anno");
-        select.innerHTML="";
+		var select = document.getElementById("anno");
+		select.innerHTML="<option value='0'>Seleccione un año</option>";
+		select.innerHTML+="<option onclick='getRespuestas("+jsonsites.anno+",\"actual\")' value='"+jsonsites.anno+"'>"+jsonsites.anno+"</option>";
         jsonsites.annos.forEach(function(anno){
-            select.innerHTML+="<option value='"+anno.anno+"'>"+anno.anno+"</option>";
-        });
-        document.getElementById("buttonAnno").value= jsonsites.anno;
-     });
+            select.innerHTML+="<option onclick='getRespuestas("+anno.anno+",\"historico\")' value='"+anno.anno+"'>"+anno.anno+"</option>";
+		});
+		$("#btnCrearFormulario")[0].hidden = false;
+	 });
      var select = document.getElementById("componenttable");
      select.innerHTML="<tr></tr>";
-     document.getElementById("radar-chart-div").style.visibility = "hidden";
+	 document.getElementById("radar-chart-div").style.visibility = "hidden";
 
 }
 
@@ -279,7 +281,7 @@ function getRespuestas(val,tipo){
         var select = document.getElementById("componenttable");
         select.innerHTML="<tr>";
         jsonsites.preguntas.forEach(function(pregunta){
-            select.innerHTML+="<td>"+pregunta.pregunta+"</td><td>"+pregunta.respuesta+"</td>";
+            select.innerHTML+="<td>" + pregunta.id + ". " +pregunta.pregunta+"</td><td>"+pregunta.respuesta+"</td>";
         });
         select.innerHTML+="</tr>";
 
