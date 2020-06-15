@@ -6,46 +6,33 @@
 
     <body>
 
-        <div class="wrapper">
+        <div class="d-flex" id="wrapper">
             <!-- Sidebar Holder -->
-            <% include ../partials/lateral %>
+            
             <!-- Page Content Holder -->
-            <div id="content">
-
-                <nav class="navbar navbar-default">
-                    <div class="container-fluid">
-
-                        <div class="navbar-header">
-                            <button type="button" id="sidebarCollapse" class="btn btn-info navbar-btn">
-                                <i class="glyphicon glyphicon-leaf"></i>
-                                <span></span>
-                            </button>
-                            
+            <div id="page-content-wrapper" style="background-color: #FAFAFA;">
+                <% include ../partials/horizontalMenu %>
+                
+                <div class="container-fluid">
+                    <h1 align="center" style="color: #002855;">Información General</h1>
+                    <div class="bg-white shadow p-3 mb-5">
+                        <div class="form-group">
+                        
+                            <h4>Instituto Tecnológico de Costa Rica</h4>
+                            <br>
+                            <h4>Ubicación: Los Ángeles, Cartago, Costa Rica</h4>
+                            <br>
+                            <h4>Teléfono: A definir</h4>
+                            <br>
+                            <h4>Sitio Web: A definir</h4>
                         </div>
-
-                        <div style="float: right;">
-                            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                                <form action="/visor">
-                                    <button type="submit" class="btn btn-info navbar-btn">Volver al mapa</button>
-                                </form>
-                            </div>       
-                        </div>
-
                     </div>
-                    <div>
-    <div class="form-group">
-        <h1 align="center" style="color: #002855;">Información General</h1>
-        <br>
-        <h4>Instituto Tecnológico de Costa Rica</h4>
-        <br>
-        <h4>Ubicación: Los Ángeles, Cartago, Costa Rica</h4>
-        <br>
-        <h4>Teléfono: A definir</h4>
-        <br>
-        <h4>Sitio Web: A definir</h4>
-    </div>
-                    </div>
-                </nav>
+                   
+                </div>
+                
+                        
+                    
+                
             </div>
         </div>
 

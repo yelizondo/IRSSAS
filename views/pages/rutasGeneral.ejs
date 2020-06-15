@@ -7,50 +7,32 @@
 
 <body>
 
-    <div class="wrapper">
+    <div class="d-flex" id="wrapper">
         <!-- Sidebar Holder -->
-        <% include ../partials/lateral %>
+        
         <!-- Page Content Holder -->
-        <div id="content">
-
-            <nav class="navbar navbar-default svg-h-100">
-                <div class="container-fluid">
-
-                    <div class="navbar-header">
-                        <button type="button" id="sidebarCollapse" class="btn btn-info navbar-btn">
-                            <i class="glyphicon glyphicon-leaf"></i>
-                            <span></span>
-                        </button>
-
-                    </div>
-
-                    <div style="float: right;">
-                        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                            <form action="/visor">
-                                <button type="submit" class="btn btn-info navbar-btn">Volver al mapa</button>
-                            </form>
-                        </div>
-                    </div>
-
-                </div>
-                <div class="svg-d-flex svg-flex-column svg-h-100">
+        <div id="page-content-wrapper" style="background-color: #FAFAFA;">
+            <% include ../partials/horizontalMenu %>
+            <div class="container-fluid">
+                <h1 class="text-center title">Rutas Generales</h1>
+                <div class="bg-white shadow p-3 mb-5">
                     <div class="svg-d-flex svg-flex-column svg-flex-grow-1">
                         <!-- <div class="svg-h-100 svg-flex-grow-1" style="background-color: blue;">a</div> -->
                         <embed id="svg-content" class="svg-container svg-flex-grow-1" type="image/svg+xml"
                             src="/rutas/data" />
-
+    
                         <!-- <div style="float: right;" class="svg-flex-column svg-flex-grow-1;">
                             a
                         </div> -->
-                        <div class="svg-flex-grow-1" style="background: #303030;">
+                        <div  style="background: #303030;">
                             <div style="float: right">
                                 <div class="svg-d-flex">
                                     <button type="button" id="btn-zoom-in" class="btn btn-info navbar-btn btn-zoom" style="padding-left: 1px !important;">
-                                        <i class="glyphicon glyphicon-plus"></i>
+                                        <i class="fas fa-plus"></i>
                                         <span></span>
                                     </button>
                                     <button type="button" id="btn-zoom-out" class="btn btn-info navbar-btn btn-zoom">
-                                        <i class="glyphicon glyphicon-minus"></i>
+                                        <i class="fas fa-minus"></i>
                                         <span></span>
                                     </button>
                                 </div>
@@ -58,7 +40,12 @@
                         </div>
                     </div>
                 </div>
-            </nav>
+                </div>
+                
+            
+                           
+                    
+             
         </div>
     </div>
     <!-- jQuery CDN -->
@@ -79,10 +66,9 @@
                 controlIconsEnabled: true
             });
 
-            $('#sidebarCollapse').on('click', function () {
-                $('#sidebar, #content').toggleClass('active');
-                $('.collapse.in').toggleClass('in');
-                $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+            $("#menu-toggle").click(function (e) {
+                e.preventDefault();
+                $("#wrapper").toggleClass("toggled");
             });
 
             $("#divrisk").click(function () {
@@ -120,6 +106,7 @@
                 var panZoomTiger = svgPanZoom('#svg-content');
                 panZoomTiger.zoomOut();
             });
+            $("a[href$='/rutas']") .addClass("active");
         });
     </script>
     <script src="scripts/ol.js"></script>

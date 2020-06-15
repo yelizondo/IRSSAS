@@ -14,125 +14,128 @@
 </head>
 
 <body>
-    <div class="wrapper">
-        <!-- Sidebar Holder -->
-        <nav id="sidebar" style="overflow-y: scroll">
-            <div id="menucomps">
-            <div class="sidebar-header">
-                <h2 id="irss"><a href="/">Proyecto IRSSAS</a></h2>
-            </div>
-            </div>
-        </nav>
-        <!-- Page Content Holder -->
-        <div id="content">
-            <nav class="navbar navbar-default">
-                <div class="container-fluid">
-                    <div class="flex-box">
-                        <h3>Solicitud de registro de ASADA</h3>
-                        <button type="button" class="btn btn-info navbar-btn" onclick="validarDatos()"">Enviar</button>
-                    </div>
-                    <form>
-                    <table class="table">
-                        <tbody>
-                            <tr class="row">
-                                <td class="col-xs-6">
-                                    <label for="nombre">Nombre de la ASADA*</label><br>
-                                    <input id="nombre" type="text" class="form-control" placeholder="Ingrese el nombre" required>
-                                </td>
-                                <td class="col-xs-6">
-                                    <div class="row">
-                                        <div class="col-xs-4">
-                                            <label for="prov">Provincia*</label>
-                                            <select class="form-control" onchange="getCanton()" id="prov" name="prov" required>
-                                                <option value="">Sin filtro</option>
-                                                <%prov.forEach(function(row, index) {%>
-                                                    <option value="<%= row.ID%>"><%= row.Nombre%></option>
-                                                <%});%>
-                                            </select>
-                                        </div>
-                                        <div class="col-xs-4">
-                                            <label for="cant">Cantón*</label>
-                                            <select class="form-control" onchange="getDistrito()" id="cant" name="cant" required>
-                                                    <option value="">Sin filtro</option>
-                                            </select>
-                                        </div>
-                                        <div class="col-xs-4">
-                                            <label for="dist">Distrito*</label>
-                                            <select class="form-control" id="dist" name="dist" required>
-                                                <option value="">Sin filtro</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr class="row">
-                                <td class="col-xs-6">
-                                    <label for="latitud">Latitud*</label><br>
-                                    <input type="number" class="form-control" id="latitud" step="any" min="-85.949547" max="-82.556378" placeholder="Ej: -85.565760" required>
-                                </td>
-                                <td class="col-xs-6">
-                                    <label for="ubicacion">Dirección oficina ASADA*</label><br>
-                                    <input id="ubicacion" type="text" class="form-control" placeholder="Ingrese la dirección exacta" required>
-                                </td>
-                            </tr>
-                            <tr class="row">
-                                <td class="col-xs-6">
-                                    <label for="longitud">Longitud*</label><br>
-                                    <input type="number" class="form-control" id="longitud" step="any" min="8.043213" max="11.219225" placeholder="Ej: 10.023334" required>
-                                </td>
-                                <td class="col-xs-6">
-                                    <label for="telefono">Teléfono fijo*</label><br>
-                                    <input type="number" class="form-control" id="telefono" step="any" min="10000000" max="99999999" placeholder="Ingrese el número de teléfono" required>
-                                </td>
-                            </tr>
-                            <tr class="row">
-                                <td class="col-xs-6">
-                                    <label for="url">Enlace (URL)</label><br>
-                                    <input id="url" type="url" class="form-control" pattern="https://.*" placeholder="Ingrese la página de la ASADA (si tiene)" required>
-                                </td>
-                                <td class="col-xs-6">
-                                    <label for="celular">Teléfono celular*</label><br>
-                                    <input type="number" class="form-control" id="celular" step="any" min="10000000" max="99999999" placeholder="Ingrese el número de teléfono" required>
-                                </td>
-                            </tr>
-                            <tr class="row">
-                                <td class="col-xs-6">
-                                    <label for="administrador">Administrador(a)*</label>
-                                    <input id="administrador" type="text" class="form-control" placeholder="Ingrese el nombre del administrador(a) de la ASADA" required>
-                                </td>
-                                <td class="col-xs-6">
-                                    <label for="cantAbonados">Número de abonados*</label>
-                                    <input type="number" class="form-control" id="cantAbonados" min="0" step="any" placeholder="Ingrese la cantidad de abonados" required>
-                                </td>
-                            </tr>
-                            <tr class="row">
-                                <td class="col-xs-6">
-                                    <label for="usuario">Correo electrónico del administrador(a)*</label>
-                                    <input id="usuario" type="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" class="form-control" placeholder="Ingrese el correo del administrador(a) de la ASADA" required>
-                                </td>
-                                <td class="col-xs-6">
-                                    <label for="poblacion">Población abastecida*</label>
-                                    <input type="number" class="form-control" id="poblacion" min="0" step="any" placeholder="Ingrese la población abastecida" required>
-                                </td>
-                            </tr>
-                            <tr class="row">
-                                <td class="col-xs-6"></td>
-                                <td class="col-xs-6">
-                                    <label for="asociacion">Asociación de ASADAs</label>
-                                    <select type="number" class="form-control" id="asociacion">
-                                        <option value="0">Ninguna</option>
-                                        <%asociaciones.forEach(function(asociacion, index){%>
-                                            <option value="<%=asociacion.id%>"><%=asociacion.nombre%></option>
-                                        <%})%>
-                                    </select>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </form>
-                </div>
-            </nav>
+    <div class="d-flex" id="wrapper">
+        <!-- Sidebar Holder-->
+        <div class="border-right d-flex flex-column h-100" id="sidebar-wrapper"
+        style="background: linear-gradient(185.31deg, #00B396 -33.48%, #1D2D51 98.72%); position: sticky;  top:0">
+        <div class="mt-3 sidebar-heading text-center">
+            <a href="/">
+                <img src="/images/Logo.png" class="img-fluid" id="irss">
+            </a>
         </div>
+        <div class="mt-5 list-group list-group-flush">
+        </div>
+    </div>
+            
+
+        <!-- Page Content Holder -->
+        <div id="page-content-wrapper" style="background-color: #FAFAFA;">
+            <button class="btn" id="menu-toggle" style="background: none;"><i class="fas fa-bars"></i></button>
+            
+            <div class="container-fluid">
+                <h2 class="text-center title">Solicitud de Registro de ASADA</h2><hr>
+                <div class="bg-white shadow p-3 mb-5">
+                    <button type="button" class="btn btn-info navbar-btn" onclick="validarDatos()">Enviar</button>
+                    <a href = "/"t><button ype="button" class="btn btn-info navbar-btn">Cancelar</button></a>
+
+                    <div class="container" >
+                        
+                        <div class = "row">
+                            <div class = "col-md-6">
+                                <label for="nombre">Nombre de la ASADA*</label><br>
+                                <input id="nombre" type="text" class="form-control" placeholder="Ingrese el nombre" required>
+                            </div>
+                            <div class="col-md-2">
+                                <label for="prov">Provincia*</label>
+                                <select class="form-control" onchange="getCanton()" id="prov" name="prov" required>
+                                    <option value="">Sin filtro</option>
+                                    <%prov.forEach(function(row, index) {%>
+                                        <option value="<%= row.ID%>"><%= row.Nombre%></option>
+                                    <%});%>
+                                </select>
+                            </div>
+                            <div class="col-md-2">
+                                <label for="cant">Cantón*</label>
+                                <select class="form-control" onchange="getDistrito()" id="cant" name="cant" required>
+                                        <option value="">Sin filtro</option>
+                                </select>
+                            </div>
+                            <div class="col-md-2">
+                                <label for="dist">Distrito*</label>
+                                <select class="form-control" id="dist" name="dist" required>
+                                    <option value="">Sin filtro</option>
+                                </select>
+                            </div>
+                            
+                        </div>
+                        <div class = "row">
+                            <div class="col-md">
+                                <label for="latitud">Latitud*</label><br>
+                                <input type="number" class="form-control" id="latitud" step="any" min="-85.949547" max="-82.556378" placeholder="Ej: -85.565760" required>
+                            </div>
+                            <div class="col-md">
+                                <label for="ubicacion">Dirección oficina ASADA*</label><br>
+                                <input id="ubicacion" type="text" class="form-control" placeholder="Ingrese la dirección exacta" required>
+                            </div>
+                        </div>
+                        <div class = "row">
+                            <div class="col-md">
+                                <label for="longitud">Longitud*</label><br>
+                                <input type="number" class="form-control" id="longitud" step="any" min="8.043213" max="11.219225" placeholder="Ej: 10.023334" required>
+                            </div>
+                            <div class="col-md">
+                                <label for="telefono">Teléfono fijo*</label><br>
+                                <input type="number" class="form-control" id="telefono" step="any" min="10000000" max="99999999" placeholder="Ingrese el número de teléfono" required>
+                            </div>
+                        </div>
+                        <div class = "row">
+                            <div class="col-md">
+                                <label for="url">Enlace (URL)</label><br>
+                                <input id="url" type="url" class="form-control" pattern="https://.*" placeholder="Ingrese la página de la ASADA (si tiene)" required>
+                            </div>
+                            <div class="col-md">
+                                <label for="celular">Teléfono celular*</label><br>
+                                <input type="number" class="form-control" id="celular" step="any" min="10000000" max="99999999" placeholder="Ingrese el número de teléfono" required>
+                            </div>
+                        </div>
+                        <div class = "row">
+                            <div class="col-md">
+                                <label for="administrador">Administrador(a)*</label>
+                                <input id="administrador" type="text" class="form-control" placeholder="Ingrese el nombre del administrador(a) de la ASADA" required>
+                            </div>
+                            <div class="col-md">
+                                <label for="cantAbonados">Número de abonados*</label>
+                                <input type="number" class="form-control" id="cantAbonados" min="0" step="any" placeholder="Ingrese la cantidad de abonados" required>
+                            </div>
+                        </div>
+                        <div class = "row">
+                            <div class="col-md">
+                                <label for="usuario">Correo electrónico del administrador(a)*</label>
+                                <input id="usuario" type="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" class="form-control" placeholder="Ingrese el correo del administrador(a) de la ASADA" required>
+                            </div>
+                            <div class="col-md">
+                                <label for="poblacion">Población abastecida*</label>
+                                <input type="number" class="form-control" id="poblacion" min="0" step="any" placeholder="Ingrese la población abastecida" required>
+                            </div>
+                        </div>
+                        <div class = "row">
+                            <div class="col-md"></div>
+                            <div class="col-md">
+                                <label for="asociacion">Asociación de ASADAs</label>
+                                <select type="number" class="form-control" id="asociacion">
+                                    <option value="0">Ninguna</option>
+                                    <%asociaciones.forEach(function(asociacion, index){%>
+                                        <option value="<%=asociacion.id%>"><%=asociacion.nombre%></option>
+                                    <%})%>
+                                </select>
+                            </div>
+                        </div> 
+                    </div>
+                </div>
+                
+            </div>
+        </div>          
+    </div>
         <!-- jQuery CDN -->
         <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
         <!-- Bootstrap Js CDN -->
@@ -143,7 +146,12 @@
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
         <!-- Local -->
         <script src="/scripts/getProvCantDist.js"></script>
-
+        <script>
+            $("#menu-toggle").click(function (e) {
+                e.preventDefault();
+                $("#wrapper").toggleClass("toggled");
+            });
+            </script>
         <script type="text/javascript">
             function errorPopUp(mensaje = 'Debe llenar todos los campos con *')
             {

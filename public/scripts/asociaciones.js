@@ -130,8 +130,8 @@ $(document).ready(function () {
         let row = `<tr id="asada_row_id_${ID}">
                         <td id="asada_row_id_${ID}_ID">${ID}</td>
                         <td id="asada_row_id_${ID}_name">${nombre}</td>
-                        <td><i class="glyphicon glyphicon-leaf" style="color: #325276" onclick="location.href='/asadas/${ID}';"></i></td>
-                        <td><i class="glyphicon glyphicon-trash" onclick="deleteAsada('${ID}');"></i></td>
+                        <td><button class="btn" onclick="location.href='/asadas/${ID}';"><i class="fas fa-info-circle" style="color: #325276"></i></button></td>
+                        <td><button class="btn" onclick="deleteAsada('${ID}');"><i class="fas fa-trash text-danger"></i></button></td></td>
                     </tr>`;
         $('#asada_table_body').append(row);
         delete borrados[ID];
@@ -144,3 +144,5 @@ $(document).ready(function () {
         editarAsociacion();
     });
 });
+
+

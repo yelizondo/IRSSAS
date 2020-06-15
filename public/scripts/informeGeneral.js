@@ -189,7 +189,7 @@ function requestInformeGeneral()
                         data.informeIRSSAS.forEach(function(consulta)
                         {
                             var newRow = tableRef.insertRow(-1);
-                            newRow.setAttribute("class", "row")
+                            //newRow.setAttribute("class", "row")
                             newRow.insertCell(-1).appendChild(document.createTextNode(consulta.nombre));
                             newRow.insertCell(-1).appendChild(document.createTextNode(consulta.poblacion));
                             newRow.insertCell(-1).appendChild(document.createTextNode(consulta.saneamiento.toFixed(0)));
