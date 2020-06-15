@@ -56,6 +56,18 @@ a, a:hover, a:focus {
 .btn:hover{
     background: #7f93aa;   
 }
+
+.table .btn,
+.btn:active,
+.btn:visited,
+.btn:focus {
+    background: none;
+}
+
+.table .btn:hover{
+    background: #7f93aa;   
+}
+
 .btn-icon,
 .btn-icon:active,
 .btn-icon:visited,
