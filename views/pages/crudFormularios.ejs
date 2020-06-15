@@ -57,7 +57,7 @@
                                             <%indicadores.forEach(function(indicador, index) {%>
                                             <tr>
                                                 <td><%=indicador.ID%>. <%=indicador.Nombre%>
-                                                    <button type="button" id="ayuda-<%=indicador.ID%>" class="btn" onclick="mostrarAyudaPregunta(<%=indicador.ID%>)"><i class="far fa-question-circle"></i></button></td>
+                                                    <button type="button" id="ayuda-<%=indicador.ID%>" class="btn btn-icon" onclick="mostrarAyudaPregunta(<%=indicador.ID%>)"><i class="far fa-question-circle"></i></button></td>
                                                 <%if(indicador.MEDIDA_ID==1){%>
                                                 <td><select class="form-control hideinput" required name="<%=indicador.ID%>">
                                                     <option value=""></option>

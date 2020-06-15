@@ -44,17 +44,23 @@ a, a:hover, a:focus {
     border: none;
 }
 
-/*
+
 .btn,
 .btn:active,
 .btn:visited,
 .btn:focus {
     background: #193d66;
 }
-*/
+
 
 .btn:hover{
     background: #7f93aa;   
+}
+.btn-icon,
+.btn-icon:active,
+.btn-icon:visited,
+.btn-icon:focus{
+    background: none;
 }
 
 .line {
