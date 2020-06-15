@@ -857,6 +857,11 @@ module.exports = {
                     };
                     sendEmailAux(mailOptions);   */     
         })
+    },
+
+    loginPage: (req, res)=>
+    {
+        res.render("pages/Login.ejs")
     }
 };
 
