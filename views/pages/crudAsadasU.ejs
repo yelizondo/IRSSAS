@@ -22,7 +22,7 @@
                     <div class="col-auto d-flex align-items-center">
                        
                         <form action="/asadas" id="compsub">
-                            <a href="/generarInformeMejora/getInforme/<%=asada.ID%>" class="btn btn-info">Ver informe de Mejora</a>
+                            <a href="/generarInformeMejora?asada=<%=asada.ID%>" class="btn btn-info">Ver informe de Mejora</a>
                             <button type="submit" onclick=" return saveAsada('<%=asada.ID%>');"
                                 style="visibility: hidden;" id="savebutton" class="btn btn-info">Guardar
                                 cambios</button>
