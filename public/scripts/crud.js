@@ -290,7 +290,7 @@ function addUser(){
 	cell3.innerHTML = '<input type="text" class="form-control hideinput" name="user-'+lastRow+'" value="new_user">';
 	cell4.innerHTML = '<input type="password" class="form-control hideinput" name="pass-'+lastRow+'" value="12345">';
 	cell5.innerHTML = '<select class="form-control hideinput" name="type-'+lastRow+'"> <option name="type-1" value=1>Superusuario</option> <option name="type-2" value=2>Administrador</option> </select>';
-	cell6.innerHTML = '<button class="btn" onclick="deleteUser(this,'+lastRow+');"><i class="fas fa-trash text-danger"></i></button>';
+	cell6.innerHTML = '<button class="btn btn-icon" onclick="deleteUser(this,'+lastRow+');"><i class="fas fa-trash text-danger"></i></button>';
 	document.getElementById("savebutton").style.visibility = "visible";
 };
 
