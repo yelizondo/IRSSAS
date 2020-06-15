@@ -15,7 +15,7 @@
         .btn-no-main:visited,
         .btn-no-main:focus
         {
-            background: rgb(236, 236, 236);
+            background:  white;
             color: #193d66;
         }
         .btn-no-main:hover
@@ -27,106 +27,89 @@
 </head>
 
 <body>
-    <div class="wrapper">
+
+    <div class="d-flex" id="wrapper">
         <!-- Sidebar Holder -->
         <% include ../partials/latAdmin %>
         <!-- Page Content Holder -->
-        <div id="content">
-            <nav class="navbar navbar-default">
-                <div class="container-fluid">
-                    <div class="flex-box">
-                        <h3>Notificaciones / Solicitud de registro de ASADA</h3>
+        <div id="page-content-wrapper" style="background-color: #FAFAFA;">
+            <button class="btn" id="menu-toggle" style="background: none;"><i class="fas fa-bars"></i></button>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12 col-md">
+                        <p class="title mt-3 pb-2 font-weight-bold h3">Notificaciones / Solicitud de registro de ASADA</p>
                     </div>
-                    <form>
-                    <table class="table">
-                        <tbody>
-                            <tr class="row">
-                                <td class="col-xs-6">
-                                    <label for="nombre">Nombre de la ASADA</label><br>
-                                    <input id="nombre" value="<%=solicitud.nombre%>" type="text" class="form-control" placeholder="Ingrese el nombre" disabled>
-                                </td>
-                                <td class="col-xs-6">
-                                    <label for="provCantDist">Provincia - Cantón - Distrito</label>
-                                    <input id="provCantDist" codigo="<%=solicitud.distrito_id%>" value="<%=solicitud.provincia%> - <%=solicitud.canton%> - <%=solicitud.distrito%>" type="text" class="form-control" disabled>
-                                </td>
-                            </tr>
-                            <tr class="row">
-                                <td class="col-xs-6">
-                                    <label for="latitud">Latitud</label><br>
-                                    <input type="number" value="<%=solicitud.latitud%>" class="form-control" id="latitud" step="any" min="-85.949547" max="-82.556378" placeholder="Ej: -85.565760" disabled>
-                                </td>
-                                <td class="col-xs-6">
-                                    <label for="ubicacion">Dirección oficina ASADA</label><br>
-                                    <input id="ubicacion" value="<%=solicitud.ubicacion%>" type="text" class="form-control" placeholder="Ingrese la dirección exacta" disabled>
-                                </td>
-                            </tr>
-                            <tr class="row">
-                                <td class="col-xs-6">
-                                    <label for="longitud">Longitud</label><br>
-                                    <input type="number" value="<%=solicitud.longitud%>" class="form-control" id="longitud" step="any" min="8.043213" max="11.219225" placeholder="Ej: 10.023334" disabled>
-                                </td>
-                                <td class="col-xs-6">
-                                    <label for="telefono">Teléfono fijo</label><br>
-                                    <input type="number" value="<%=solicitud.telefono%>" class="form-control" id="telefono" step="any" min="10000000" max="99999999" placeholder="Ingrese el número de teléfono" disabled>
-                                </td>
-                            </tr>
-                            <tr class="row">
-                                <td class="col-xs-6">
-                                    <label for="url">Enlace (URL)</label><br>
-                                    <input id="url" type="url" value="<%=solicitud.url%>" class="form-control" pattern="https://.*" placeholder="Ingrese la página de la ASADA (si tiene)" disabled>
-                                </td>
-                                <td class="col-xs-6">
-                                    <label for="celular">Teléfono celular</label><br>
-                                    <input type="number" value="<%=solicitud.celular%>" class="form-control" id="celular" step="any" min="10000000" max="99999999" placeholder="Ingrese el número de teléfono" disabled>
-                                </td>
-                            </tr>
-                            <tr class="row">
-                                <td class="col-xs-6">
-                                    <label for="administrador">Administrador(a)</label>
-                                    <input id="administrador" value="<%=solicitud.administrador%>" type="text" class="form-control" placeholder="Ingrese el nombre del administrador(a) de la ASADA" disabled>
-                                </td>
-                                <td class="col-xs-6">
-                                    <label for="cantAbonados">Número de abonados</label>
-                                    <input type="number" value="<%=solicitud.cantAbonados%>" class="form-control" id="cantAbonados" min="0" step="any" placeholder="Ingrese la cantidad de abonados" disabled>
-                                </td>
-                            </tr>
-                            <tr class="row">
-                                <td class="col-xs-6">
-                                    <label for="usuario">Correo electrónico del administrador(a)</label>
-                                    <input id="usuario" value="<%=solicitud.correo%>" type="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" class="form-control" placeholder="Ingrese el correo del administrador(a) de la ASADA" disabled>
-                                </td>
-                                <td class="col-xs-6">
-                                    <label for="poblacion">Población abastecida</label>
-                                    <input type="number" value="<%=solicitud.poblacion%>" class="form-control" id="poblacion" min="0" step="any" placeholder="Ingrese la población abastecida" disabled>
-                                </td>
-                            </tr>
-                            <tr class="row">
-                                <td class="col-xs-6"></td>
-                                <td class="col-xs-6">
-                                    <label for="asociacion">Asociación de ASADAs</label>
-                                    <input id="asociacion" codigo="<%=solicitud.asociacion_id%>" value="<%=solicitud.asociacion ? solicitud.asociacion : "Ninguna"%>" type="text" class="form-control" disabled>
-                                </td>
-                            </tr>
-                            <tr class="row">
-                                <td class="col-xs-6"></td>
-                                <td class="col-xs-6">
-                                    <div class="row">
-                                        <button id="btnRechazar" type="button" class="col-xs-5 btn btn-info navbar-btn btn-no-main" onclick="confirmarRespuestaSolicitudRegistroAsada(<%=solicitud.id%>, 0)">Rechazar</button>
-                                        <p class="col-xs-2"> </p>
-                                        <button id="btnAceptar" type="button" class="col-xs-5 btn btn-info navbar-btn" onclick="confirmarRespuestaSolicitudRegistroAsada(<%=solicitud.id%>, 1)">Aceptar</button>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </form>
                 </div>
-            </nav>
+                <div class="bg-white shadow p-3 mb-5">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="nombre">Nombre de la ASADA</label><br>
+                            <input id="nombre" value="<%=solicitud.nombre%>" type="text" class="form-control" placeholder="Ingrese el nombre" disabled>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="provCantDist">Provincia - Cantón - Distrito</label>
+                            <input id="provCantDist" codigo="<%=solicitud.distrito_id%>" value="<%=solicitud.provincia%> - <%=solicitud.canton%> - <%=solicitud.distrito%>" type="text" class="form-control" disabled>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="latitud">Latitud</label><br>
+                            <input type="number" value="<%=solicitud.latitud%>" class="form-control" id="latitud" step="any" min="-85.949547" max="-82.556378" placeholder="Ej: -85.565760" disabled>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="ubicacion">Dirección oficina ASADA</label><br>
+                            <input id="ubicacion" value="<%=solicitud.ubicacion%>" type="text" class="form-control" placeholder="Ingrese la dirección exacta" disabled>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="longitud">Longitud</label><br>
+                            <input type="number" value="<%=solicitud.longitud%>" class="form-control" id="longitud" step="any" min="8.043213" max="11.219225" placeholder="Ej: 10.023334" disabled>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="telefono">Teléfono fijo</label><br>
+                            <input type="number" value="<%=solicitud.telefono%>" class="form-control" id="telefono" step="any" min="10000000" max="99999999" placeholder="Ingrese el número de teléfono" disabled>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="url">Enlace (URL)</label><br>
+                            <input id="url" type="url" value="<%=solicitud.url%>" class="form-control" pattern="https://.*" placeholder="Ingrese la página de la ASADA (si tiene)" disabled>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="celular">Teléfono celular</label><br>
+                            <input type="number" value="<%=solicitud.celular%>" class="form-control" id="celular" step="any" min="10000000" max="99999999" placeholder="Ingrese el número de teléfono" disabled>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="administrador">Administrador(a)</label>
+                            <input id="administrador" value="<%=solicitud.administrador%>" type="text" class="form-control" placeholder="Ingrese el nombre del administrador(a) de la ASADA" disabled>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="cantAbonados">Número de abonados</label>
+                            <input type="number" value="<%=solicitud.cantAbonados%>" class="form-control" id="cantAbonados" min="0" step="any" placeholder="Ingrese la cantidad de abonados" disabled>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="usuario">Correo electrónico del administrador(a)</label>
+                            <input id="usuario" value="<%=solicitud.correo%>" type="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" class="form-control" placeholder="Ingrese el correo del administrador(a) de la ASADA" disabled>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="poblacion">Población abastecida</label>
+                            <input type="number" value="<%=solicitud.poblacion%>" class="form-control" id="poblacion" min="0" step="any" placeholder="Ingrese la población abastecida" disabled>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="asociacion">Asociación de ASADAs</label>
+                            <input id="asociacion" codigo="<%=solicitud.asociacion_id%>" value="<%=solicitud.asociacion ? solicitud.asociacion : "Ninguna"%>" type="text" class="form-control" disabled>
+                        </div>
+                        <div class="col-md-6"></div>
+                        <div class="col-md-6"></div>
+                        <div class="col-md-3">
+                            <button id="btnRechazar" type="button" class="col-md-12 btn btn-info navbar-btn btn-no-main shadow" onclick="confirmarRespuestaSolicitudRegistroAsada(<%=solicitud.id%>, 0)">Rechazar</button>
+                        </div>
+                        <div class="col-md-3">
+                            <button id="btnAceptar" type="button" class="col-md-12 btn btn-info navbar-btn shadow" onclick="confirmarRespuestaSolicitudRegistroAsada(<%=solicitud.id%>, 1)">Aceptar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
+    </div>
+
         <!-- jQuery CDN -->
         <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
-        <!-- Bootstrap Js CDN -->
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
         <!-- jQuery Custom Scroller CDN -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
         <!-- Sweetalert -->
@@ -138,10 +121,9 @@
             $(document).ready(function () {
                
 
-                $('#sidebarCollapse').on('click', function () {
-                    $('#sidebar, #content').toggleClass('active');
-                    $('.collapse.in').toggleClass('in');
-                    $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+                $("#menu-toggle").click(function (e) {
+                    e.preventDefault();
+                    $("#wrapper").toggleClass("toggled");
                 });
 
                 $("#divrisk").click(function(){
