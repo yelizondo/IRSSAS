@@ -161,8 +161,10 @@
         <script src="/scripts/crud.js"></script>
         <script src="/scripts/script.js"></script>
         <script type="text/javascript">
-            $("#asada")[0].value = (new URL(document.URL)).searchParams.get("asada")
-            $("#anno")[0].value = (new URL(document.URL)).searchParams.get("anno")
+            <%if(usuario.Tipo == 1){%>
+                $("#asada")[0].value = (new URL(document.URL)).searchParams.get("asada")
+            <%}%>
+            $("#anno")[0].value = (new Date()).getFullYear()
             manejoFormulario(cargarFormulario)
         </script>
     </body>

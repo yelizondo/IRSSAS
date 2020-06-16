@@ -58,9 +58,9 @@ a, a:hover, a:focus {
 }
 
 .table .btn,
-.btn:active,
-.btn:visited,
-.btn:focus {
+.table .btn:active,
+.table .btn:visited,
+.table .btn:focus {
     background: none;
 }
 

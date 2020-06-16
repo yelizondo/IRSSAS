@@ -26,44 +26,48 @@
                     </div>
                     <div class="bg-white shadow p-3 mb-5">
                         <div class="row">
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label for="prov">Provincia</label>
-                                    <select class="form-control" onchange="getCanton()" id="prov" name="prov">
-                                        <option value="0">Sin filtro</option>
-                                        <%prov.forEach(function(row, index) {%>
-                                            <option value="<%= row.ID%>"><%= row.Nombre%></option>
-                                        <%});%>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label for="cant">Cantón</label>
-                                    <select class="form-control" onchange="getDistrito()" id="cant" name="cant">
+                            <%if(usuario.Tipo == 1){%>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="prov">Provincia</label>
+                                        <select class="form-control" onchange="getCanton()" id="prov" name="prov">
                                             <option value="0">Sin filtro</option>
-                                    </select>
+                                            <%prov.forEach(function(row, index) {%>
+                                                <option value="<%= row.ID%>"><%= row.Nombre%></option>
+                                            <%});%>
+                                        </select>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label for="dist">Distrito</label>
-                                    <select class="form-control" onchange="getAsada()" id="dist" name="dist">
-                                        <option value="0">Sin filtro</option>
-                                    </select>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="cant">Cantón</label>
+                                        <select class="form-control" onchange="getDistrito()" id="cant" name="cant">
+                                                <option value="0">Sin filtro</option>
+                                        </select>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label for="asada">ASADA</label>
-                                    <select id="asada" name="asada" onclick="getAnnos(this)" class="form-control hideinput">
-                                        <option value=""></option>
-                                        <%asadas.forEach(function(asada){%>
-                                            <option hidden value="<%=asada.ID%>"  distrito="<%=asada.Distrito%>" canton="<%=asada.Canton%>" provincia="<%=asada.Provincia%>"><%=asada.Nombre%></option>
-                                        <%});%>
-                                    </select>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="dist">Distrito</label>
+                                        <select class="form-control" onchange="getAsada()" id="dist" name="dist">
+                                            <option value="0">Sin filtro</option>
+                                        </select>
+                                    </div>
                                 </div>
-                            </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="asada">ASADA</label>
+                                        <select id="asada" name="asada" onclick="getAnnos(this)" class="form-control hideinput">
+                                            <option value=""></option>
+                                            <%asadas.forEach(function(asada){%>
+                                                <option hidden value="<%=asada.ID%>"  distrito="<%=asada.Distrito%>" canton="<%=asada.Canton%>" provincia="<%=asada.Provincia%>"><%=asada.Nombre%></option>
+                                            <%});%>
+                                        </select>
+                                    </div>
+                                </div>
+                            <%}else{%>
+                                <input id="asada" name="asada" type="text" value="<%=usuario.Asada_ID%>" hidden>
+                            <%}%>
                             <div class="col-md-3">
                                 <label for="anno">Año</label>
                                 <select class="form-control hideinput" id="anno">
@@ -122,10 +126,18 @@
         <script type="text/javascript">
             function crearFormulario()
             {
-                location.href = "/crudFormularios?asada=" + $("#asada")[0].value + "&anno=" + (new Date()).getFullYear()
+                location.href = "/crudFormularios"
+                <%if(usuario.Tipo == 1){%>
+                    +"?asada=" + $("#asada")[0].value
+                <%}%>
             }
         </script>
         <script src="/scripts/script.js"></script>
         <script src="scripts/getProvCantDist.js"></script>
+        <%if(usuario.Tipo == 2){%>
+            <script type="text/javascript">
+                getAnnos($("#asada")[0])
+            </script>
+        <%}%>
     </body>
 </html>
