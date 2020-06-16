@@ -1,6 +1,16 @@
 const fs = require('fs');
 
 module.exports = {
+
+
+		getAsadaDefault: (req, res)=>{
+			if(req.session.value == 1 && req.session.usuario.Tipo=="2"){
+				res.redirect(`/asadas/${req.session.usuario.Asada_ID}`);
+			}else{
+				res.redirect("/");
+			}
+		},
+		
     //Función de inicio, carga el mapa
     getHomePage: (req, res) => {
     	if(req.session.value==1){
