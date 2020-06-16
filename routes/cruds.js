@@ -790,7 +790,7 @@ module.exports = {
     }, //end cargarFormulario
 
     getContacto: (req, res) => {
-        let query = "select a.ID,a.Nombre,p.ID as Provincia,c.ID as Canton,d.Codigo as Distrito,ai.Ubicacion,ai.Telefono from ASADA a left join ASADAINFO ai on a.ID=ai.Asada_ID inner join DISTRITO d on a.distrito_id=d.Codigo inner join CANTON c on d.Canton_ID=c.ID inner join PROVINCIA p on p.ID=c.Provincia_ID where d.Provincia_ID=p.ID order by Provincia ASC, Canton ASC, Distrito ASC, a.Nombre ASC;";
+        let query = "select a.ID,a.Nombre,p.ID as Provincia,c.ID as Canton,d.Codigo as Distrito,ai.Ubicacion,ai.Telefono,ai.celular,ai.cantAbonados, ai.poblacion, a.longitud, a.latitud from ASADA a left join ASADAINFO ai on a.ID=ai.Asada_ID inner join DISTRITO d on a.distrito_id=d.Codigo inner join CANTON c on d.Canton_ID=c.ID inner join PROVINCIA p on p.ID=c.Provincia_ID where d.Provincia_ID=p.ID order by Provincia ASC, Canton ASC, Distrito ASC, a.Nombre ASC;";
         let query2 = "select ID, Nombre from PROVINCIA";
         let query3 = "select ID, Nombre from CANTON";
         let query4 = "select ID, Nombre from DISTRITO";
