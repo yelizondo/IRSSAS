@@ -1,3 +1,4 @@
+
 <div class="border-right d-flex flex-column h-100" id="sidebar-wrapper"
 style="background: linear-gradient(185.31deg, #00B396 -33.48%, #1D2D51 98.72%); position:sticky;  top:0">
                 <div class="mt-3 sidebar-heading text-center">
@@ -10,16 +11,20 @@ style="background: linear-gradient(185.31deg, #00B396 -33.48%, #1D2D51 98.72%); 
 
                 <ul class="list-unstyled components mainmenu">
                     <h5 style="color: #FAFAFA" >Ubicación</h5>
-                    <li class="active"><a style = "color: #FAFAFA;">Provincia  <select class="form-control" onchange="getCanton()" id="prov">
+                    <li class="active">
+                        <a style = "color: #FAFAFA;">Provincia  
+                            <select class="form-control" onchange="getCanton()" id="prov" style="border:1px solid #ced4da !important; color:white">
                             <option value="0" style="color: #FAFAFA;">Sin filtro</option>
                         <%rows.forEach(function(row, index) {%>
                             <option value="<%= row.ID%>"><%= row.Nombre%></option>
                         <%});%>
                     </select></a></li>
-                    <li class="active"><a style = "color: #FAFAFA;">Cantón<select class="form-control" onchange="getDistrito()" id="cant">
+                    <li class="active">
+                        <a style = "color: #FAFAFA;">Cantón
+                            <select class="form-control" onchange="getDistrito()" id="cant" style="border:1px solid #ced4da !important; color:white">
                             <option value="0" style = "color: #FAFAFA;" >Sin filtro</option>
                         </select></a></li>
-                    <li class="active"><a style = "color: #FAFAFA;">Distrito<select class="form-control" id="dist">
+                    <li class="active"><a style = "color: #FAFAFA;">Distrito<select class="form-control" id="dist" style="border:1px solid #ced4da !important; color:white">
                             <option value="0">Sin filtro</option>
                     </select></a></li>
                     <br>
@@ -51,17 +56,17 @@ style="background: linear-gradient(185.31deg, #00B396 -33.48%, #1D2D51 98.72%); 
                 <div id="menufilts" class="mt-5 list-group list-group-flush">
                         <ul class="list-unstyled components mainmenu">
                             <h5 style="color: #FAFAFA" >Ubicación</h5>
-                                <li class="active"><a style = "color: #FAFAFA;">Provincia  <select class="form-control" onchange="getCanton()" id="prov">
+                                <li class="active"><a style = "color: #FAFAFA;">Provincia  <select style = "border-color: #FAFAFA !important;color: white !important;"class="form-control" onchange="getCanton()" id="prov">
                                         <option value="0" style="color: #FAFAFA;">Sin filtro</option>
                                     <%rows.forEach(function(row, index) {%>
                                         <option value="<%= row.ID%>"><%= row.Nombre%></option>
                                     <%});%>
                                 </select></a></li>
-                                <li class="active"><a style = "color: #FAFAFA;">Cantón<select class="form-control" onchange="getDistrito()" id="cant">
-                                        <option value="0" style = "color: #FAFAFA;" >Sin filtro</option>
+                                <li class="active"><a style = "color: #FAFAFA;">Cantón<select style = "border-color: #FAFAFA;color: white;" class="form-control" onchange="getDistrito()" id="cant">
+                                        <option value="0" style = "color: #FAFAFA; border: white;" >Sin filtro</option>
                                     </select></a></li>
-                                <li class="active"><a style = "color: #FAFAFA;">Distrito<select class="form-control" id="dist">
-                                        <option value="0">Sin filtro</option>
+                                <li class="active"><a style = "color: #FAFAFA;">Distrito<select style = "border-color: #FAFAFA;color: white;" class="form-control" id="dist">
+                                        <option value="0" style = "color: #FAFAFA;">Sin filtro</option>
                                 </select></a></li>
                                 <br>
 

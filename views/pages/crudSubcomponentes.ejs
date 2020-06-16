@@ -17,10 +17,17 @@
                         <p class="title mt-3 pb-2 font-weight-bold h3">Subcomponentes</p>
                     </div>
                     <div class="col-auto d-flex align-items-center">
-                        <form action="/subcomponente" id="compsub">
+                        <form action="/subcomponente" id="compsub" style="margin-right: 8px;">
                             <button type="submit" onclick=" return saveSubComponent();" style="visibility: hidden;"
                                 id="savebutton" class="btn btn-info navbar-btn">Guardar cambios</button>
                             <p style="color: #f00;" id="error"></p>
+                        </form>
+                        <form>
+                            <button type="button" onclick="addSubComponent();" class="btn btn-info navbar-btn">
+                                <i class="fas fa-plus"></i>
+                                <span></span>
+                            </button>
+                            <p style="color: #f00;"></p>
                         </form>
 
                     </div>
@@ -64,7 +71,8 @@
                                             onchange="updateComponent(<%= componente.ID%>)"
                                             name="siglas-<%=componente.ID%>" value="<%=componente.Siglas%>"></td>
                                     <td>
-                                        <button class="btn btn-icon" onclick="deleteComponent(this, <%=componente.ID%>);">
+                                        <button class="btn btn-icon"
+                                            onclick="deleteComponent(this, <%=componente.ID%>);">
                                             <i class="fas fa-trash text-danger"></i>
                                         </button></td>
                                 </tr>

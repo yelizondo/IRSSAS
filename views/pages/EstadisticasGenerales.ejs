@@ -7,8 +7,7 @@
         .tipoInforme,
         .tipoInforme:active,
         .tipoInforme:visited,
-        .tipoInforme:focus
-        {
+        .tipoInforme:focus {
             background: #7f93aa;
         }
     </style>
@@ -18,97 +17,104 @@
 
     <div class="d-flex" id="wrapper">
         <!-- Sidebar Holder -->
-        
+
         <!-- Page Content Holder -->
         <div id="page-content-wrapper" style="background-color: #FAFAFA;">
-                
+
             <% include ../partials/horizontalMenu %>
-                    <div class="container-fluid">
-                        <h2 class="text-center title">Estadisticas Generales</h2>
-                        <div class="bg-white shadow p-3 mb-5">
-                            
-                            
-                              
-                            <div class="container">
-                            
-                                <div class="row">
-                                    <div class="col-md"> 
-                                        <button style = "margin-top: 8px;" type="button" class="btn btn-info navbar-btn" id="informeProvincia" onclick="cambiarTipoInformeGeneral(1, this);">Informe por provincia</button>
-                                    </div>
-                                    <div class="col-md"> 
-                                        <button style = "margin-top: 8px;" type="button" class="btn btn-info navbar-btn" id="informeCanton" onclick="cambiarTipoInformeGeneral(2, this);">Informe por cantón</button>
-                                    </div>
-                                    <div class="col-md"> 
-                                        <button style = "margin-top: 8px;" type="button" class="btn btn-info navbar-btn" id="informeDistrito" onclick="cambiarTipoInformeGeneral(3, this);">Informe por distrito</button>
-                                    </div>
-                                    <div class="col-md"> 
-                                        <button style = "margin-top: 8px;" type="button" class="btn btn-info navbar-btn" id="informeAsada" onclick="cambiarTipoInformeGeneral(4, this);">Informe por ASADA</button>
-                                    </div>
-                                </div>
+            <div class="container-fluid">
+                <h2 class="text-center title">Estadisticas Generales</h2>
+                <div class="bg-white shadow p-3 mb-5">
+
+
+
+                    <div class="container">
+
+                        <div class="row">
+                            <div class="col-md">
+                                <button style="margin-top: 8px;" type="button" class="btn btn-info navbar-btn"
+                                    id="informeProvincia" onclick="cambiarTipoInformeGeneral(1, this);">Informe por
+                                    provincia</button>
                             </div>
-                            
-                            <br>                        
-                        <div class = "container">
-                            <% include ../partials/filtroCantonDistProvAsada %>
-                        </div>
-                            
-                            <br>
-                            <div class="container">
-                                <button type="submit" class="btn btn-info navbar-btn" onclick="add2Informe()">+</button>
-                                <button type="submit" class="btn btn-info navbar-btn" onclick="removeFromInforme()">-</button>
+                            <div class="col-md">
+                                <button style="margin-top: 8px;" type="button" class="btn btn-info navbar-btn"
+                                    id="informeCanton" onclick="cambiarTipoInformeGeneral(2, this);">Informe por
+                                    cantón</button>
                             </div>
-                            
-                            <br>
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>Nombre</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="selectedInforme">
-                                </tbody>
-                            </table>
-                            <br> 
-                            <div>
-                                <button type="submit" class="btn btn-info navbar-btn" onclick="requestInformeGeneral()">Generar informe</button>
-                            </div>   
-                            <br>
-                            <div class="bg-white shadow p-3 mb-5">
-                                <div class="table-responsive">
-                                    <table id="informe" class="table table-striped table-borderless" hidden>
-                                        <thead>
-                                            <tr>
-                                                <th>Nombre</th>
-                                                <th>Población atendida</th>
-                                                <th>Saneamiento</th>
-                                                <th>Recurso hídrico</th>
-                                                <th>Educación ambiental</th>
-                                                <th>Índice de desarrollo social</th>
-                                                <th>Eventos naturales</th>
-                                                <th>IRSSAS promedio</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="informeBody">
-                                        </tbody>
-                                    </table>
-                                </div>
+                            <div class="col-md">
+                                <button style="margin-top: 8px;" type="button" class="btn btn-info navbar-btn"
+                                    id="informeDistrito" onclick="cambiarTipoInformeGeneral(3, this);">Informe por
+                                    distrito</button>
+                            </div>
+                            <div class="col-md">
+                                <button style="margin-top: 8px;" type="button" class="btn btn-info navbar-btn"
+                                    id="informeAsada" onclick="cambiarTipoInformeGeneral(4, this);">Informe por
+                                    ASADA</button>
                             </div>
                         </div>
-                        
                     </div>
-                    
-                    
-                    
-                
-            
+
+                    <br>
+                    <div class="container">
+                        <% include ../partials/filtroCantonDistProvAsada %>
+                    </div>
+
+                    <br>
+                    <div class="container">
+                        <button type="submit" class="btn btn-info navbar-btn" onclick="add2Informe()">+</button>
+                        <button type="submit" class="btn btn-info navbar-btn" onclick="removeFromInforme()">-</button>
+                    </div>
+
+                    <br>
+                    <div class="container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Nombre</th>
+                                </tr>
+                            </thead>
+                            <tbody id="selectedInforme">
+                            </tbody>
+                        </table>
+                        <br>
+                        <div>
+                            <button type="submit" class="btn btn-info navbar-btn"
+                                onclick="requestInformeGeneral()">Generar
+                                informe</button>
+                        </div>
+                        <br>
+                        <div class="bg-white shadow p-3 mb-5">
+                            <div class="table-responsive">
+                                <table id="informe" class="table table-striped table-borderless" hidden>
+                                    <thead>
+                                        <tr>
+                                            <th>Nombre</th>
+                                            <th>Población atendida</th>
+                                            <th>Saneamiento</th>
+                                            <th>Recurso hídrico</th>
+                                            <th>Educación ambiental</th>
+                                            <th>Índice de desarrollo social</th>
+                                            <th>Eventos naturales</th>
+                                            <th>IRSSAS promedio</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="informeBody">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+
+
+
+
         </div>
     </div>
-    <!-- jQuery CDN -->
-    <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
-    <!-- Bootstrap Js CDN -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <!-- jQuery Custom Scroller CDN -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
+
     <!-- Sweetalert -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 
@@ -146,6 +152,8 @@
 
             $("#menufilts").hide();
 
+            $("a[href$='/verEstadisticasGenerales']").addClass("active");
+
 
         });
     </script>
@@ -155,15 +163,14 @@
     <script type="text/javascript">
         document.getElementById("informeProvincia").click();
 
-        function errorPopUp(mensaje)
-            {
-                Swal.fire({
-                    icon: 'error',
-                    title: mensaje,
-                    showConfirmButton: false,
-                    timer: 1500
-                })
-            }
+        function errorPopUp(mensaje) {
+            Swal.fire({
+                icon: 'error',
+                title: mensaje,
+                showConfirmButton: false,
+                timer: 1500
+            })
+        }
     </script>
 </body>
 
