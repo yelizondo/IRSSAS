@@ -13,7 +13,7 @@ style="background: linear-gradient(185.31deg, #00B396 -33.48%, #1D2D51 98.72%); 
                     <h5 style="color: #FAFAFA" >Ubicación</h5>
                     <li class="active">
                         <a style = "color: #FAFAFA;">Provincia  
-                            <select class="form-control" onchange="getCanton()" id="prov" style="background-color: white !important;">
+                            <select class="form-control" onchange="getCanton()" id="prov" style="border:1px solid #ced4da !important; color:white">
                             <option value="0" style="color: #FAFAFA;">Sin filtro</option>
                         <%rows.forEach(function(row, index) {%>
                             <option value="<%= row.ID%>"><%= row.Nombre%></option>
@@ -21,10 +21,10 @@ style="background: linear-gradient(185.31deg, #00B396 -33.48%, #1D2D51 98.72%); 
                     </select></a></li>
                     <li class="active">
                         <a style = "color: #FAFAFA;">Cantón
-                            <select class="form-control" onchange="getDistrito()" id="cant" style="background-color: white !important;">
+                            <select class="form-control" onchange="getDistrito()" id="cant" style="border:1px solid #ced4da !important; color:white">
                             <option value="0" style = "color: #FAFAFA;" >Sin filtro</option>
                         </select></a></li>
-                    <li class="active"><a style = "color: #FAFAFA;">Distrito<select class="form-control" id="dist" style="background-color: white !important;">
+                    <li class="active"><a style = "color: #FAFAFA;">Distrito<select class="form-control" id="dist" style="border:1px solid #ced4da !important; color:white">
                             <option value="0">Sin filtro</option>
                     </select></a></li>
                     <br>
