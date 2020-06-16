@@ -862,6 +862,16 @@ module.exports = {
     loginPage: (req, res)=>
     {
         res.render("pages/Login.ejs")
+    },
+
+    cambiarPage: (req, res)=>
+    {
+        res.render("pages/Cambiar.ejs")
+    },
+
+    recuperacionPage: (req, res)=>
+    {
+        res.render("pages/Recuperacion.ejs")
     }
 };
 

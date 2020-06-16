@@ -1,23 +1,13 @@
 <!doctype html>
 <html lang="en">
 
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="">
-  <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
-  <meta name="generator" content="Jekyll v4.0.1">
-  <title>Signin Template · Bootstrap</title>
 
-  <link rel="canonical" href="https://getbootstrap.com/docs/4.5/examples/sign-in/">
-
-  <!-- Bootstrap core CSS -->
-  <link href="../assets/dist/css/bootstrap.css" rel="stylesheet">
-
-
-  <!-- Custom styles for this template -->
-  <link href="signin.css" rel="stylesheet">
-</head>
+  <head>
+ 
+    <% include ../partials/header %>
+    <!-- Custom styles for this template -->
+    <link rel="stylesheet" type="text/css" href="/css/signin.css">
+  </head>
 
 <body class="text-center">
  
@@ -28,8 +18,8 @@
     </div>
     <div class="col login">
      
-      <form class="form-signin">
-        <button type="button" class="close" aria-label="Close">
+      <form method="GET" action="/" class="form-signin" id="form-recuperar">
+        <button onclick="location.href = '/login'" type="button" class="close" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
         <h1 class="h3 mb-3 font-weight-normal text-azul">Recuperación de contraseña</h1>
@@ -39,18 +29,52 @@
         <label for="inputEmail" class="sr-only">Usuario</label>
         
         <input type="email" id="inputEmail" class="form-control" placeholder="Usuario" required autofocus>
-        <label for="inputPassword" class="sr-only">Contraseña</label>
-
         <br>
         
        
 
 
-        <button class="shadow btn btn-lg btn-block text-white" type="submit" style="background-color: #1D2D51;">Enviar</button>
+        <button class="shadow btn btn-lg btn-block text-white" onclick="recuperar()" type="button" style="background-color: #1D2D51;">Enviar</button>
       </form>
     </div>
   </div>
   
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+  <script type="text/javascript">
+    //Source: https://sweetalert2.github.io/
+    const Toast = Swal.mixin({
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 3000,
+      timerProgressBar: true,
+    })
+
+    function recuperar()
+    {
+      if (!$('#inputEmail').val())
+      {
+        Toast.fire('Error', 'Usuario vacío', 'error');
+      }
+      else
+      {
+          var usuario = $('#inputEmail').val();
+          var parameters = { "usuario": usuario };
+          $.get('/forgetPassword', parameters, function (data) {
+          }).done(function (res) {
+              console.log(res);
+              if (res == true)
+                  Toast.fire('Proceso exitoso', 'Se enviado al correo la nueva clave', 'success')
+                  .then(()=>
+                  {
+                    $("#form-recuperar")[0].submit()
+                  });
+              else
+                  Toast.fire('Error', res, 'error');
+          });
+      }
+    }
+  </script>
 </body>
 
 </html>

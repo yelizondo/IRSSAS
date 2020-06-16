@@ -22,14 +22,14 @@ module.exports = {
 
     getCrudAsadasU: (req, res) => {
         if (req.session.value == 1) {
-            let query = "select a.ID,a.Latitud,a.Longitud,a.Nombre,p.Nombre as Provincia, a.Distrito_id,c.Nombre as Canton,d.Nombre as Distrito,ai.Ubicacion,ai.Telefono,ai.Poblacion,ai.Url,ai.cantAbonados, ai.Celular from ASADA a left join ASADAINFO ai on a.ID=ai.Asada_ID inner join DISTRITO d on a.distrito_id=d.Codigo inner join CANTON c on d.Canton_ID=c.ID inner join PROVINCIA p on p.ID=c.Provincia_ID where d.Provincia_ID=p.ID "
-            if(req.session.usuario.Tipo == 1)
+            let query = "select a.ID,a.Latitud,a.Longitud,a.Nombre,p.Nombre as Provincia, a.Distrito_id,c.Nombre as Canton,d.Nombre as Distrito,ai.Ubicacion,ai.Telefono,ai.Poblacion,ai.Url,ai.cantAbonados, ai.Celular from ASADA a left join ASADAINFO ai on a.ID=ai.Asada_ID inner join DISTRITO d on a.distrito_id=d.Codigo inner join CANTON c on d.Canton_ID=c.ID inner join PROVINCIA p on p.ID=c.Provincia_ID where d.Provincia_ID=p.ID  and a.ID = '"
+            if(req.session.usuario.Tipo == 2)
             {
-                query += " and a.ID = '" + req.params.id
+                query += "" + req.session.usuario.Asada_ID
             }
-            else(req.session.usuario.Tipo == 2)
+            else
             {
-                query += " and ai.Asada_ID = '" + req.session.usuario.Asada_ID
+                query += "" + req.params.id
             }
             query += "' ;";
             let query2 = 'select concat(p.Nombre, " - ", c.Nombre, " - ", d.Nombre) as Distrito, d.Codigo from DISTRITO d inner join CANTON c on d.Canton_ID=c.ID inner join PROVINCIA p on p.ID=c.Provincia_ID where d.Provincia_ID=p.ID;';

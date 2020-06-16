@@ -1,10 +1,12 @@
 <!doctype html>
 <html lang="en">
-<head>
-    <% include ../partials/header %>
-    <link href="signin.css" rel="stylesheet">
-</head>
 
+<head>
+ 
+  <% include ../partials/header %>
+  <!-- Custom styles for this template -->
+  <link rel="stylesheet" type="text/css" href="/css/signin.css">
+</head>
 
 <body class="text-center">
  
@@ -15,28 +17,28 @@
     </div>
     <div class="col login">
      
-      <form class="form-signin">
-        <button type="button" class="close" aria-label="Close">
+      <form class="form-signin" method="POST" action="/">
+        <button onclick="location.href = '/main'" type="button" class="close" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
         <h1 class="h3 mb-3 font-weight-normal text-azul">Inicio de Sesión</h1>
         <label for="inputEmail" class="sr-only">Usuario</label>
-        <input type="email" id="inputEmail" class="form-control" placeholder="Usuario" required autofocus>
+        <input type="email" id="usr" name="usr" class="form-control" placeholder="Usuario" required autofocus>
         <label for="inputPassword" class="sr-only">Contraseña</label>
-        <input type="password" id="inputPassword" class="form-control" placeholder="Contraseña" required>
+        <input type="password" id="pwd" name="pwd" class="form-control" placeholder="Contraseña" required>
         <div class="row mb-3">
           <div class="col-auto">
-            <a href="" class="text-azul">Cambiar Contraseña</a>
+            <a href="/cambiar" class="text-azul">Cambiar Contraseña</a>
           </div>
           <div class="col">
-            <a href="" class="text-azul">Olvidó la Contraseña?</a>
+            <a href="/recuperar" class="text-azul">Olvidó la Contraseña?</a>
           </div>
         </div>
        
 
 
         <button class="shadow btn btn-lg btn-block text-white" type="submit" style="background-color: #1D2D51;">Iniciar Sesión</button>
-        <button class="shadow btn btn-lg btn-block btn-light text-azul" type="button" >Solicitar registro de asada</button>
+        <button onclick="location.href = '/solicitudRegistroAsada'" class="shadow btn btn-lg btn-block btn-light text-azul" style="background-color: white;" type="button" >Solicitar registro de asada</button>
       </form>
     </div>
   </div>
