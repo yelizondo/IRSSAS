@@ -72,3 +72,17 @@ overflow-y: auto;
 .list-group-flush > .list-group-item{
   border: none !important;
 }
+
+#navbarTogglerDemo02>ul .active{
+  color: #1D2D51;
+  border-bottom: 2px #ff6600 solid;
+  font-weight: 700;
+}
+
+@media (max-width:991.98px){
+  #navbarTogglerDemo02>ul .active{
+    color: #1D2D51;
+    border-bottom: none;
+    font-weight: 700;
+  }
+}

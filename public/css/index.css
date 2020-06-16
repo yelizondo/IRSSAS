@@ -58,10 +58,10 @@ a, a:hover, a:focus {
 }
 
 .table .btn,
-.btn:active,
-.btn:visited,
-.btn:focus {
-    background: none;
+.table .btn:active,
+.table .btn:visited,
+.table .btn:focus {
+    background: transparent;
 }
 
 .table .btn:hover{
@@ -336,7 +336,7 @@ a.ol-popup-closer:hover{
 
 .svg-container{
     height: calc(100% - 300px); 
-    border:2px solid #303030; 
+    border:2px solid #303030 !important; 
 }
 
 .btn-zoom{
@@ -347,14 +347,6 @@ a.ol-popup-closer:hover{
     margin-right: 16px;
     /* padding-left: 1px !important; */
 }
- @media only screen and (max-width: 900px) {
-    .svg-container {
-        width: 320px;
-        height: 320px; 
-        border:1px solid blue; 
-    }
-  } 
-
 
   .form-control{
       background-color: rgba(29, 45, 81, 0.05)!important;
@@ -366,6 +358,10 @@ a.ol-popup-closer:hover{
 
   .form-group label{
       font-weight: 700;
+  }
+
+  .container-fluid h1{
+      font-weight: 700 !important;
   }
 
   /* .table-striped tr:nth-child(odd) input, .table-striped tr:nth-child(odd) select{

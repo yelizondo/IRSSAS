@@ -9,25 +9,26 @@
 
     <div class="d-flex" id="wrapper">
         <!-- Sidebar Holder -->
-        
+
         <!-- Page Content Holder -->
         <div id="page-content-wrapper" style="background-color: #FAFAFA;">
             <% include ../partials/horizontalMenu %>
             <div class="container-fluid">
                 <h1 class="text-center title">Rutas Generales</h1>
-                <div class="bg-white shadow p-3 mb-5">
+                <div class="bg-white shadow p-3 mb-5 h-100">
                     <div class="svg-d-flex svg-flex-column svg-flex-grow-1">
                         <!-- <div class="svg-h-100 svg-flex-grow-1" style="background-color: blue;">a</div> -->
-                        <embed id="svg-content" class="svg-container svg-flex-grow-1" type="image/svg+xml"
+                        <embed id="svg-content" class="svg-container svg-flex-grow-1 w-100" type="image/svg+xml"
                             src="/rutas/data" />
-    
+
                         <!-- <div style="float: right;" class="svg-flex-column svg-flex-grow-1;">
                             a
                         </div> -->
-                        <div  style="background: #303030;">
-                            <div style="float: right">
+                        <div style="background: #303030;">
+                            <div style="float: right; padding-top: 4px; padding-bottom:4px;">
                                 <div class="svg-d-flex">
-                                    <button type="button" id="btn-zoom-in" class="btn btn-info navbar-btn btn-zoom" style="padding-left: 1px !important;">
+                                    <button type="button" id="btn-zoom-in" class="btn btn-info navbar-btn btn-zoom"
+                                        style="padding-left: 1px !important;">
                                         <i class="fas fa-plus"></i>
                                         <span></span>
                                     </button>
@@ -40,26 +41,15 @@
                         </div>
                     </div>
                 </div>
-                </div>
-                
-            
-                           
-                    
-             
+            </div>
         </div>
     </div>
-    <!-- jQuery CDN -->
-    <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
-    <!-- Bootstrap Js CDN -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <!-- jQuery Custom Scroller CDN -->
-    <script
-        src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
+
 
     <script type="text/javascript">
         $(document).ready(function () {
 
-            $('#svg-content').height($(window).height()-160);
+            $('#svg-content').height($(window).height() - 300);
 
             svgPanZoom('#svg-content', {
                 zoomEnabled: true,
@@ -93,20 +83,20 @@
             $("#filts").hide();
 
 
-            $(window).resize(function() {
-                $('#svg-content').height($(window).height()-160);
+            $(window).resize(function () {
+                $('#svg-content').height($(window).height() - 300);
             });
 
-            $('#btn-zoom-in').click(()=>{
+            $('#btn-zoom-in').click(() => {
                 var panZoomTiger = svgPanZoom('#svg-content');
                 panZoomTiger.zoomIn();
             });
 
-            $('#btn-zoom-out').click(()=>{
+            $('#btn-zoom-out').click(() => {
                 var panZoomTiger = svgPanZoom('#svg-content');
                 panZoomTiger.zoomOut();
             });
-            $("a[href$='/rutas']") .addClass("active");
+            $("a[href$='/rutas']").addClass("active");
         });
     </script>
     <script src="scripts/ol.js"></script>
