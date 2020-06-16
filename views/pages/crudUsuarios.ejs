@@ -20,13 +20,13 @@
                     </div>
                     <div class="col-auto d-flex align-items-center">
                         <form action="/usuario" id="usersub">
-                                <button type="button" onclick="addUser();" class="btn btn-info">
-                                    <i class="fas fa-plus"></i>
-                                </button>
+                            <button type="button" onclick="addUser();" class="btn btn-info">
+                                <i class="fas fa-plus"></i>
+                            </button>
                             <button type="button" onclick="location.href='/changeAsadaUser';" class="btn btn-info">
                                 <i class="fas fa-arrow-right"></i>
                             </button>
-                           
+
                             <button type="submit" onclick="return saveUser();" style="visibility: hidden;"
                                 id="savebutton" class="btn btn-info">Guardar cambios</button>
                             <p style="color: #f00;" id="error"></p>
@@ -104,17 +104,12 @@
         </div>
     </div>
 
-
-   
-    <!-- jQuery Custom Scroller CDN -->
-   
-
-        <script>
-            $("#menu-toggle").click(function (e) {
-                e.preventDefault();
-                $("#wrapper").toggleClass("toggled");
-            });
-            </script>
+    <script>
+        $("#menu-toggle").click(function (e) {
+            e.preventDefault();
+            $("#wrapper").toggleClass("toggled");
+        });
+    </script>
 
     <script type="text/javascript">
         $(document).ready(function () {
@@ -126,7 +121,7 @@
                 $("#divrisk").toggle("slow", "linear");
             });
 
-            $("a[href$='/usuario']") .addClass("active");
+            $("a[href$='/usuario']").addClass("active");
 
 
         });

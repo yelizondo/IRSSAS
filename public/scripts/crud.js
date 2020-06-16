@@ -383,8 +383,8 @@ function valoresForm(){
 
 function seleccionarUsuario(asad, user){
 	if(id!="0")
-	document.getElementById("mark-"+id).className="glyphicon glyphicon-remove-circle";
-    document.getElementById("mark-"+user).className="glyphicon glyphicon-ok-circle";
+	document.getElementById("mark-"+id).className="far fa-times-circle";
+    document.getElementById("mark-"+user).className="far fa-check-circle";
 	asada=asad;
     id=user;
 }

@@ -60,13 +60,18 @@
                                 <%if(user.Asada === null){%>
                                 <td id="asadaID-<%=user.ID%>"></td>
                                 <td id="asada-<%=user.ID%>"></td>
-                                <td><i class="glyphicon glyphicon-remove-circle" id="mark-<%=user.ID%>" onclick="seleccionarUsuario(0, <%=user.ID%>);"></i></td>
+                                <td class="text-center">
+                                    <button class="btn btn-icon " onclick="seleccionarUsuario(0, <%=user.ID%>);" > 
+                                         <i class="far fa-times-circle" id="mark-<%=user.ID%>"></i>
+                                        </button>
+                                  
+                                    </td>
                                 <%}else{%>
                                 <td id="asadaID-<%=user.ID%>"><%=user.Asada_ID%></td>
                                 <td id="asada-<%=user.ID%>"><%=user.Asada%></td>
                                 <td class="text-center">
-                                    <button class="btn btn-icon" id="mark-<%=user.ID%>" onclick="seleccionarUsuario(<%=user.Asada_ID%>, <%=user.ID%>);">
-                                        <i class="fas fa-trash text-danger"></i>
+                                    <button class="btn btn-icon"  onclick="seleccionarUsuario(<%=user.Asada_ID%>, <%=user.ID%>);">
+                                        <i class="far fa-times-circle" id="mark-<%=user.ID%>"></i>
                                     </button>
                                 </td>
                                 <%}%>
