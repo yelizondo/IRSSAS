@@ -315,7 +315,8 @@ function changeComponent(tipo, id, nombre) {
 function filtrarMap() {
   provincia = document.getElementById("prov").value;
   canton = document.getElementById("cant").value;
-  distrito = document.getElementById("dist").value;
+  var selectDist = document.getElementById("dist")[document.getElementById("dist").selectedIndex].attributes["dist"]
+  distrito = selectDist ? selectDist.value : 0;
   changeComp();
   var parameters = { "tipo": "1", "provincia": provincia, "canton": canton, "distrito": distrito };
   $.get('/getSites', parameters, function (data) {
