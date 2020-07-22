@@ -29,6 +29,11 @@ a, a:hover, a:focus {
     transition: all 0.3s;
 }
 
+option, option:hover {
+    color: black;
+    background-color: white;
+}
+
 .navbar {
     padding: 15px 10px;
     background: #fff;
