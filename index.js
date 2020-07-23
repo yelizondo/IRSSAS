@@ -1,6 +1,7 @@
 
 // importar bibliotecas
 const express = require('express');
+const fs = require('fs');
 const fileUpload = require('express-fileupload');
 const bodyParser = require('body-parser');
 const mysql = require('mysql');
@@ -34,11 +35,17 @@ const {getAsadaDefault, getHomePage, login, getMain, getVisor, getComponente, lo
 
 //conexion de BD
 const db = mysql.createConnection ({
-    host     : '35.184.65.113',//35.184.65.113
-    user     : 'root',
-    password : 'jdsakfidsajfklsñad56798416374',//jdsakfidsajfklsñad56798416374
-    database : 'asadas_test',//asadas
-    port : '3306'
+    host     : process.env.DB_URL,
+    user     : process.env.DB_USER,
+    password : process.env.DB_PASS,
+    database : process.env.DB_NAME,
+    port : process.env.DB_PORT,
+    ssl: {
+        ca: process.env.SERVER_CA_PEM
+        ,
+        key: process.env.CLIENT_KEY_PEM, 
+        cert: process.env.CLIENT_CERT_PEM
+    }
 });
 
 db.connect((err) => {
