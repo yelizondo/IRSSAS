@@ -10,7 +10,7 @@ function aranna(value, tipo, anno, idchart = ""){
 		grafico.update();
 		pintarGrafico (grafico);
 		document.getElementById ("riesgo").value = data.riesgo[0].valor.toFixed(0);
-		document.getElementById ("tipoRiesgo").value = (["Muy Alto", "Alto", "Intermedio", "Bajo", "Muy bajo"])[tipoRiesgo];
+		document.getElementById ("tipoRiesgo").value = (["Muy Alto", "Alto", "Medio", "Bajo", "Muy bajo"])[tipoRiesgo];
 	});
 };
 
@@ -330,7 +330,7 @@ function generarPDFInformeMejora(numAsada){
 						console.log(data5.statsSubcomponentes);
 						console.log("Entre a todos los gets")
 						var tipoRiesgo = getTipoRiesgo (data2.riesgo[0].valor.toFixed(0));
-						var tipo = (["Muy Alto", "Alto", "Intermedio", "Bajo", "Muy bajo"])[tipoRiesgo]
+						var tipo = (["Muy Alto", "Alto", "Medio", "Bajo", "Muy bajo"])[tipoRiesgo]
 						textosMejora = textosMejora + 
 						"<p><b>ASADA: </b>" +data3.asadaInfo.ID+"-"+data3.asadaInfo.Nombre+"</p>" +
 						"<p><b>Provincia: </b>" +data3.asadaInfo.Provincia+"</p>" +

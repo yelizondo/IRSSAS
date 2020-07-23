@@ -157,7 +157,7 @@ $.get('/getSites', parameters, function (data) {
       name: jsonsites.asadas[i].Nombre,
       riesgo: jsonsites.asadas[i].valor.toFixed(2),
       poblacion: jsonsites.asadas[i].poblacion,
-      color: (["Muy Alto", "Alto", "Intermedio", "Bajo", "Muy bajo"])[x]
+      color: (["Muy Alto", "Alto", "Medio", "Bajo", "Muy bajo"])[x]
     }));
     puntos[i].setStyle(style1);
   }
@@ -270,7 +270,7 @@ function loadPoints(points) {
         id: points.asadas[i].Asada_ID,
         riesgo: points.asadas[i].valor,
         poblacion: points.asadas[i].Poblacion,
-        color: (["Muy Alto", "Alto", "Intermedio", "Bajo", "Muy bajo"])[x]
+        color: (["Muy Alto", "Alto", "Medio", "Bajo", "Muy bajo"])[x]
       }));
       puntos[puntos.length - 1].setStyle(style1);
     }
