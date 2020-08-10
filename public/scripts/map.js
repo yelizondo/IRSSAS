@@ -145,7 +145,6 @@ $.get('/getSites', parameters, function (data) {
   }))
 
 
-
   puntos = [];
   var x;
   for (var i = 0; i < jsonsites.asadas.length; i++) {
@@ -234,9 +233,21 @@ document.getElementById('export-png').addEventListener('click', function() {
   map.once('rendercomplete', function() {
     domtoimage.toPng(map.getTargetElement(), exportOptions)
       .then(function(dataURL) {
-        var link = document.getElementById('image-download');
-        link.href = dataURL;
-        link.click();
+        $("#img-map-tec")[0].hidden = false
+        $("#img-map-tec").css("width", map.getSize()[0])
+        $("#img-map-tec").css("height", map.getSize()[1])
+        $("#map-png").css("width", map.getSize()[0])
+        $("#map-png").css("height", map.getSize()[1])
+
+        $("#img-map-tec").css("background-image", `url(${dataURL})`)
+        $("#map-png")[0].src = "/images/tec.png"
+        html2canvas(document.querySelector("#img-map-tec")).then(canvas =>
+        {
+          $("#img-map-tec")[0].hidden = true
+          var link = document.getElementById('image-download');
+          link.href = canvas.toDataURL("image/png");
+          link.click()
+        });
       });
   });
   map.renderSync();

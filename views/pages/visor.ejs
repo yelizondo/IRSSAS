@@ -21,6 +21,7 @@
                     </div>
                     <div class="bg-white shadow p-3 mb-5">
                         <button id="export-png" class="btn btn-primary"><i class="fa fa-download"></i> Descargar PNG</button>
+                        
                         <a id="image-download" download="map.png"></a>
                         <p id="mycomponent">Indice de Riesgo Sostenible en el Servicio de Agua y Saneamiento</p>
                         <div id="map">
@@ -31,7 +32,9 @@
                         </div>
                         <% include ../partials/riesgo %>
                     </div>
-                    
+                    <div id="img-map-tec" hidden>
+                        <img id="map-png" style="opacity: 0.3;">
+                    </div>
                     
                 </div>
                
@@ -92,6 +95,7 @@
             });
         });
     </script>
+    <script src="http://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
     <script src="scripts/dom-to-image.min.js"></script>
     <script src="scripts/ol.js"></script>
     <script src="scripts/map.js"></script>
