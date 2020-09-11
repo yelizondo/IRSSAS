@@ -31,34 +31,30 @@
                             <%}%>
                             <hr>
                             <div class="row">
-                                <div class="col-12 col-md-4"> 
+                                <div class="col-12 col-md-6"> 
                                     <label for="riesgo">IRSSAS Total</label>
                                     <input id="riesgo" type="number" class="form-control" readonly>
                                 </div>
-                                <div class="col-12 col-md-4"> 
+                                <div class="col-12 col-md-6"> 
                                     <label for="tipoRiesgo">Nivel de riesgo <i class="fas fa-question-circle risk-help"  onclick = mostrarAyuda() ></i></label>
                                     <input id="tipoRiesgo"  class="form-control" readonly>
-                                  
-                                </div>
-                                <div class="col-12 col-md-4"> 
-                                    <label for="tipoGrafico">Tipo de gráfico</label>
-                                    <select id="tipoGrafico" onchange="cambiarGrafico()" class="form-control">
-                                        <option value="bar">Barras</option>
-                                        <option value="radar">Araña</option>
-                                    </select>
                                 </div>
                             </div>
-                            <div id="ID_DIV">
-                                <canvas id="radar-chart"></canvas>
+                            <hr>
+                            <div class="row", id="ID_DIV">
+                                <div class="col-12 col-md-6"> 
+                                    <h3>Gráfico de barras</h3>
+                                    <canvas id="bar-chart" height=300></canvas>
+                                </div>
+                                    <div class="col-12 col-md-6"> 
+                                    <h3>Gráfico de araña</h3>
+                                <canvas id="radar-chart" height=300></canvas>
+                                </div>
                             </div>
                             <br>
                             <button class="btn btn-info" onclick="download();">Download</button>
                         </div>
-    
-    
                     </div>
-    
-    
                 </div>
             </div>
         </div>
@@ -89,13 +85,16 @@
 
             });
         </script>
-        <script src="scripts/script.js"></script>
+        <script src="/scripts/script.js"></script>
         <script type="text/javascript">
-            graficoAranna();
+            graficoAranna(graficoB,"bar");
+        </script>
+        <script type="text/javascript">
+            graficoAranna(graficoA,"radar");
         </script>
         <script type="text/javascript">
             function download(){
-            html2canvas($("#radar-chart"), {
+            html2canvas($("#ID_DIV"), {
                 onrendered: function(canvas) {
                     var doc = new jsPDF('p', 'mm');
                     doc.addImage(canvas, 'PNG', 10, 10, 190, 190);

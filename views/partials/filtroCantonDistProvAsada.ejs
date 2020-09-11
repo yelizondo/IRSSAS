@@ -2,7 +2,7 @@
     <% include ./filtroCantonDistProv %>
     <div class="col-md" id="asada-select">
         <label for="asada">Asadas</label>
-        <select id="asada" name="asada" class="form-control hideinput" onchange="graficoAranna();">
+        <select id="asada" name="asada" class="form-control hideinput" onchange="cambiarGrafico();">
             <option value="">Sin filtro</option>
             <%asadas.forEach(function(asada){%>
             <option hidden value="<%=asada.ID%>" distrito="<%=asada.Distrito%>" canton="<%=asada.Canton%>"

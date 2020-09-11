@@ -1,6 +1,8 @@
-var grafico = graficoNuevo ();
+var graficoB = graficoNuevo ("bar","bar-chart");
+var graficoA = graficoNuevo ("radar","radar-chart");
 
-function aranna(value, tipo, anno, idchart = ""){
+//Setea los parametro para los graficos
+function aranna(value, tipo, anno, grafico,tipoGrafico){
 	var parameters = { "id": value, "tipo": tipo, "anno": anno};
     $.get('/getRiesgo',parameters,function(data) {
 		var tipoRiesgo = getTipoRiesgo (data.riesgo[0].valor.toFixed(0));
@@ -8,26 +10,28 @@ function aranna(value, tipo, anno, idchart = ""){
 		grafico.data.datasets[0].label = data.nombre;
 		grafico.data.datasets[0].data = data.valores.map(function(valor){return valor.toFixed(0)});
 		grafico.update();
-		pintarGrafico (grafico);
+		pintarGrafico (grafico,tipoGrafico);
 		document.getElementById ("riesgo").value = data.riesgo[0].valor.toFixed(0);
 		document.getElementById ("tipoRiesgo").value = (["Muy Alto", "Alto", "Medio", "Bajo", "Muy bajo"])[tipoRiesgo];
 	});
 };
 
-function graficoAranna()
+//Obtiene asada para grafico
+function graficoAranna(grafico,tipoGrafico)
 {
 	var url = new URL(document.URL);
 	var param = url.searchParams.get("asada");
 	document.getElementById("asada").value = param == null ? document.getElementById("asada").value : param;
 	var value = document.getElementById("asada").value;
-    aranna(value,"INDICADORXASADA",0)
+    aranna(value,"INDICADORXASADA",0,grafico,tipoGrafico)
 };
 
-function graficoNuevo (asada = "")
+//Crear la plantilla segun el tipo
+function graficoNuevo (tipo,idChart)
 {
-	return new Chart(document.getElementById("radar-chart"+asada),
+	return new Chart(document.getElementById(idChart),
 	{
-		type: (document.getElementById("tipoGrafico") == null ? "bar" : document.getElementById("tipoGrafico").value),
+		type: tipo,
 		data:
 		{
 			labels: null,
@@ -49,13 +53,20 @@ function graficoNuevo (asada = "")
 		},
 		options:
 		{
+			responsive:true,
 			title:
 			{
 				display: true,
 				text: 'Nivel de Riesgo de la ASADA'
 			},
-			scales: tipoGrafico != null && tipoGrafico.value == "radar" ? {} :
+			scales: tipo == "radar" ? {} :
 			{
+				xAxes:[
+					{
+						barThickness: 20,
+						maxBarThickness: 100,
+					}
+				],
 				yAxes:
 				[
 					{
@@ -73,11 +84,18 @@ function graficoNuevo (asada = "")
 	});
 }
 
-function cambiarGrafico()
+function auxCambiarGrafico(grafico,tipoGrafico,idChart)
 {
 	grafico.destroy();
-	grafico = graficoNuevo ();
-	graficoAranna();
+	grafico = graficoNuevo (tipoGrafico,idChart);
+	graficoAranna(grafico,tipoGrafico);
+	return grafico;
+}
+
+function cambiarGrafico()
+{
+	graficoA = auxCambiarGrafico(graficoA,"radar","radar-chart");
+	graficoB = auxCambiarGrafico(graficoB,"bar","bar-chart");
 }
 
 function presentarAsada(){
@@ -470,16 +488,15 @@ function getTipoRiesgo (valor)
     }
 }
 
-function pintarGrafico (graficoObj)
+function pintarGrafico (graficoObj,tipoGrafico)
 {
 	var colores = ['rgba(234, 77, 70, 0.7)','rgba(232, 215, 75, 0.7)','rgba(72, 118, 90, 0.7)','rgba(22, 155, 220, 0.7)','rgba(22, 87, 205, 0.7)'];
 	var riesgo = document.getElementById ("riesgo");
-	var tipoGrafico = document.getElementById ("tipoGrafico");
-	graficoObj.data.datasets[0].backgroundColor = tipoGrafico != null && tipoGrafico.value == "radar" ? colores[getTipoRiesgo (riesgo.value)] : []
+	graficoObj.data.datasets[0].backgroundColor = tipoGrafico == "radar" ? colores[getTipoRiesgo (riesgo.value)] : []
 	graficoObj.data.datasets[0].pointBackgroundColor = []
 	for (var i = 0; i < graficoObj.data.datasets[0].data.length; i++)
 	{
-		if (tipoGrafico != null && tipoGrafico.value == "radar")
+		if (tipoGrafico == "radar")
 		{
 			graficoObj.data.datasets[0].pointBackgroundColor.push(colores[getTipoRiesgo (graficoObj.data.datasets[0].data[i])]);
 		}
