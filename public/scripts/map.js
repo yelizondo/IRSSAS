@@ -154,7 +154,7 @@ $.get('/getSites', parameters, function (data) {
       type: 'click',
       geometry: new ol.geom.Point(ol.proj.fromLonLat([parseFloat(jsonsites.asadas[i].Latitud), parseFloat(jsonsites.asadas[i].Longitud)])),
       name: jsonsites.asadas[i].Nombre,
-      riesgo: jsonsites.asadas[i].valor.toFixed(2),
+      riesgo:jsonsites.asadas[i].valor.toFixed(0),
       poblacion: jsonsites.asadas[i].poblacion,
       color: (["Muy Alto", "Alto", "Medio", "Bajo", "Muy bajo"])[x]
     }));
