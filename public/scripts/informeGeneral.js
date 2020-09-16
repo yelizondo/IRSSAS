@@ -50,6 +50,15 @@ function cambiarTipoInformeGeneral(pTipoInforme, button)
             document.getElementById("asada-select").hidden = false;
             break;
         } //end case
+        case 5: //riesgo
+        {
+            asadas = []
+            document.getElementById("canton-select").hidden = false;
+            document.getElementById("distrito-select").hidden = false;
+            document.getElementById("asada-select").hidden = false;
+            document.getElementById("riesgo-select").hidden = false;
+            break;
+        } //end case
         default:
         {
             tipoInforme = 1

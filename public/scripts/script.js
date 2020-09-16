@@ -349,19 +349,26 @@ function generarPDFInformeMejora(numAsada){
 						console.log("Entre a todos los gets")
 						var tipoRiesgo = getTipoRiesgo (data2.riesgo[0].valor.toFixed(0));
 						var tipo = (["Muy Alto", "Alto", "Medio", "Bajo", "Muy bajo"])[tipoRiesgo]
-						textosMejora = textosMejora + 
-						"<p><b>ASADA: </b>" +data3.asadaInfo.ID+"-"+data3.asadaInfo.Nombre+"</p>" +
+						textosMejora = textosMejora +
+						"<h2>Datos generales: </h2><br>"+
+						"<p><b>Fecha en que se generó este informe: </b>" + getCurrentDate() +"</p>" +
+						"<p><b>Código y nombre de la ASADA: </b>" +data3.asadaInfo.ID+"-"+data3.asadaInfo.Nombre+"</p>" +
 						"<p><b>Provincia: </b>" +data3.asadaInfo.Provincia+"</p>" +
 						"<p><b>Cantón: </b>" +data3.asadaInfo.Canton+"</p>" +
-						"<p><b>Población atendida: </b>" +data3.asadaInfo.Poblacion+"</p>" +
-						"<p><b>IRSSAS: </b>" +data2.riesgo[0].valor.toFixed(0)+"</p>" +
-						"<p><b>Riesgo: </b>" + tipo +"</p>" +
-						"<p><b>Fecha: </b>" + getCurrentDate() +"</p>";
+						"<p><b>Distrito: </b>" +data3.asadaInfo.Distrito+"</p>" +
+						"<p><b>Población atendida: </b>" +data3.asadaInfo.Poblacion+" habitantes</p>" +
+						"<p><b>El resultado de la evaluación del IRSSAS es: </b>" +data2.riesgo[0].valor.toFixed(0)+"%</p>" +
+						"<p><b>Riesgo: </b>" + tipo +"</p>" + 
+						"<h2>Comentarios generales: </h2><br>"+ 
+						"<p>Este documento es recomendativo generado a partir de la autoevaluación realizada en su ASADA utilizando como base las respuestas al formulario IRSSAS.</p>"+
+						"<p>Es una guía de acciones generales que le permitirán direccionar sus esfuerzos en pro de la mejora y desempeño de su ASADA, considerando los objetivos de desarrollo sostenible y la legislación nacional.</p>"+
+						"<p>El mismo puede servir como insumo de diagnóstico preliminar de la gestión de su ASADA, con el cual podría acceder a cooperación y financiamiento.</p>"+
+						"<p>También es útil para planificar a corto y mediano plazo las acciones e inversiones en su acueducto, además de priorizar las intervenciones.</p>";
 						var count = 0;
 						var index = 0;
 						data4.AllSubcomponentes.forEach(Sub =>
 							{
-								textosMejora = textosMejora + "<h4>"+Sub.Nombre+": Nivel de Riesgo " + data5.statsSubcomponentes[index].valor.toFixed(2) +"</h4><br>";
+								textosMejora = textosMejora + "<h4>Subcomponente: "+Sub.Nombre+": Nivel de Riesgo " + data5.statsSubcomponentes[index].valor.toFixed(0) +"%</h4><br>";
 								mejoras.mejoras.forEach(mejora=>
 									{
 										if(mejora.SUBCOMPONENTE == Sub.ID)
@@ -385,7 +392,7 @@ function generarPDFInformeMejora(numAsada){
 							
 							$("#prueba").html(
 								"<div id="+numAsada+">"+
-								"<h2>Informe de Mejora</h2><br>" 
+								"<h2>Informe de Mejora</h2><br>"
 								+ textosMejora +"</div>"
 							
 						
