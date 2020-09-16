@@ -217,7 +217,7 @@ $.get('/getSites', parameters, function (data) {
     if (f && f.get('type') == 'click') {
       var geometry = f.getGeometry();
       var coord = geometry.getCoordinates();
-      content.innerHTML = '<p><b>' + f.get("name") + '</b></p><p><b>Población: </b> ' + f.get("poblacion") + ' <b>Riesgo: </b>' + f.get("riesgo") + '% <b>Nivel de Riesgo: </b>' + f.get("color") + ' </p>';
+      content.innerHTML = '<p><b>' + f.get("name") + '</b></p><p><b>Población: </b> ' + f.get("poblacion") + ' <b>Riesgo: </b>' + f.get("riesgo") + '%<br><b>Nivel de Riesgo: </b>' + f.get("color") + ' </p>';
       overlay.setPosition(coord);
     }
   });
