@@ -363,12 +363,23 @@ function generarPDFInformeMejora(numAsada){
 						"<p>Este documento es recomendativo generado a partir de la autoevaluación realizada en su ASADA utilizando como base las respuestas al formulario IRSSAS.</p>"+
 						"<p>Es una guía de acciones generales que le permitirán direccionar sus esfuerzos en pro de la mejora y desempeño de su ASADA, considerando los objetivos de desarrollo sostenible y la legislación nacional.</p>"+
 						"<p>El mismo puede servir como insumo de diagnóstico preliminar de la gestión de su ASADA, con el cual podría acceder a cooperación y financiamiento.</p>"+
-						"<p>También es útil para planificar a corto y mediano plazo las acciones e inversiones en su acueducto, además de priorizar las intervenciones.</p>";
+						"<p>También es útil para planificar a corto y mediano plazo las acciones e inversiones en su acueducto, además de priorizar las intervenciones.</p>"+
+						"<p>Se recomienda revisar cada uno de los componentes y subcomponentes del IRSSAS que se muestran a continuación, con el fin de tomar las medidas necesarias para reducir el riesgo. </p>";
 						var count = 0;
 						var index = 0;
+						var textos =[
+									"La gestión de este subcomponente  permite disminuir el impacto de la contaminación en el recurso hídrico.  Para tal fin se recomiendan las siguientes acciones:",
+									"La gestión adecuada del componente de los residuos sólidos disminuye la contaminación del suelo y también de los cuerpos de agua, aunque la misma no es responsabilidad directa de la ASADA, su mala gestión afectará la sostenibilidad de la prestación del servicio.  Para tal fin se recomiendan las siguientes acciones:",
+									"La gestión del componente de protección del recurso hídrico es esencial para garantizar la prestación del servicio de agua, algunas de las acciones propuestas requieren la estrecha cooperación con otras instituciones gubernamentales, academia, sectores privados y ONGs. Para tal fin se recomiendan las siguientes acciones:",
+									"La gestión del componente del agua potable incluye el análisis de los componentes del acueducto, los cuales deben funcionar adecuadamente para la prestación del servicio de agua y saneamiento, algunas de las acciones propuestas requieren inversión en infraestructura y gestión técnica.  A continuación, se muestran las acciones para fortalecer esta gestión.",
+									"La gestión del componente administrativo financiero incluye la valoración de la morosidad y la liquidez,  estos dos son esenciales para garantizar la prestación del servicio de agua y saneamiento.  A continuación, se muestran acciones para fortalecer esta gestión.",
+									"Este indicador elaborado por el MIDEPLAN muestra a nivel promedio la situación socioeconómica de los diferentes distritos del país, el significado de los valores de IDS se muestran a continuación.",
+									"Las comunidades que han sido educadas ambientalmente tienden a presentar mejores niveles de protección del recurso hídrico y manejo de residuos sólidos, por tal razón, se recomiendan ejecutar las siguientes acciones.",
+									"El riesgo en la prestación del servicio de agua y saneamiento aumenta por la presencia de eventos naturales.  Los mismos no  pueden evitarse, sin embargo, la prevención y la mitigación son dos herramientas indispensables para disminuir la vulnerabilidad de estos riesgos.  A continuación se muestran algunas acciones generales que la ASADA puede realizar."
+									];
 						data4.AllSubcomponentes.forEach(Sub =>
 							{
-								textosMejora = textosMejora + "<h4>Subcomponente: "+Sub.Nombre+": Nivel de Riesgo " + data5.statsSubcomponentes[index].valor.toFixed(0) +"%</h4><br>";
+								textosMejora = textosMejora + "<h4>Subcomponente: "+Sub.Nombre+": Nivel de Riesgo " + data5.statsSubcomponentes[index].valor.toFixed(0) +"%</h4><br>" +"<p>" + textos[index] + "</p>";
 								mejoras.mejoras.forEach(mejora=>
 									{
 										if(mejora.SUBCOMPONENTE == Sub.ID)

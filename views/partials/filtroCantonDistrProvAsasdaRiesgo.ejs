@@ -1,0 +1,14 @@
+<div class="row">
+    <% include ./filtroCantonDistProvAsada %>
+    <div class="col-md" id="riesgo-select">
+        <label for="riesgo">Riesgo</label>
+        <select id="riesgo" name="riesgo" class="form-control hideinput" onchange="cambiarGrafico();">
+            <option value="">Sin filtro</option>
+            <option value ="1">Muy bajo</option>
+            <option value ="2">Bajo</option>
+            <option value ="3">Medio</option>
+            <option value ="4">Alto</option>
+            <option value ="5">Muy alto</option>    
+        </select>
+    </div>
+</div>
