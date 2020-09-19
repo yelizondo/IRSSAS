@@ -336,7 +336,6 @@ function generarPDFInformeMejora(numAsada){
 		numAsada = values_list[0];
 		$("#downloadpdf").show();
 	}
-
 	textosMejora = "";	            
 	$.get(`./generarInformeMejora/getInforme/:${numAsada}`,{},function(data){
 	}).done(function(mejoras){
@@ -379,7 +378,7 @@ function generarPDFInformeMejora(numAsada){
 									];
 						data4.AllSubcomponentes.forEach(Sub =>
 							{
-								textosMejora = textosMejora + "<h4>Subcomponente: "+Sub.Nombre+": Nivel de Riesgo " + data5.statsSubcomponentes[index].valor.toFixed(0) +"%</h4><br>" +"<p>" + textos[index] + "</p>";
+								textosMejora = textosMejora + "<hr/>"+"<h4>Subcomponente: "+Sub.Nombre+": Nivel de Riesgo " + data5.statsSubcomponentes[index].valor.toFixed(0) +"%</h4>" +"<p>" + textos[index] + "</p>";
 								mejoras.mejoras.forEach(mejora=>
 									{
 										if(mejora.SUBCOMPONENTE == Sub.ID)
