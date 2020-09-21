@@ -10,9 +10,9 @@ function aranna(value, tipo, anno, grafico,tipoGrafico){
 		grafico.data.datasets[0].label = data.nombre;
 		grafico.data.datasets[0].data = data.valores.map(function(valor){return valor.toFixed(0)});
 		grafico.update();
-		pintarGrafico (grafico,tipoGrafico);
 		document.getElementById ("riesgo").value = data.riesgo[0].valor.toFixed(0);
 		document.getElementById ("tipoRiesgo").value = (["Muy Alto", "Alto", "Medio", "Bajo", "Muy bajo"])[tipoRiesgo];
+		pintarGrafico (grafico,tipoGrafico);
 	});
 };
 
@@ -41,10 +41,10 @@ function graficoNuevo (tipo,idChart)
 				{
 					label: null,
 					fill: true,
-					backgroundColor: "rgba(25,61,102,0.2)",
-					borderColor: "rgba(25,61,102,1)",
+					backgroundColor: "rgba(25,61,102,0.2)",	// Azul
+					borderColor: "rgba(25,61,102,1)",	// Azul
 					pointBorderColor: "#fff",
-					pointBackgroundColor: "rgba(179,181,198,1)",
+					pointBackgroundColor: "rgba(179,181,198,1)",	// Gris
 					pointRadius: 8,
 					pointHoverRadius: 12,
 					data: null,
@@ -482,26 +482,26 @@ function getEstadisticas(){
 
 function getTipoRiesgo (valor)
 {
-    
+
     if (valor < 47.0)
     {
-      return 4
+      return 4	// usar color azul
     }
     else if (valor < 57.0)
     {
-      return 3
+      return 3 // Usa color celeste
     }
     else if (valor < 67.0)
     {
-      return 2
+      return 2 // Usa color verde
     }
     else if (valor < 77.0)
     {
-      return 1
+      return 1 // Usa color amarillo
     }
     else
     {
-      return 0
+      return 0	// Usa color rojo
     }
 }
 
