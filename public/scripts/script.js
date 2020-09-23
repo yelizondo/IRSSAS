@@ -519,7 +519,14 @@ function pintarGrafico (graficoObj,tipoGrafico)
 		}
 		else
 		{
-			graficoObj.data.datasets[0].backgroundColor.push(colores[getTipoRiesgo (graficoObj.data.datasets[0].data[i])]);
+			if (i == 0){			// Caso para primera barra del grafico tipo bar
+				graficoObj.data.datasets[0].backgroundColor.push(colores[getTipoRiesgo (riesgo.value)]);	// Primer barra asume color del tipo de riesgo
+			}
+
+			else{				// Caso para resto de barras
+				graficoObj.data.datasets[0].backgroundColor.push(colores[getTipoRiesgo (graficoObj.data.datasets[0].data[i])]);
+			}
+			
 		}
 	}
 	graficoObj.update();
