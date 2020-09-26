@@ -7,7 +7,7 @@ function aranna(value, tipo, anno, grafico,tipoGrafico){
     $.get('/getRiesgo',parameters,function(data) {
 		var tipoRiesgo = getTipoRiesgo (data.riesgo[0].valor.toFixed(0));
 		grafico.data.labels = data.componentes;
-		grafico.data.datasets[0].label = data.nombre + ' ' + data.riesgo[0].valor.toFixed(0);
+		grafico.data.datasets[0].label = data.nombre;
 		grafico.data.datasets[0].data = data.valores.map(function(valor){return valor.toFixed(0)});
 		grafico.update();
 		document.getElementById ("riesgo").value = data.riesgo[0].valor.toFixed(0);
@@ -58,6 +58,14 @@ function graficoNuevo (tipo,idChart)
 			{
 				display: true,
 				text: 'Nivel de Riesgo de la ASADA'
+			},
+			legend: 		// Titulos de los graficos. Es posible usar 'tipo == "radar" ? {} :' para seleccionar grafico.
+			{
+				display: true,
+				labels: 
+				{
+					boxWidth: 0
+				}
 			},
 			scales: tipo == "radar" ? {} :
 			{
@@ -519,14 +527,9 @@ function pintarGrafico (graficoObj,tipoGrafico)
 		}
 		else
 		{
-			if (i == 0){			// Caso para primera barra del grafico tipo bar
-				graficoObj.data.datasets[0].backgroundColor.push(colores[getTipoRiesgo (riesgo.value)]);	// Primer barra asume color del tipo de riesgo
-			}
 
-			else{				// Caso para resto de barras
-				graficoObj.data.datasets[0].backgroundColor.push(colores[getTipoRiesgo (graficoObj.data.datasets[0].data[i])]);
-			}
-			
+		graficoObj.data.datasets[0].backgroundColor.push(colores[getTipoRiesgo (graficoObj.data.datasets[0].data[i])]);
+		
 		}
 	}
 	graficoObj.update();
