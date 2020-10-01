@@ -472,6 +472,7 @@ function downloadInformeMejora(){
 function getEstadisticas(){
 	var parameters = { "provincia": document.getElementById("prov").value, "canton": document.getElementById("cant").value, "distrito": document.getElementById("dist").value, "orden": document.getElementById("ord").value};
 	var distritos;
+	console.log(document.getElementById("dist").value);
 	$.get('/getEstadisticas',parameters,function(data) {
 		distritos = data;
 	   }).done(function(res){       
@@ -482,7 +483,7 @@ function getEstadisticas(){
 		  distritos.rows.forEach(consulta => {
 			  selectCant.innerHTML+="<tr><td>"+consulta.Nombre+"</td><td>"+
 			  ""+consulta.Distrito+"</td><td>"+consulta.Canton+"</td><td>"+consulta.Provincia+"</td><td>"+
-			  ""+consulta.valor.toFixed(2)+`</td><td class='text-center'><a href='/statsSubcomponentes/${consulta.Asada_ID}' ><i class='fas fa-info-circle' style='color: #325276' `+
+			  ""+consulta.valor.toFixed(0)+`</td><td class='text-center'><a href='/statsSubcomponentes/${consulta.Asada_ID}' ><i class='fas fa-info-circle' style='color: #325276' `+
 			  `></i></a></td></tr>`;
 		  });
 	  });
