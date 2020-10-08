@@ -32,8 +32,11 @@
                             <hr>
                             <div class="row">
                                 <div class="col-12 col-md-6"> 
-                                    <label for="riesgo">IRSSAS Total</label>
-                                    <input id="riesgo" type="number" class="form-control" readonly>
+                                    <h3 for="riesgo">IRSSAS Total</h3>
+                                    <input id="riesgo" type= hidden class="form-control" readonly>
+                                    <div class="col-12 col-md-12"> 
+                                    	<canvas id="doughnut-chart" height= 250></canvas>
+                               		</div>
                                 </div>
                                 <div class="col-12 col-md-6"> 
                                     <label for="tipoRiesgo">Nivel de riesgo <i class="fas fa-question-circle risk-help"  onclick = mostrarAyuda() ></i></label>
@@ -86,6 +89,13 @@
             });
         </script>
         <script src="/scripts/script.js"></script>
+
+		 <script type="text/javascript">
+            graficoAranna(graficoC,"doughnut");
+        </script>
+
+
+
         <script type="text/javascript">
             graficoAranna(graficoB,"bar");
         </script>
