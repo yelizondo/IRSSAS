@@ -59,25 +59,27 @@ function graficoDona (tipo,idChart)
 				display: false,
 				text: 'IRSSAS Total'
 			},
-			legend: 		
+			legend: 				// Titulo del grafico
 			{
 				display: false,
 				labels: 
 				{
-					boxWidth: 0
+					boxWidth: 0		// colorbox del titulo
 				}
 			},
-			tooltips: {enabled: false},
+			tooltips: {enabled: false},		// Oculta tags y ID's en hover
+			events: [],			// Desabilita cambio de color en hover
 			animation:
 			{
-				animateRotate: true
+				animateRotate: true		// Animacion del grafico
 			},
-			elements: {
+			elements: {			// Comprende el texto dentro del grafico
 			    center: {
-			      fontStyle: 'Arial', // Default is Arial
-			      sidePadding: 20, // Default is 20 (as a percentage)
-			      minFontSize: 20, // Default is 20 (in px), set to false and text will not wrap.
-			      lineHeight: 25 // Default is 25 (in px), used for when text wraps
+			    	text: "",
+					fontStyle: 'Arial', // Default is Arial
+					sidePadding: 20, // Default is 20 (as a percentage)
+					minFontSize: 20, // Default is 20 (in px), set to false and text will not wrap.
+					lineHeight: 25 // Default is 25 (in px), used for when text wraps
 			    }
 			}
 		}

@@ -34,13 +34,42 @@
                                 <div class="col-12 col-md-6"> 
                                     <h3 for="riesgo">IRSSAS Total</h3>
                                     <input id="riesgo" type= hidden class="form-control" readonly>
-                                    <div class="col-12 col-md-12"> 
+                                    <div class="col-12 col-md-12" style="padding-top: 40px"> 
                                     	<canvas id="doughnut-chart" height= 250></canvas>
                                		</div>
                                 </div>
                                 <div class="col-12 col-md-6"> 
-                                    <label for="tipoRiesgo">Nivel de riesgo <i class="fas fa-question-circle risk-help"  onclick = mostrarAyuda() ></i></label>
-                                    <input id="tipoRiesgo"  class="form-control" readonly>
+
+                                	<div class="row">
+                                		<h3 for="tipoRiesgo">Nivel de riesgo</h3>
+                                    	<input id="tipoRiesgo"  class="form-control" readonly>
+                                	</div>
+
+                                	<div class="row">
+	                                    <div style="margin: 10px; height: 40px; width: 50px; background-color: rgba(234, 77, 70, 0.7)"></div>
+	                                    <div class="col-12 col-md-6" style="padding-top: 18px"> <h5>Muy alto (Mayor a 77%) </h5> </div>
+                                	</div>
+
+                                	<div class="row">
+	                                    <div style="margin: 10px; height: 40px; width: 50px; background-color: rgba(232, 215, 75, 0.7)"></div>
+	                                    <div class="col-12 col-md-6" style="padding-top: 18px"> <h5>Alto (67% - 77%)</h5> </div>
+                                	</div>
+
+                                	<div class="row">
+	                                      <div style="margin: 10px; height: 40px; width: 50px; background-color: rgba(72, 118, 90, 0.7)"></div>
+	                                    <div class="col-12 col-md-6" style="padding-top: 18px"> <h5>Medio (57% - 67%)</h5> </div>
+                                	</div>
+
+                                	<div class="row">
+	                                     <div style="margin: 10px; height: 40px; width: 50px; background-color: rgba(22, 155, 220, 0.7)"></div>
+	                                    <div class="col-12 col-md-6" style="padding-top: 18px"> <h5>Bajo (47% - 57%)</h5> </div>
+                                	</div>
+
+                                	<div class="row">
+	                                   <div style="margin: 10px; height: 40px; width: 50px; background-color: rgba(22, 87, 205, 0.7)"></div>
+	                                    <div class="col-12 col-md-6" style="padding-top: 18px"> <h5>Muy bajo (0% - 46%)</h5> </div>
+	                                    
+                                	</div>  
                                 </div>
                             </div>
                             <hr>
@@ -93,9 +122,6 @@
 		 <script type="text/javascript">
             graficoAranna(graficoC,"doughnut");
         </script>
-
-
-
         <script type="text/javascript">
             graficoAranna(graficoB,"bar");
         </script>
