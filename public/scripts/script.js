@@ -2,8 +2,6 @@ var graficoB = graficoNuevo ("bar","bar-chart");
 var graficoA = graficoNuevo ("radar","radar-chart");
 var graficoC = graficoDona ("doughnut","doughnut-chart");
 
-
-
 //Setea los parametro para los graficos
 function aranna(value, tipo, anno, grafico,tipoGrafico){
 	var parameters = { "id": value, "tipo": tipo, "anno": anno};

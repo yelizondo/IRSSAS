@@ -22,65 +22,68 @@
                     </div>
     
                     <div class="bg-white shadow p-3 mb-5">
-                        <div>
+                        <div >
                             <h3>Estudios/Gráficos</h3>
                             <% if(usuario.Tipo == 1){%>
                             <% include ../partials/filtroCantonDistProvAsada %>
                             <%}else{%>
                                 <input id="asada" type="text" value="<%=usuario.Asada_ID%>" disabled hidden>
                             <%}%>
+
                             <hr>
-                            <div class="row">
-                                <div class="col-12 col-md-6"> 
-                                    <h3 for="riesgo">IRSSAS Total</h3>
-                                    <input id="riesgo" type= "hidden" class="form-control" readonly>
-                                    <div class="col-12 col-md-12" style="padding-top: 40px"> 
-                                    	<canvas id="doughnut-chart" height= 250></canvas>
-                               		</div>
-                                </div>
-                                <div class="col-12 col-md-6"> 
-
-                                	<div class="row">
-                                		<h3 for="tipoRiesgo">Nivel de riesgo</h3>
-                                    	<input id="tipoRiesgo" type= "hidden" class="form-control" readonly>
-                                	</div>
-
-                                	<div class="row">
-	                                    <div style="margin: 10px; height: 40px; width: 50px; background-color: rgba(234, 77, 70, 0.7)"></div>
-	                                    <div class="col-12 col-md-6" style="padding-top: 18px"> <h5>Muy alto (Mayor a 77%) </h5> </div>
-                                	</div>
-
-                                	<div class="row">
-	                                    <div style="margin: 10px; height: 40px; width: 50px; background-color: rgba(232, 215, 75, 0.7)"></div>
-	                                    <div class="col-12 col-md-6" style="padding-top: 18px"> <h5>Alto (67% - 77%)</h5> </div>
-                                	</div>
-
-                                	<div class="row">
-	                                      <div style="margin: 10px; height: 40px; width: 50px; background-color: rgba(72, 118, 90, 0.7)"></div>
-	                                    <div class="col-12 col-md-6" style="padding-top: 18px"> <h5>Medio (57% - 67%)</h5> </div>
-                                	</div>
-
-                                	<div class="row">
-	                                     <div style="margin: 10px; height: 40px; width: 50px; background-color: rgba(22, 155, 220, 0.7)"></div>
-	                                    <div class="col-12 col-md-6" style="padding-top: 18px"> <h5>Bajo (47% - 57%)</h5> </div>
-                                	</div>
-
-                                	<div class="row">
-	                                   <div style="margin: 10px; height: 40px; width: 50px; background-color: rgba(22, 87, 205, 0.7)"></div>
-	                                    <div class="col-12 col-md-6" style="padding-top: 18px"> <h5>Muy bajo (0% - 46%)</h5> </div>
-	                                    
-                                	</div>  
-                                </div>
-                            </div>
-                            <hr>
-                            <div class="row", id="ID_DIV">
-                                <div class="col-12 col-md-6"> 
-                                    <h3>Gráfico de barras</h3>
-                                    <canvas id="bar-chart" height=300></canvas>
-                                </div>
+                            <div id="ID_DIV">
+                                <div class="row">
                                     <div class="col-12 col-md-6"> 
-                                    <h3>Gráfico de araña</h3>
-                                <canvas id="radar-chart" height=300></canvas>
+                                        <h3 for="riesgo">IRSSAS Total</h3>
+                                        <input id="riesgo" type= "hidden" class="form-control" readonly>
+                                        <div class="col-12 col-md-12" style="padding-top: 40px; background-color: #FFFFFF"> 
+                                        	<canvas id="doughnut-chart" height= 250></canvas>
+                                   		</div>
+                                    </div>
+                                    <div class="col-12 col-md-6"> 
+
+                                    	<div class="row">
+                                    		<h3 for="tipoRiesgo">Nivel de riesgo</h3>
+                                        	<input id="tipoRiesgo" type= "hidden" class="form-control" readonly>
+                                    	</div>
+
+                                    	<div class="row">
+    	                                    <div style="margin: 10px; height: 40px; width: 50px; background-color: rgba(234, 77, 70, 0.7)"></div>
+    	                                    <div class="col-12 col-md-6" style="padding-top: 18px"> <h5>Muy alto (Mayor a 77%) </h5> </div>
+                                    	</div>
+
+                                    	<div class="row">
+    	                                    <div style="margin: 10px; height: 40px; width: 50px; background-color: rgba(232, 215, 75, 0.7)"></div>
+    	                                    <div class="col-12 col-md-6" style="padding-top: 18px"> <h5>Alto (67% - 77%)</h5> </div>
+                                    	</div>
+
+                                    	<div class="row">
+    	                                      <div style="margin: 10px; height: 40px; width: 50px; background-color: rgba(72, 118, 90, 0.7)"></div>
+    	                                    <div class="col-12 col-md-6" style="padding-top: 18px"> <h5>Medio (57% - 67%)</h5> </div>
+                                    	</div>
+
+                                    	<div class="row">
+    	                                     <div style="margin: 10px; height: 40px; width: 50px; background-color: rgba(22, 155, 220, 0.7)"></div>
+    	                                    <div class="col-12 col-md-6" style="padding-top: 18px"> <h5>Bajo (47% - 57%)</h5> </div>
+                                    	</div>
+
+                                    	<div class="row">
+    	                                   <div style="margin: 10px; height: 40px; width: 50px; background-color: rgba(22, 87, 205, 0.7)"></div>
+    	                                    <div class="col-12 col-md-6" style="padding-top: 18px"> <h5>Muy bajo (0% - 46%)</h5> </div>
+    	                                    
+                                    	</div>  
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-12 col-md-6" style="background-color: #FFFFFF"> 
+                                        <h3>Gráfico de barras</h3>
+                                        <canvas id="bar-chart" height=300></canvas>
+                                    </div>
+                                    <div class="col-12 col-md-6" style="background-color: #FFFFFF"> 
+                                        <h3>Gráfico de araña</h3>
+                                        <canvas id="radar-chart" height=300></canvas>
+                                    </div>
                                 </div>
                             </div>
                             <br>
@@ -91,7 +94,7 @@
             </div>
         </div>
 
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.4/jspdf.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.js"></script>
        
         <script type="text/javascript">
@@ -130,13 +133,15 @@
         </script>
         <script type="text/javascript">
             function download(){
-            html2canvas($("#ID_DIV"), {
-                onrendered: function(canvas) {
-                    var doc = new jsPDF('p', 'mm');
-                    doc.addImage(canvas, 'PNG', 10, 10, 190, 190);
-                    doc.save('sample-file.pdf');
-                }
-            });}
+                html2canvas($("#ID_DIV"), {
+                    onrendered: function(canvas) {
+                        var imgData = canvas.toDataURL('image/png');
+                        var doc = new jsPDF({orientation: 'landscape',});
+                        doc.addImage(imgData, 'PNG', 10, 10, canvas.width*0.17,canvas.height*0.17);
+                        doc.save('Gráficos.pdf');
+                    }
+                });
+            }
         </script>
 
         <script type="text/javascript">
