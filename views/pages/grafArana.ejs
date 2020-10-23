@@ -138,7 +138,7 @@
                         var imgData = canvas.toDataURL('image/png');
                         var doc = new jsPDF({orientation: 'landscape',});
                         doc.addImage(imgData, 'PNG', 10, 10, canvas.width*0.17,canvas.height*0.17);
-                        doc.save('Gráficos.pdf');
+                        doc.save(document.getElementById("asada").selectedOptions[0].innerHTML + '_graficos.pdf');
                     }
                 });
             }
