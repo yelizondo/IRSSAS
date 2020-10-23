@@ -585,7 +585,7 @@ module.exports = {
                 if(req.query.canton!=0){
                     s+=" and k.Canton_ID="+req.query.canton+" ";
                     if(req.query.distrito!=0){
-                        s+=" and k.Distrito_ID="+req.query.distrito+" ";
+                        s+=" and k.Codigo="+req.query.distrito+" ";
                     }
                 }
             }
