@@ -423,7 +423,8 @@ function generarPDFInformeMejora(numAsada){
 						var tipoRiesgo = getTipoRiesgo (data2.riesgo[0].valor.toFixed(0));
 						var tipo = (["Muy Alto", "Alto", "Medio", "Bajo", "Muy bajo"])[tipoRiesgo]
 						textosMejora = textosMejora +
-						"<h2>Datos generales: </h2><br>"+
+						//"<img src='/images/logo-tec2.png'><b>"+
+						"<h4 div class='p-3 mb-2 bg-primary text-white'>Datos generales</div></h4>"+
 						"<p><b>Fecha en que se generó este informe: </b>" + getCurrentDate() +"</p>" +
 						"<p><b>Código y nombre de la ASADA: </b>" +data3.asadaInfo.ID+"-"+data3.asadaInfo.Nombre+"</p>" +
 						"<p><b>Provincia: </b>" +data3.asadaInfo.Provincia+"</p>" +
@@ -432,7 +433,7 @@ function generarPDFInformeMejora(numAsada){
 						"<p><b>Población atendida: </b>" +data3.asadaInfo.Poblacion+" habitantes</p>" +
 						"<p><b>El resultado de la evaluación del IRSSAS es: </b>" +data2.riesgo[0].valor.toFixed(0)+"%</p>" +
 						"<p><b>Riesgo: </b>" + tipo +"</p>" + 
-						"<h2>Comentarios generales: </h2><br>"+ 
+						"<h4 div class='p-3 mb-2 bg-primary text-white'>Comentarios generales</div></h4>"+ 
 						"<p>Este documento es recomendativo generado a partir de la autoevaluación realizada en su ASADA utilizando como base las respuestas al formulario IRSSAS.</p>"+
 						"<p>Es una guía de acciones generales que le permitirán direccionar sus esfuerzos en pro de la mejora y desempeño de su ASADA, considerando los objetivos de desarrollo sostenible y la legislación nacional.</p>"+
 						"<p>El mismo puede servir como insumo de diagnóstico preliminar de la gestión de su ASADA, con el cual podría acceder a cooperación y financiamiento.</p>"+
@@ -452,7 +453,7 @@ function generarPDFInformeMejora(numAsada){
 									];
 						data4.AllSubcomponentes.forEach(Sub =>
 							{
-								textosMejora = textosMejora + "<hr/>"+"<h4>Subcomponente: "+Sub.Nombre+": Nivel de Riesgo " + data5.statsSubcomponentes[index].valor.toFixed(0) +"%</h4>" +"<p>" + textos[index] + "</p>";
+								textosMejora = textosMejora + "<hr/>"+"<h4 class='p-3 mb-2 bg-primary text-white'>Subcomponente: "+Sub.Nombre+"<br>"+"Nivel de Riesgo: " + data5.statsSubcomponentes[index].valor.toFixed(0) +"%</h4>" +"<p>" + textos[index] + "</p>";
 								mejoras.mejoras.forEach(mejora=>
 									{
 										if(mejora.SUBCOMPONENTE == Sub.ID)

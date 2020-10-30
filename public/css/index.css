@@ -8,13 +8,19 @@
     background-color: #000;
 }
 
-
 body {
     font-family: 'Roboto', sans-serif;
     font-weight: 400;
     background: #fafafa;
 }
 
+p2{
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.1em;
+    font-weight: 700;
+    line-height: 1.7em;
+    color:#353535;
+}
 p, .lista {
     font-family: 'Roboto', sans-serif;
     font-size: 1.1em;
