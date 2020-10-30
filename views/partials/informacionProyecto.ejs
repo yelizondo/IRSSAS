@@ -1,136 +1,383 @@
-<div style="margin: 20px;">
-    <h1 id="welcome" align="center" style="color: #002855;">Bienvenido a IRSSAS</h1>
-    <p align="justify">
-        Bienvenid@s a la herramienta informática “Índice de Riesgo para la Sostenibilidad del Servicio de Agua y Saneamiento (IRSSAS)”.  Esta herramienta es el resultado de un proyecto de investigación y extensión desarrollado y administrado por el Instituto Tecnológico de Costa Rica (TEC) en conjunto con las Asociaciones Administradoras de Sistemas de Acueductos y Alcantarillados Comunales (ASADAs).
-        <br>
-        En las zonas rurales de Costa Rica, la distribución del agua es brindada por Asociaciones Administradoras de Sistemas de Acueductos y Alcantarillados Comunales (ASADAs),  [1] [2].  Las ASADAs atienden un 29 % de la población del país, siendo que el 73,2 % brindan el agua en comunidades de menos de 300 abonados [3]. En el cuadro 1 se muestra la distribución de ASADAs en el país y la cantidad de abonados atendidos.</p>
-        <br>
-        <p align="justify">Cuadro 1. Distribución de las ASADAs según provincia y cantidad de abonados y población atendida en Costa Rica.</p>
-        
-        <div class="text-center">
-            <img src="/images/distribucion-asadas.png" class="img-fluid center">
-        </div>
-        <p align="justify">
-            * El cálculo se realiza considerando un promedio de 4,5 habitantes por abonado.     
-            <br>
-            Fuente: Elaboración propia con datos provenientes del sitio Web de Acueductos y Alcantarillados [4]
-        </p>
-        <br>
-        <p align="justify">
-            Las ASADAs se enfrentan a diversas dificultades administrativas, financieras y técnicas Mora, Mata y Portuguez, <u><a target="_blank" rel="noopener noreferrer" href="https://www.aya.go.cr/centroDocumetacion/catalogoGeneral/Acceso%20%20a%20agua%20para%20consumo%20humano%20y%20saneamiento%20evoluci%C3%B3n%20en%20el%20per%C3%ADodo%201990%20-%202010%20en%20Costa%20Rica.pdf">ACCESO A AGUA PARA CONSUMO HUMANO Y SANEAMIENTO EVOLUCIÓN EN ELPERIODO 1990-2010 EN COSTA RICA</a></u>.  La mayoría de las ASADAs, no cuentan con la información necesaria para la oportuna toma de decisiones.
-        </p>
-        <p align="justify">
-            La herramienta IRSSAS, ha sido desarrollada considerando aspectos de sostenibilidad financiera, ambiental y operacional, permitiendo determinar en forma fácil, intuitiva y rápida, el nivel de riesgo en la prestación del servicio de agua y de saneamiento. Utiliza información que ha sido generada en diferentes institucionales gubernamentales además de los datos operativos que se generan en cada ASADA.
-        </p>
-        <p align="justify">
-            Mediante el uso de algoritmos basados en criterios técnicos, logra identificar el riesgo en la prestación del servicio de agua y saneamiento, el cual puede utilizarse por los operadores para garantizar la sostenibilidad de los servicios.
-        </p>
-        <p align="justify">
-            El valor numérico del IRSSAS ha sido validado con información base de 100 ASADAs ubicadas en diversas regiones del país.  Para calcularlo se diseñó un formulario de 30 preguntas estratégicas.
-        </p>
-        <p align="justify">
-            El formulario IRSSAS se llena en línea y el resultado del indicador se despliega automáticamente.
-        </p>
-        <p align="justify">
-            El índice IRSSAS se fundamenta en los siguientes conceptos de sostenibilidad.
-            <ul class="lista">
-                <li>
-                    Disminuir la contaminación del recurso hídrico, mediante el uso sostenible del agua y la gestión adecuada de los residuos sólidos.
-                </li>
-                <li>
-                    Proteger el recurso hídrico.
-                </li>
-                <li>
-                    Administrar adecuadamente los ambientes naturales.
-                </li>
-                <li>
-                    Garantizar la calidad del agua en todos los componentes del acueducto.
-                </li>
-                <li>
-                    Identificar la capacidad de la ASADA para invertir en del suministro de agua potable (captaciones, conducciones, tratamientos, almacenamiento, desinfección y distribución).
-                </li>
-                <li>
-                    Invertir en la concientización de la población a fin de dar un uso sostenible al agua.
-                </li>
-                <li>
-                    Contar con poblaciones cuyas condiciones socioeconómicas sean adecuadas para responder a un desarrollo sostenible.
-                </li>
-                <li>
-                    Tomar acciones de prevención ante los riesgos y amenazas naturales asociados a la vulnerabilidad ambiental del territorio donde se ubica la ASADA.
-                </li>
-            </ul>
-        </p>
-    </p>
-    <p align="justify">
-      Por medio de preguntas directas y que están disponibles en bases de datos o bien consultas a las Municipalidades o en las mismas ASADAs, el riesgo se calcula mediante la valoración del impacto de cinco componentes: Saneamiento Ambiental, Gestión del Recurso Hídrico, Índice de Desarrollo Social, Educación Ambiental y Riesgos Naturales.  Algunos de estos componentes se dividen a su vez en subcomponentes, en total se incorporan 30 indicadores de riesgo.  En la figura 1, se muestra el detalle de éstos y su contribución relativa al indicador. 
-    </p>
-    <p align="justify">
-      Cuando existe más de una ASADA por distrito, el valor del riesgo se calcula por medio de un promedio ponderado considerando la población atendida por cada una de las ASADAs. El promedio ponderado se refleja con el color que corresponde al riesgo del distrito. Para el cálculo del promedio ponderado se utilizó la siguiente ecuación matemática: 
-    </p>
-    <div class="text-center">
-      <img src="/images/ecuacion-calculo-promedio.png" class="img-fluid center">
-  </div>
-    <p align="justify">
-      Donde “A” corresponde al IRSSA de cada ASADA y “P” la población atendida, i es la cantidad de ASADAs  este valor va desde uno hasta n, donde n es el número máximo de ASADAs el distrito.
-    </p>
-    <p align="justify">
-      En los distritos que poseen una única ASADA, el IRSSAS desplegado en el mapa coincide con el IRSSAS calculado para la única ASADA presente. 
-    </p>  
-    <p align="justify">
-      El aporte porcentual de cada componente fue determinado mediante preguntas a expertos y criterio técnico de los investigadores.
-    </p>
-    <div class="text-center">
+<div>
+	<div class="row">
+		<div class="col-12 col-md-3"></div>
+		<div class="col-12 col-md-6">
+			<h1 align="center" style="color: #002855; padding-bottom: 25px">Bienvenido a IRSSAS</h1>
+		</div>
+		
+	</div>
+   
+
+    <div class="row">
+    	<div class="col-12 col-md-3"></div>
+    	<div class="col-12 col-md-6">
+
+    		<p class="homepage" align="left">
+	        Bienvenid@s a la herramienta informática “Índice de Riesgo para la Sostenibilidad del Servicio de Agua y Saneamiento (IRSSAS)”.  Esta herramienta es el resultado de un proyecto de investigación y extensión desarrollado y administrado por el Instituto Tecnológico de Costa Rica (TEC) en conjunto con las Asociaciones Administradoras de Sistemas de Acueductos y Alcantarillados Comunales (ASADAs). </p>
+
+	        <p class="homepage" align="left">
+	        En las zonas rurales de Costa Rica, la distribución del agua es brindada por Asociaciones Administradoras de Sistemas de Acueductos y Alcantarillados Comunales (ASADAs),  [1] [2].  Las ASADAs atienden un 29 % de la población del país, siendo que el 73,2 % brindan el agua en comunidades de menos de 300 abonados [3]. En el cuadro 1 se muestra la distribución de ASADAs en el país y la cantidad de abonados atendidos.</p>
+
+
+	        <p class="homepage" align="justify">
+	            Las ASADAs se enfrentan a diversas dificultades administrativas, financieras y técnicas Mora, Mata y Portuguez, <strong><u><a target="_blank" rel="noopener noreferrer" href="https://www.aya.go.cr/centroDocumetacion/catalogoGeneral/Acceso%20%20a%20agua%20para%20consumo%20humano%20y%20saneamiento%20evoluci%C3%B3n%20en%20el%20per%C3%ADodo%201990%20-%202010%20en%20Costa%20Rica.pdf">ACCESO A AGUA PARA CONSUMO HUMANO Y SANEAMIENTO EVOLUCIÓN EN ELPERIODO 1990-2010 EN COSTA RICA</a></u></strong>.  La mayoría de las ASADAs, no cuentan con la información necesaria para la oportuna toma de decisiones.
+	        </p>
+
+	        <p class="homepage" align="justify">
+	            La herramienta IRSSAS, ha sido desarrollada considerando aspectos de sostenibilidad financiera, ambiental y operacional, permitiendo determinar en forma fácil, intuitiva y rápida, el nivel de riesgo en la prestación del servicio de agua y de saneamiento. Utiliza información que ha sido generada en diferentes institucionales gubernamentales además de los datos operativos que se generan en cada ASADA.
+	        </p>
+	    </div>
+	</div>
+
+	<div class="row" style="background-color: #193d66;  margin-top: 30px; ">
+		<div class="col-12 col-md-6" style="padding: 110px; margin-top: 50px;">
+			<h5 class="homepage_white"  align="center">Cuadro #1</h5>
+			<br>
+			<h5 class="homepage_white"  align="center">Distribución de las ASADAs según provincia y cantidad de abonados y población atendida en Costa Rica.</h5>
+		</div>
+
+		<div class="col-12 col-md-6" style=" padding: 15px;">
+			<img style="width: 100%; height: 100%;" src="/images/distribucion-asadas.png" class="img-fluid center">
+		</div>
+	</div>
+
+	<div class="row" style="background-color: #193d66;">
+		<div class="col-12 col-md-6"></div>
+		<div class="col-12 col-md-6">
+			<p class="homepage_white" align="justify" >* El cálculo se realiza considerando un promedio de 4,5 habitantes por abonado.</p>
+			<p class="homepage_white" align="justify"><strong>Fuente:</strong> Elaboración propia con datos provenientes del sitio Web de Acueductos y Alcantarillados [4]</p>
+		</div>
+	</div>
+
+	<div class="row" style="margin-top: 30px; padding: 120px;">
+		<div class="col-12 col-md-3">
+			<img style="width: 250px; height: 250px;" src="/images/algoritmo_azul.png" class="img-fluid center">
+		</div>
+
+		<div class="col-12 col-md-9">
+				<h5 class="homepage_black" align="justify">
+	            Mediante el uso de algoritmos basados en criterios técnicos, logra identificar el riesgo en la prestación del servicio de agua y saneamiento, el cual puede utilizarse por los operadores para garantizar la sostenibilidad de los servicios.</h5>
+		</div>
+	</div>
+
+	<div class="row" style="background-color: #193d66; padding: 120px; margin-top: 30px">
+		<div class="col-12 col-md-9" style="margin-top: 20px; padding-right: 60px">
+	        <h5 class="homepage_white" align="justify">
+	            El valor numérico del IRSSAS ha sido validado con información base de 100 ASADAs ubicadas en diversas regiones del país.  Para calcularlo se diseñó un formulario de 30 preguntas estratégicas.
+	        </h5>
+	        <br>
+	        <br>
+
+	        <h5 class="homepage_white" align="justify">
+	            El formulario IRSSAS se llena en línea y el resultado del indicador se despliega automáticamente.
+	        </h5>
+		</div>
+
+		<div class="col-12 col-md-3">
+			<img style="width: 80%; height: 80%; margin-top: 30px; margin-left: 30px" src="/images/paper.png" class="img-fluid center">
+		</div>
+	</div>
+
+	<div class="row" style="margin-top: 90px;">
+		<div class="col-12 col-md-3"></div>
+		<div class="col-12 col-md-6">
+			<h1 align="center" style="color: #002855;">El índice IRSSAS se fundamenta en los siguientes conceptos de sostenibilidad.</h1>            
+		</div>
+	</div>
+
+	<div class="row" style="margin-top: 80px;">
+		<div class="col-12 col-md-3"></div>
+		<div class="col-12 col-md-6">
+			<h1 align="center" style="color: #002855;">#1</h1>            
+		</div>
+	</div>
+
+	<div class="row" style="margin-top: 20px;">
+		<div class="col-12 col-md-2"></div>
+		<div class="col-12 col-md-8">
+			<h5 class="homepage_black" align="center" >Disminuir la contaminación del recurso hídrico, mediante el uso sostenible del agua y la gestión adecuada de los residuos sólidos.</h5>            
+		</div>
+	</div>
+
+	<div class="row" style="margin-top: 90px;">
+		<div class="col-12 col-md-3"></div>
+		<div class="col-12 col-md-6">
+			<h1 align="center" style="color: #002855;">#2</h1>            
+		</div>
+	</div>
+
+
+	<div class="row" style="margin-top: 20px;">
+		<div class="col-12 col-md-2"></div>
+		<div class="col-12 col-md-8">
+			<h5 class="homepage_black" align="center" >Proteger el recurso hídrico.</h5>            
+		</div>
+	</div>
+
+
+	<div class="row" style="margin-top: 90px;">
+		<div class="col-12 col-md-3"></div>
+		<div class="col-12 col-md-6">
+			<h1 align="center" style="color: #002855;">#3</h1>            
+		</div>
+	</div>
+
+
+	<div class="row" style="margin-top: 20px;">
+		<div class="col-12 col-md-2"></div>
+		<div class="col-12 col-md-8">
+			<h5 class="homepage_black" align="center" >Administrar adecuadamente los ambientes naturales.</h5>            
+		</div>
+	</div>
+
+
+
+	<div class="row" style="margin-top: 90px;">
+		<div class="col-12 col-md-3"></div>
+		<div class="col-12 col-md-6">
+			<h1 align="center" style="color: #002855;">#4</h1>            
+		</div>
+	</div>
+
+	<div class="row" style="margin-top: 20px;">
+		<div class="col-12 col-md-2"></div>
+		<div class="col-12 col-md-8">
+			<h5 class="homepage_black" align="center" >Garantizar la calidad del agua en todos los componentes del acueducto.</h5>            
+		</div>
+	</div>
+
+
+
+	<div class="row" style="margin-top: 90px;">
+		<div class="col-12 col-md-3"></div>
+		<div class="col-12 col-md-6">
+			<h1 align="center" style="color: #002855;">#5</h1>            
+		</div>
+	</div>
+
+	<div class="row" style="margin-top: 20px;">
+		<div class="col-12 col-md-2"></div>
+		<div class="col-12 col-md-8">
+			<h5 class="homepage_black" align="center" >Identificar la capacidad de la ASADA para invertir en del suministro de agua potable (captaciones, conducciones, tratamientos, almacenamiento, desinfección y distribución).</h5>            
+		</div>
+	</div>
+
+
+	<div class="row" style="margin-top: 90px;">
+		<div class="col-12 col-md-3"></div>
+		<div class="col-12 col-md-6">
+			<h1 align="center" style="color: #002855;">#6</h1>            
+		</div>
+	</div>
+
+	<div class="row" style="margin-top: 20px;">
+		<div class="col-12 col-md-2"></div>
+		<div class="col-12 col-md-8">
+			<h5 class="homepage_black" align="center" >Invertir en la concientización de la población a fin de dar un uso sostenible al agua.</h5>            
+		</div>
+	</div>
+
+
+	<div class="row" style="margin-top: 90px;">
+		<div class="col-12 col-md-3"></div>
+		<div class="col-12 col-md-6">
+			<h1 align="center" style="color: #002855;">#7</h1>            
+		</div>
+	</div>
+
+	<div class="row" style="margin-top: 20px;">
+		<div class="col-12 col-md-2"></div>
+		<div class="col-12 col-md-8">
+			<h5 class="homepage_black" align="center" >Contar con poblaciones cuyas condiciones socioeconómicas sean adecuadas para responder a un desarrollo sostenible.</h5>            
+		</div>
+	</div>
+
+
+	<div class="row" style="margin-top: 90px;">
+		<div class="col-12 col-md-3"></div>
+		<div class="col-12 col-md-6">
+			<h1 align="center" style="color: #002855;">#8</h1>            
+		</div>
+	</div>
+
+	<div class="row" style="margin-top: 20px;">
+		<div class="col-12 col-md-2"></div>
+		<div class="col-12 col-md-8">
+			<h5 class="homepage_black" align="center" >Tomar acciones de prevención ante los riesgos y amenazas naturales asociados a la vulnerabilidad ambiental del territorio donde se ubica la ASADA.</h5>            
+		</div>
+	</div>
+
+	<div class="row" style="background-color: #193d66; padding: 120px; margin-top: 110px;">
+		<div class="col-12 col-md-3" style="margin-top: 160px">
+			<h1 style="color: #FFFFFF; font-size:200px;" align="center"> 5 </h1>
+			<h1 style="color: #FFFFFF; font-size:60px;" align="center">componentes</h1>
+		</div>
+
+		<div class="col-12 col-md-9" style="margin-top: 20px; padding-left: 90px">
+	        <h5 class="homepage_white" align="justify">
+  		    Por medio de preguntas directas y que están disponibles en bases de datos o bien consultas a las Municipalidades o en las mismas ASADAs, el riesgo se calcula mediante la valoración del impacto de cinco componentes: <strong>Saneamiento Ambiental, Gestión del Recurso Hídrico, Índice de Desarrollo Social, Educación Ambiental y Riesgos Naturales.</strong>  
+  			</h5>
+
+	        <br>
+	        <br>
+
+	        <h5 class="homepage_white" align="justify">
+	            Algunos de estos componentes se dividen a su vez en subcomponentes, en total se incorporan 30 indicadores de riesgo.  En la figura 1, se muestra el detalle de éstos y su contribución relativa al indicador. 
+	        </h5>
+		</div>
+	</div>
+
+
+	<div class="row" style="padding-top: 120px; padding-left: 120px; padding-right: 120px; margin-top: 30px">
+		<div class="col-12 col-md-1"></div>
+		<div class="col-12 col-md-10">
+		    <h5 class="homepage_black" align="justify" style="font-size: 25px;line-height: 50px">
+		      Cuando existe más de una ASADA por distrito, el valor del riesgo se calcula por medio de un promedio ponderado considerando la población atendida por cada una de las ASADAs. El promedio ponderado se refleja con el color que corresponde al riesgo del distrito. Para el cálculo del promedio ponderado se utilizó la siguiente ecuación matemática: 
+		    </h5>
+		</div>		
+	</div>
+
+	<div class="row">
+		<div class="col-12 col-md-3"></div>
+		<div class="col-12 col-md-6" align="center">
+		    <img style="height: 90%; width: 60%" src="/images/ecuacion-calculo-promedio.png" class="img-fluid center">		    
+		</div>	
+	</div>
+
+	<div class="row" style="padding-left:120px; padding-right: 120px; padding-bottom: 120px; margin-top: 30px">
+		<div class="col-12 col-md-1"></div>
+		<div class="col-12 col-md-10">
+		    <h5 class="homepage_black" align="justify" style="font-size: 25px; line-height: 50px">
+		      Donde “A” corresponde al IRSSA de cada ASADA y “P” la población atendida, i es la cantidad de ASADAs  este valor va desde uno hasta n, donde n es el número máximo de ASADAs el distrito.
+		    </h5>
+		</div>		
+	</div>
+
+	<div class="row" style="background-color: #193d66; padding: 120px; margin-top: 30px">
+		<div class="col-12 col-md-9" style="margin-top: 50px; padding-right: 60px">
+	        <h5 class="homepage_white" align="justify">
+	            En los distritos que poseen una única ASADA, el IRSSAS desplegado en el mapa coincide con el IRSSAS calculado para la única ASADA presente.
+	        </h5>
+		</div>
+
+		<div class="col-12 col-md-3">
+			<img style="width: 250px; height: 250px; margin-top: 30px; margin-left: 90px" src="/images/map-marker-2.png" class="img-fluid center">
+		</div>
+	</div>
+
+	<div class="row" style="margin-top: 30px; padding: 120px;">
+		<div class="col-12 col-md-3">
+			<img style="width: 250px; height: 250px;" src="/images/glass_blue.png" class="img-fluid center">
+		</div>
+
+		<div class="col-12 col-md-9" style="margin-top: 30px;">
+				<h5 class="homepage_black" align="justify">El aporte porcentual de cada componente fue determinado mediante preguntas a expertos y criterio técnico de los investigadores.</h5>
+		</div>
+	</div>	
+
+	<div class="row" style="margin-bottom: 60px;">
+		<div class="col-12 col-md-3"></div>
+		<div class="col-12 col-md-6">
+			<h1 align="center" style="color: #002855;">Figura 1.  Conformación del IRSSAS.</h1>            
+		</div>
+	</div>
+
+	<div class="text-center">
         <img id="percentages" src="/images/tabla-irssas.png" class="img-fluid center">
     </div>
-    <br> 
-    <br>      
-    <div class="text-center">
-      Figura 1.  Conformación del IRSSAS.
-    </div>
-    <br>
-    <br>
-    <br>
-    <br>
-      <div class="text-center">
-        <img src="/images/asada.png" class ="rounded mx-auto d-block" >
-    </div>
-    <br>
-    <br>
+
+   	<div class="row" style="background-color: #193d66; padding: 30px; padding-top: 90px; margin-top: 110px;">
+   		<div class="col-12 col-md-3">
+		</div>
+		<div class="col-12 col-md-6">
+			<img src="/images/asada_white.png" class ="rounded mx-auto d-block" >
+		</div>
+	</div>
+
+
+   	<div class="row" style="background-color: #193d66; 0px;">
+		<div class="col-12 col-md-3">
+		</div>
+
+		<div class="col-12 col-md-6" style="margin-top: 20px;">
+	        <h5 class="homepage_white" align="center" style="padding-bottom: 60px">
+  		    Asociaciones Administradores de los Sistemas de Acueductos y Alcantarillados comunales - ASADAs</strong>  
+  			</h5>
+		</div>
+	</div>
+
+	<div class="row" style="background-color: #193d66; padding-bottom: 60px; ">
+		<div class="col-12 col-md-2"></div>
+		<div class="col-12 col-md-8">
+	        <h5 class="homepage_white_description" align="justify">
+	          Las ASADAS son asociaciones público-privadas constituidas al amparo de la <u><a target="_blank" rel="noopener noreferrer" href="http://www.pgrweb.go.cr/SCIJ/Busqueda/Normativa/Normas/nrm_texto_completo.aspx?param1=NRTC&nValor1=1&nValor2=32764&nValor3=83259&strTipM=TC">Ley de Asociaciones N.° 218</a></u>, tienen entre sus fines y principios, la administración y operación del sistema de distribución de agua potable para sus comunidades.</h5>
+	        
+	        <br>
+
+	        <h5 class="homepage_white_description" align="justify">Prestan los servicios de agua en las áreas rurales y periurbanas (<u><a target="_blank" rel="noopener noreferrer" href="https://www.aya.go.cr/ASADAS/Leyes%20y%20reglamentos/REGLAMENTO%20DE%20ASADAS.pdf">Decreto Ejecutivo 32529-S-MINAE del 200</a></u>).</h5>
+
+	        <br>
+
+	        <h5 class="homepage_white_description" align="justify">Inicialmente fueron constituidas como comités de acueductos y alcantarillados del área rural – CAAR-, y posteriormente se transformaron en ASADAS (<u><a target="_blank" rel="noopener noreferrer" href="http://www.pgrweb.go.cr/scij/Busqueda/Normativa/Normas/nrm_texto_completo.aspx?param1=NRTC&nValor1=1&nValor2=45511&nValor3=47937&strTipM=TC">DE-N.° 29100-S del 1 de diciembre del 2000</a></u>).</h5>
+
+	        <br>
+
+	        <h5 class="homepage_white_description" align="justify"> Su principal responsabilidad es la construcción, administración, operación y mantenimiento de los acueductos rurales (<u><a target="_blank" rel="noopener noreferrer" href="https://aresep.go.cr/participacion/noticias/85-normativa/742-decreto-no-30413-mp-minae-s-meic">DE-No 30413-MP-MINAE-S-MEIC</a></u>, DE-No. 32529-S-MINAE)
+	          , esta función es delegada por AyA, encontrándose subordinadas a las potestades de AyA, <u><a target="_blank" rel="noopener noreferrer" href="https://www.aya.go.cr/Noticias/Documents/AyA%20Pol%C3%ADtica%20Nacional%20de%20Agua%20Potable%20de%20Costa%20Rica%202017-2030.pdf">AyA 2016 Política Nacional de Agua Potable de Costa Rica 2017 – 2030</a></u>.</h5>
+
+	         <br>
+
+	        <h5 class="homepage_white_description" align="justify">Las ASADAs atienden cerca de un millón cuatrocientos mil habitantes, lo que representa un 29% de la población de Costa Rica. Fuente: Mora, Mata y Portuguez, <u><a target="_blank" rel="noopener noreferrer" href="https://www.aya.go.cr/centroDocumetacion/catalogoGeneral/Acceso%20%20a%20agua%20para%20consumo%20humano%20y%20saneamiento%20evoluci%C3%B3n%20en%20el%20per%C3%ADodo%201990%20-%202010%20en%20Costa%20Rica.pdf">ACCESO A AGUA PARA CONSUMO HUMANO Y SANEAMIENTO EVOLUCIÓN EN ELPERIODO 1990-2010 EN COSTA RICA</a></u>
+	        </h5>
+
+	        <br>
+		</div>
+	</div>
+
+
+
+
+
+
+
+
+	<div class="row" style="margin-top: 30px; padding: 120px;">
+		<div class="col-12 col-md-3">
+			<img src="/images/herramientas.png" class ="rounded mx-auto d-block">
+		</div>
+
+		<div class="col-12 col-md-9">
+				<h5 class="homepage_black" align="justify">¿Cómo funciona la herramienta? </h5>
+				
+				<h5 class="homepage_black" align="justify">La herramienta puede ser consultada por cualquier persona para identificar el estado de riesgo del acueducto de su comunidad.  Los datos que se utilizan para construir los indicadores provienen de fuentes primarias y actualizadas.</h5>
+				
+				<h5 class="homepage_black" align="justify">Los administradores de las ASADAs completan el formulario de IRSAAS con la información de los indicadores.  Este proceso solo se realiza una vez al año.  El sistema calcula el IRSSAS de cada ASADA, brindando el resultado de cada componente y subcomponente.</h5>
+			
+				<h5 class="homepage_black" align="justify">El riesgo se determina en cada distrito, si hay varias ASADAs en el mismo, se calcula un promedio ponderado considerando la población abastecida por cada ASADA.</h5>
+				
+				<h5 class="homepage_black" align="justify">La información de cada ASADA es geo-referenciada en el mapa de Costa Rica. Adicionalmente, se pueden consultar los valores de los IRSSAS promedio ya sea por Distrito, Cantón, Provincia y del país.</h5>
+				
+				<h5 class="homepage_black" align="justify">En el siguiente cuadro se explica la clasificación del riesgo de acuerdo al porcentaje obtenido con el cálculo del IRSSAs.</h5>
+		</div>
+	</div>	
+
+
+
+
+	       
+
+
+
+
+
+
+
+
+
+
+ 
     <div class="desc text-center mt-30">
-        <h4 id="asadas" class="">Asociaciones Administradores de los Sistemas de Acueductos y Alcantarillados comunales - ASADAs</h4>
-        <br>
-        <p class="" align="justify">
-          Las ASADAS son asociaciones público-privadas constituidas al amparo de la <u><a target="_blank" rel="noopener noreferrer" href="http://www.pgrweb.go.cr/SCIJ/Busqueda/Normativa/Normas/nrm_texto_completo.aspx?param1=NRTC&nValor1=1&nValor2=32764&nValor3=83259&strTipM=TC">Ley de Asociaciones N.° 218</a></u>, tienen entre sus fines y principios, la administración y operación del sistema de distribución de agua potable para sus comunidades.
-          Prestan los servicios de agua en las áreas rurales y periurbanas (<u><a target="_blank" rel="noopener noreferrer" href="https://www.aya.go.cr/ASADAS/Leyes%20y%20reglamentos/REGLAMENTO%20DE%20ASADAS.pdf">Decreto Ejecutivo 32529-S-MINAE del 200</a></u>). 
-          Inicialmente fueron constituidas como comités de acueductos y alcantarillados del área rural – CAAR-, y posteriormente se transformaron en ASADAS (<u><a target="_blank" rel="noopener noreferrer" href="http://www.pgrweb.go.cr/scij/Busqueda/Normativa/Normas/nrm_texto_completo.aspx?param1=NRTC&nValor1=1&nValor2=45511&nValor3=47937&strTipM=TC">DE-N.° 29100-S del 1 de diciembre del 2000</a></u>). 
-          Su principal responsabilidad es la construcción, administración, operación y mantenimiento de los acueductos rurales (<u><a target="_blank" rel="noopener noreferrer" href="https://aresep.go.cr/participacion/noticias/85-normativa/742-decreto-no-30413-mp-minae-s-meic">DE-No 30413-MP-MINAE-S-MEIC</a></u>, DE-No. 32529-S-MINAE)
-          , esta función es delegada por AyA, encontrándose subordinadas a las potestades de AyA, <u><a target="_blank" rel="noopener noreferrer" href="https://www.aya.go.cr/Noticias/Documents/AyA%20Pol%C3%ADtica%20Nacional%20de%20Agua%20Potable%20de%20Costa%20Rica%202017-2030.pdf">AyA 2016 Política Nacional de Agua Potable de Costa Rica 2017 – 2030</a></u>.
-          Las ASADAs atienden cerca de un millón cuatrocientos mil habitantes, lo que representa un 29% de la población de Costa Rica. Fuente: Mora, Mata y Portuguez, <u><a target="_blank" rel="noopener noreferrer" href="https://www.aya.go.cr/centroDocumetacion/catalogoGeneral/Acceso%20%20a%20agua%20para%20consumo%20humano%20y%20saneamiento%20evoluci%C3%B3n%20en%20el%20per%C3%ADodo%201990%20-%202010%20en%20Costa%20Rica.pdf">ACCESO A AGUA PARA CONSUMO HUMANO Y SANEAMIENTO EVOLUCIÓN EN ELPERIODO 1990-2010 EN COSTA RICA</a></u>
-        </p>
-    </div>
-    <div class="text-center">
-      <br>
-        <img src="/images/herramientas.png" class ="rounded mx-auto d-block">
-      <br>
-    </div>  
-    <div class="desc text-center mt-30">
-        <h4 class="">¿Cómo funciona la herramienta? </h4>
-        <br>
-        <p class="" align="justify">
-          La herramienta puede ser consultada por cualquier persona para identificar el estado de riesgo del acueducto de su comunidad.  Los datos que se utilizan para construir los indicadores provienen de fuentes primarias y actualizadas.
-        </p>
-        <p class="" align="justify">
-          Los administradores de las ASADAs completan el formulario de IRSAAS con la información de los indicadores.  Este proceso solo se realiza una vez al año.  El sistema calcula el IRSSAS de cada ASADA, brindando el resultado de cada componente y subcomponente.
-        </p>
-        <p class="" align="justify">
-          El riesgo se determina en cada distrito, si hay varias ASADAs en el mismo, se calcula un promedio ponderado considerando la población abastecida por cada ASADA.
-        </p>
-        <p class="" align="justify">
-          La información de cada ASADA es geo-referenciada en el mapa de Costa Rica. Adicionalmente, se pueden consultar los valores de los IRSSAS promedio ya sea por Distrito, Cantón, Provincia y del país.
-        </p>
-        <p class="" align="justify">
-          En el siguiente cuadro se explica la clasificación del riesgo de acuerdo al porcentaje obtenido con el cálculo del IRSSAs.
-        </p>
+
     <div class="text-center">
       Cuadro 1.  Descripción de la categoría del riesgo asociado al IRSSAS
     </div>
@@ -140,7 +387,7 @@
         <img src="/images/descripcion_categorias.png" class ="rounded mx-auto d-block">
       <br>
     </div>
-    <p align="justify">
+    <p class="homepage" align="justify">
       Bibliografía adicional
       <ul class="lista">
           <li>
@@ -157,6 +404,6 @@
 
           </li>
         </ul>
-      </p>  
+    </p>  
       
 </div>
