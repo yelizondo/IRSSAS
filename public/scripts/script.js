@@ -423,7 +423,6 @@ function generarPDFInformeMejora(numAsada){
 						var tipoRiesgo = getTipoRiesgo (data2.riesgo[0].valor.toFixed(0));
 						var tipo = (["Muy Alto", "Alto", "Medio", "Bajo", "Muy bajo"])[tipoRiesgo]
 						textosMejora = textosMejora +
-						//"<img src='/images/logo-tec2.png'><b>"+
 						"<h4 div class='p-3 mb-2 bg-primary text-white'>Datos generales</div></h4>"+
 						"<p class='text-dark'><b>Fecha en que se generó este informe: </b>" + getCurrentDate() +"</p>" +
 						"<p class='text-dark'><b>Código y nombre de la ASADA: </b>" +data3.asadaInfo.ID+"-"+data3.asadaInfo.Nombre+"</p>" +
@@ -477,7 +476,7 @@ function generarPDFInformeMejora(numAsada){
 							
 							$("#prueba").html(
 								"<div id="+numAsada+">"+
-								"<h2>Informe de Mejora</h2><br>"
+								"<h2 div class='text-center p-3 mb-2 bg-primary text-white'>Informe de opciones de mejora</div></h2>"
 								+ textosMejora +"</div>"
 							
 						
