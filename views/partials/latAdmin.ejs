@@ -13,15 +13,17 @@
     </div>
     <div class="mt-5 list-group list-group-flush">
         <% if(usuario.Tipo == 1){%>
+        <a href="/usuario" class="list-group-item list-group-item-action"><i class="fas fa-circle mr-3"></i>
+            Usuarios</a>
         <a href="/componente" class="list-group-item list-group-item-action"><i class="fas fa-circle mr-3"></i>
             Componentes</a>
         <a href="/subcomponente" class="list-group-item list-group-item-action"><i class="fas fa-circle mr-3"></i>
             Subcomponentes</a>
+        <a href="/asadas" class="list-group-item list-group-item-action"><i class="fas fa-circle mr-3"></i> ASADAs</a>
         <a href="/indicador" class="list-group-item list-group-item-action"><i class="fas fa-circle mr-3"></i>
             Indicadores</a>
-        <a href="/asadas" class="list-group-item list-group-item-action"><i class="fas fa-circle mr-3"></i> ASADAs</a>
-        <a href="/usuario" class="list-group-item list-group-item-action"><i class="fas fa-circle mr-3"></i>
-            Usuarios</a>
+        
+       
 
         <%} else{%>
         <a href="/asadas/<%=usuario.Asada_ID%>" class="list-group-item list-group-item-action"><i
@@ -36,9 +38,8 @@
   <% if(usuario.Tipo == 2){%>
     <a href="/generarInformeMejora" class="list-group-item list-group-item-action"><i class="fas fa-circle mr-3"></i> Opciones de Mejora</a>
   <%}%>
-  <a href="/comparaMapas" class="list-group-item list-group-item-action"><i class="fas fa-circle mr-3"></i> Mapa</a>
-
   <a href="/visor" class="list-group-item list-group-item-action"><i class="fas fa-circle mr-3"></i> Visor</a>
+  <a href="/comparaMapas" class="list-group-item list-group-item-action"><i class="fas fa-circle mr-3"></i> Mapa Comparativo</a>  
   <a href="/rutas" class="list-group-item list-group-item-action"><i class="fas fa-circle mr-3"></i> Flujograma</a>
   <a href="/manual" class="list-group-item list-group-item-action"><i class="fas fa-circle mr-3"></i> Manual de usuario</a>
   
