@@ -39,6 +39,7 @@
                                     <th scope="col">Ubicación</th>
                                     <th scope="col">Estado</th>
                                     <th scope="col">Ver</th>
+                                    <th scope="col">Eliminar</th>
                                 </tr>
                             </thead>
                             <tbody id="componenttable">
@@ -66,6 +67,11 @@
                                         <button class="btn btn-icon" onclick="location.href='/asadas/<%=asada.ID%>';">
                                             <i class="fas fa-info-circle" style="color: #325276"></i>
                                             </button>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-icon">
+                                            <i class="fas fa-trash text-danger"></i>
+                                        </button>
                                     </td>
                                 </tr>
                                 <%});%>
@@ -99,13 +105,16 @@
 
         });
     </script>
-
+    
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
 
+    <script type="text/javascript" src="jquery.dataTables.js"></script>
+    <script type="text/javascript">$(document).ready(function() {
+        $('#example').dataTable( {"language": {"url": "dataTables.german.lang"}} );} ); </script>
 
     <script src="scripts/crud.js"></script>
     <script>
