@@ -16,9 +16,16 @@
             <button class="btn" id="menu-toggle" style="background: none;"><i class="fas fa-bars"></i></button>
             <div class="container-fluid">
                 <div class="row">
-                    <div class="col-12 col-md">
-                        <p class="title mt-3 pb-2 font-weight-bold h3">Estadísticas</p>
-                    </div>
+                    <% if(usuario.Tipo == 1){%>
+                        <div class="col-12 col-md">
+                            <p class="title mt-3 pb-2 font-weight-bold h3">Estadísticas</p>
+                        </div>
+                    <%}else{%>
+                        <div class="col-12 col-md">
+                            <p class="title mt-3 pb-2 font-weight-bold h3">Resultados</p>
+                        </div>
+                    <%}%>
+
                 </div>
                 <div class="bg-white shadow p-3 mb-5">
                     <div class="form-row">

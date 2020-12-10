@@ -36,7 +36,11 @@
 
  
         <a href="/histFormulario" class="list-group-item list-group-item-action"><i class="fas fa-circle mr-3"></i> Formulario</a>
-        <a href="/statsComponentes" class="list-group-item list-group-item-action"><i class="fas fa-circle mr-3"></i> Estadísticas</a>
+        <% if(usuario.Tipo == 1){%>
+            <a href="/statsComponentes" class="list-group-item list-group-item-action"><i class="fas fa-circle mr-3"></i> Estadísticas</a>
+        <%} else{%>
+            <a href="/statsComponentes" class="list-group-item list-group-item-action"><i class="fas fa-circle mr-3"></i> Resultados</a>
+        <%}%>
   <a href="/grafico" class="list-group-item list-group-item-action"><i class="fas fa-circle mr-3"></i> Gráficos</a>
   <% if(usuario.Tipo == 2){%>
     <a href="/generarInformeMejora" class="list-group-item list-group-item-action"><i class="fas fa-circle mr-3"></i> Opciones de Mejora</a>
