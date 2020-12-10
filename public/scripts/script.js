@@ -545,13 +545,61 @@ function getEstadisticas(){
 		  var selectCant = document.getElementById("componenttable");
 		  selectCant.innerHTML="";
 		  var totalAsadas = document.getElementById("totalAsadas");
+		  var promedioIRSSAS = document.getElementById("promedioIRSSAS");
+		  var promedioMA = document.getElementById("promedioMuyAlto");
+		  var promedioA = document.getElementById("promedioAlto");
+		  var promedioM = document.getElementById("promedioMedio");
+		  var promedioB = document.getElementById("promedioBajo");
+		  var promedioMB = document.getElementById("promedioMuyBajo");
+		  var irssas = 0;
+		  var cantMA = 0;
+		  var cantA = 0;
+		  var cantM = 0;
+		  var cantB = 0;
+		  var cantMB = 0; 
 		  totalAsadas.textContent = "Total de ASADAS: " + distritos.rows.length;
 		  distritos.rows.forEach(consulta => {
+			irssas = irssas + parseInt(consulta.valor.toFixed(0));
+			//console.log(irssas);
 			  selectCant.innerHTML+="<tr><td>"+consulta.Nombre+"</td><td>"+
 			  ""+consulta.Distrito+"</td><td>"+consulta.Canton+"</td><td>"+consulta.Provincia+"</td><td>"+
 			  ""+consulta.valor.toFixed(0)+`</td><td class='text-center'><a href='/statsSubcomponentes/${consulta.Asada_ID}' ><i class='fas fa-info-circle' style='color: #325276' `+
 			  `></i></a></td></tr>`;
+			if(consulta.valor.toFixed(0) >= 77){
+				cantMA = cantMA + 1;
+			}
+			else if(consulta.valor.toFixed(0) < 77 && consulta.valor.toFixed(0) >= 68){
+				cantA = cantA + 1;
+			}
+			else if(consulta.valor.toFixed(0) < 68 && consulta.valor.toFixed(0) >= 58){
+				cantM = cantM + 1;
+			}
+			else if(consulta.valor.toFixed(0) < 58 && consulta.valor.toFixed(0) >= 47){
+				cantB = cantB + 1;
+			}
+			else if(consulta.valor.toFixed(0) < 47){
+				cantMB = cantMB + 1;
+			}
 		  });
+		  /*
+		  console.log("Promedio ",(irssas/(distritos.rows.length)));
+		  console.log("Cantidad MA: ", cantMA);
+		  console.log("Cantidad A: ", cantA);
+		  console.log("Cantidad M: ", cantM);
+		  console.log("Cantidad B: ", cantB);
+		  console.log("Cantidad MB: ", cantMB);
+		  console.log("Promedio MA: ", (cantMA*100)/distritos.rows.length);
+		  console.log("Promedio A: ", (cantA*100)/distritos.rows.length);
+		  console.log("Promedio M: ", (cantM*100)/distritos.rows.length);
+		  console.log("Promedio B: ",(cantB*100)/distritos.rows.length);
+		  console.log("Promedio MB: ", (cantMB*100)/distritos.rows.length);
+		  */
+		  promedioIRSSAS.textContent = "Promedio del IRSSAS: " + (irssas/(distritos.rows.length)).toFixed(0);
+		  promedioMA.textContent = "Muy Alto: " + ((cantMA*100)/distritos.rows.length).toFixed(2) + "%";
+		  promedioA.textContent = "Alto: " + ((cantA*100)/distritos.rows.length).toFixed(2)+ "%";
+		  promedioM.textContent = "Medio: " + ((cantM*100)/distritos.rows.length).toFixed(2)+ "%";
+		  promedioB.textContent = "Bajo: " + ((cantB*100)/distritos.rows.length).toFixed(2)+ "%";
+		  promedioMB.textContent = "Muy Bajo: " + ((cantMB*100)/distritos.rows.length).toFixed(2)+ "%";
 	  });
 }
 
