@@ -29,9 +29,23 @@
                             <%}else{%>
                                 <input id="asada" type="text" value="<%=usuario.Asada_ID%>" disabled hidden>
                             <%}%>
-
                             <hr>
                             <div id="ID_DIV">
+                                <div class="row" id = "divImg">
+                                    <div class="col-12 col-md-2">
+                                        <img src="/images/LogoColor.png" width="100" height="165"  class="img-fluid" id="irss">
+                                        <br>
+                                        <br>
+                                    </div>
+                                    <div class="col-12 col-md-2">
+                                        <img src="/images/logo-tec2.png" width="150" height="265" class="img-fluid" id="tec">
+                                        <br>
+                                        <br>
+                                    </div>    
+                                </div>           
+                                <script>
+                                    document.getElementById("divImg").style.visibility = "hidden";
+                                </script>
                                 <div class="row">
                                     <div class="col-12 col-md-6"> 
                                         <h3 for="riesgo">IRSSAS Total</h3>
@@ -93,10 +107,8 @@
                 </div>
             </div>
         </div>
-
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.4/jspdf.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.js"></script>
-       
         <script type="text/javascript">
             $(document).ready(function () {
                
@@ -133,6 +145,7 @@
         </script>
         <script type="text/javascript">
             function download(){
+                document.getElementById("divImg").style.visibility = "visible";
                 html2canvas($("#ID_DIV"), {
                     onrendered: function(canvas) {
                         var imgData = canvas.toDataURL('image/png');
@@ -143,7 +156,6 @@
                 });
             }
         </script>
-
         <script type="text/javascript">
             function mostrarAyuda(){
                 var riesgo = document.getElementById("tipoRiesgo").value;
