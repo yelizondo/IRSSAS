@@ -22,7 +22,7 @@
                             <button id="downloadpdf" class="btn btn-info navbar-btn" onclick="downloadInformeMejora();">Descargar PDF</button>
                         </div>
                     </div>
-                    <div class="bg-white shadow p-3 mb-5">
+                    <div class="bg-white shadow p-3 mb-5" id ="main">
                         <div id="prueba" class="present" style="height: 700px; overflow-y: scroll;">
                         </div>
                     </div>
@@ -38,7 +38,18 @@
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/0.9.0rc1/jspdf.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.0.272/jspdf.debug.js"></script>
-
+        <script type="text/javascript">
+            function download(){
+                html2canvas($("#main"), {
+                    onrendered: function(canvas) {
+                        var imgData = canvas.toDataURL('image/png');
+                        var doc = new jsPDF({orientation: 'portrait',});
+                        doc.addImage(imgData, 'PNG', 10, 10, canvas.width*0.17,canvas.height*0.17);
+                        doc.save(document.getElementById("asada").selectedOptions[0].innerHTML + '_opciones_de_mejora.pdf');
+                    }
+                });
+            }
+        </script>
         <script type="text/javascript">
             $(document).ready(function () {
 
