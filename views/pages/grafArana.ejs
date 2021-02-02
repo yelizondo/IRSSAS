@@ -101,7 +101,7 @@
                                 </div>
                             </div>
                             <br>
-                            <button class="btn btn-info" onclick="download();">Descargar</button>
+                            <button class="btn btn-info" onclick="download();setTimeout(invisible,50)">Descargar</button>
                         </div>
                     </div>
                 </div>
@@ -154,6 +154,11 @@
                         doc.save(document.getElementById("asada").selectedOptions[0].innerHTML + '_graficos.pdf');
                     }
                 });
+            }
+        </script>
+        <script>
+            function invisible(){
+                document.getElementById("divImg").style.visibility = "hidden";
             }
         </script>
         <script type="text/javascript">
