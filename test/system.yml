@@ -2,19 +2,37 @@ config:
   target: 'http://www.irssas-tec.com'
   plugins:
     expect: {}
+  http:
+    maxSockets: 5
+    pool: 10
   phases:
     - duration: 10
       arrivalRate: 5
     - duration: 15
       arrivalRate: 5
-      rampTo: 50
-    - duration: 10
-      arrivalRate: 100
+      rampTo: 25
+    - duration: 30
+      arrivalRate: 20
     
 scenarios:
   - name: 'Test the complete flow'
     flow:
       - get:
-          url: '/'
+          url: '/componente'
+          expect:
+            - statusCode: 200
+
+      - get:
+          url: '/statsComponentes'
+          expect:
+            - statusCode: 200
+
+      - get:
+          url: '/comparaMapas'
+          expect:
+            - statusCode: 200
+      
+      - get:
+          url: '/grafico'
           expect:
             - statusCode: 200
