@@ -4,8 +4,13 @@ config:
     expect: {}
     fuzzer: {}
   phases:
-    - duration: 40
-      arrivalRate: 9
+    - duration: 10
+      arrivalRate: 2
+    - duration: 20
+      arrivalRate: 2
+      rampTo: 10
+    - duration: 30
+      arrivalRate: 20
     
   ensure:
     maxErrorRate: 2
@@ -13,11 +18,11 @@ scenarios:
   - name: 'Test the complete flow'
     flow:
       - get:
-          url: '/'
+          url: '/statsComponentes'
           expect:
-            - statusCode: 304
+            - statusCode: 302
 
       - get:
           url: '/mapa'
           expect:
-            - statusCode: 304
+            - statusCode: 200
