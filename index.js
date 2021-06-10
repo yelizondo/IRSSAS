@@ -1,4 +1,3 @@
-
 // importar bibliotecas
 const express = require('express');
 const fs = require('fs');
@@ -22,7 +21,10 @@ var transporter = nodemailer.createTransport({
 
 global.transporter = transporter;
 
-const PORT = 8000
+
+
+
+const PORT = process.env.PORT || 8000
 
 //llamar funciones de controller.js
 
@@ -32,11 +34,11 @@ const {getAsadaDefault, getHomePage, login, getMain, getVisor, getComponente, lo
 
 //conexion de BD
 const db = mysql.createConnection ({
-    host     : '172.19.0.2',
-    user     : "root",
-    password : "root123",
-    database : "asadas",
-    port : 3306,
+    host     : '127.0.0.1',
+    user     : 'irssas',
+    password : 'root123',
+    database : 'asadas',
+    port : 3306
 });
 
 db.connect((err) => {
@@ -44,7 +46,6 @@ db.connect((err) => {
         throw err;
     }
     console.log('Connected to database');
-    db.query("SET SESSION sql_mode = 'STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION';")
 });
 global.db = db;
 
@@ -63,15 +64,18 @@ app.use(require('express-session')({
         name: '_es_demo', 
         secret: 'Ak1323e2sndwk_JEKFO', 
         resave: false, 
-        saveUninitialized: false,
-        //httpOnly: true,  // dont let browser javascript access cookie ever
-        //secure: true // only use cookie over https
+        saveUninitialized: false 
  
     }));
 
+
+
+app.use('/test',function(req, res, next){
+   console.log("A new request received at " + Date.now());
+   next();
+});
 // rutas con sus respectivas funciones
 app.get('/', getHomePage);
-app.get('/test', console.log("TEST"));
 app.post('/', [login, getMain]);
 app.get('/visor', getVisor);
 app.get('/main', getMain);
@@ -161,8 +165,5 @@ app.get("/recuperar", recuperacionPage)
 // llamada al puerto 
 app.listen(PORT, () => {
     console.log(`Server running on port: ${PORT}`);
-    var correosRecordatorio = schedule.scheduleJob('0 48 13 26 5 *', function(){
-      sendCorreosNotificacionesAdmin();
-  });;
+    console.log('test');
 });
-
