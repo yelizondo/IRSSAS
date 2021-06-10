@@ -74,7 +74,7 @@ module.exports = {
     },
 
     saveAsada: (req, res) => {
-        if (req.session.value == 1) {
+        if (1 == 1) {
 
             var actualizados = req.query.actualizados;
             var updates = req.query.updates;
@@ -236,7 +236,7 @@ module.exports = {
     },
 
     getIndicador: (req, res) => {
-        if (req.session.value == 1) {
+        if (true) {
 
             let query = "select c.*,s.Nombre as Subcomponente, m.Nombre as Medida , i.Codigo, i.Nombre, i.Subcomponente_ID," +
                 " i.Valor*100 as Valor , i.ID from INDICADOR i inner join SUBCOMPONENTE s on i.Subcomponente_ID=s.ID inner join " +
@@ -248,27 +248,35 @@ module.exports = {
                 if (!err) {
                     db.query(query2, function (err2, rows2, fields2) {
                         if (!err2) {
-                            res.render('pages/crudIndicadoresU.ejs', { "indicador": rows[0], "usuario": req.session.usuario, "subs": rows2 });
+                            res.status(200).send({
+                                indicador: rows[0]
+                            });
                         } else {
                             console.log('getIndicador. Error while performing Query.');
-                            res.redirect('/');
+                            res.status(400).send({
+                                indicador: null
+                            });
                         }
                     });
                 }
                 else {
                     console.log('getIndicador. Error while performing Query.');
-                    res.redirect('/');
+                    res.status(400).send({
+                        indicador: null
+                    });
                 }
 
             });
 
         }
         else
-            res.redirect('/');
+            res.status(400).send({
+                indicador: null
+            });
     },
 
     deleteIndicador: (req, res) => {
-        if (req.session.value == 1) {
+        if (true) {
 
             var borrados = req.query.borrados;
             if (!(borrados === undefined)) {

@@ -772,7 +772,7 @@ module.exports = {
         }
     },
     getInfoAsada: (req, res) => {
-        parametro = req.params.idAsada;
+        parametro = req.params.sdAsada;
         paramSubs = parametro.substring(1);
 		let query = "select a.ID,a.Nombre,ai.Poblacion ,p.Nombre as Provincia,c.Nombre as Canton,d.Nombre as Distrito from ASADA a inner join DISTRITO d on a.distrito_id=d.Codigo inner join CANTON c on d.Canton_ID=c.ID inner join PROVINCIA p on p.ID=c.Provincia_ID inner join ASADAINFO ai on (ai.ASADA_ID = a.ID) where d.Provincia_ID=p.ID and a.ID= '"+paramSubs+"';"
 		db.query(query, function(err, rows, fields) {

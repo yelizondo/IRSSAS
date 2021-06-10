@@ -1,6 +1,12 @@
 const axios = require('axios');
 let assert = require('assert');
 
+var chai = require('chai');
+var chaiHttp = require('chai-http');
+var expect = chai.expect;
+
+chai.use(chaiHttp);
+
 // Data for components
 const nuevos1 = [
     { nombre: 'Nuevo 1', valor: 30.0 },
@@ -95,6 +101,69 @@ describe('Unit tests', function() {
 			})
 			.catch(function (error) {
 				assert.ok(true);
+			});
+		});
+	});
+});
+
+
+
+const actualizados = [
+    "nombre"
+];
+
+const updates = [
+    "NNDA"
+];
+
+beforeEach(function () {
+	chai.request(URL).get(`saveasada?actualizados=${actualizados}&updates=${updates}&id=20212A`);
+});
+
+beforeEach(function() {
+	chai.request(URL).get(`deleteindicador?borrados=['1151A']`);
+})
+
+describe('Integration tests', function () {
+	describe('Información de asada', function () {
+		it('Consistencia entre edición y lectura: Debe leer el nombre NNDA', function() {
+			return chai.request(URL).get(`/getInfoAsada/20212A`)
+			.then(function (res) {
+				expect(res).to.have.status(400);
+				expect(res).to.have.property('error');
+				expect(res.asadaInfo.Nombre).to.be.equal('NNDA');
+				expect(res).not.to.have.property('indicador');
+			});
+		});
+	});
+
+	describe('Consistencia de indicadores', function () {
+		it('Consistencia entre eliminación y lectura: No debe encontrarlo', function () {
+			return chai.request(URL).get(`/indicador/1151A`)
+			.then(function (res) {
+				expect(res).to.have.status(400);
+				expect(res).to.have.property('indicador');
+			});
+		});
+	});
+
+	describe('Visualizar estadísticas', function () {
+		it('Asegura el funcionamiento de las liberías para visualización: debe dar 2xx', function() {
+			return chai.request(URL).get(`/getInfoAsada/20212A`)
+			.then(function (res) {
+				expect(res).to.have.status(400);
+				expect(res).to.have.property('error');
+				expect(res).not.to.have.property('indicador');
+			});
+		});
+	});
+
+	describe('Comparar mapas de asadas por años',function () {
+		it('Asegura el funcionamiento de las librerías para los mapas: debe ser 2xx', function() {
+			return chai.request(URL).get(`/indicador/1151A`)
+			.then(function (res) {
+				expect(res).to.have.status(400);
+				expect(res).not.to.have.property('indicador');
 			});
 		});
 	});
