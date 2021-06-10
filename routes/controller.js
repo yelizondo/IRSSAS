@@ -49,8 +49,8 @@ module.exports = {
     	if(true){
             let query = "select a.ID,a.Nombre,p.ID as Provincia,c.ID as Canton,d.ID as Distrito from ASADA a inner join DISTRITO d on a.distrito_id=d.Codigo inner join CANTON c on d.Canton_ID=c.ID inner join PROVINCIA p on p.ID=c.Provincia_ID where d.Provincia_ID=p.ID ";
             let query2 = "select * from PROVINCIA order by nombre;"
-			if(req.session.usuario.Tipo=="2")
-				query+=" where a.ID="+req.session.usuario.Asada_ID+" ;";
+			if(true)
+				query+=" where a.ID="+1+" ;";
 			db.query(query, function(err,rows,fields){
 				db.query(query2, function(err2,rows2,fields2){
                     res.render('pages/grafArana.ejs',{"usuario": req.session.usuario, "asadas":rows, "prov": rows2});
