@@ -4,18 +4,23 @@
   "description": "Proyecto de Asadas IRSAS",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js"
+    "test": "mocha ./**/*.js",
+    "start": "node index.js",
+    "operational": "artillery run test/operational.yml",
+    "system": "artillery run test/system.yml"
   },
   "author": "Joseph Ramírez B",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.21.1",
     "body-parser": "^1.18.3",
     "ejs": "^2.6.1",
     "express": "^4.17.1",
     "express-fileupload": "^1.1.6",
     "express-session": "^1.15.6",
-    "mysql": "^2.16.0",
+    "mocha": "^9.0.0",
+    "mysql": "^2.18.1",
+    "mysql2": "^2.2.5",
     "node-schedule": "^1.3.2",
     "nodemailer": "^6.4.6",
     "npm": "^6.14.5",
@@ -24,5 +29,15 @@
     "req-flash": "0.0.3",
     "session-file-store": "^1.2.0",
     "uuid": "^3.3.2"
+  },
+  "devDepencies": {
+    "mocca": "^8.4.0",
+    "artillery": "^1.7.2",
+    "artillery-plugin-expect": "^1.3.0",
+    "artillery-plugin-fuzzer": "^1.0.1",
+    "axios": "^0.21.1"
+  },
+  "devDependencies": {
+    "artillery-plugin-expect": "^1.4.0"
   }
 }

@@ -1,0 +1,49 @@
+version: "3.4"
+
+x-common-variables: &common-variables
+  MYSQL_USER: irssas
+  MYSQL_PASSWORD: root123
+  MYSQL_DATABASE: asadas
+
+services:
+  mysqldb:
+    image: mysql:8.0
+    container_name: mysql_container
+    environment:
+      <<: *common-variables
+      MYSQL_HOST: localhost
+      MYSQL_ROOT_PASSWORD: root123
+    ports:
+      - 3306:3306
+    restart: unless-stopped
+    volumes:
+      - ./db/sample.sql:/docker-entrypoint-initdb.d/sample.sql
+      
+  phpmyadmin:
+    depends_on:
+      - mysqldb
+    image: phpmyadmin/phpmyadmin
+    container_name: phpadmin_container
+    environment:
+      PMA_HOST: mysqldb
+    links:
+      - mysqldb:mysqldb
+    ports:
+      - 8080:80
+    restart: always
+
+  server:
+    build: ./
+    container_name: node_server_container
+    depends_on:
+      - mysqldb
+    environment:
+      <<: *common-variables
+      MYSQL_HOST_IP: mysqldb
+    ports:
+      - 8000:8000
+    volumes:
+      - ./:/app
+    links:
+      - mysqldb
+    command: npm start

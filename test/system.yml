@@ -1,0 +1,20 @@
+config:
+  target: 'http://www.irssas-tec.com'
+  plugins:
+    expect: {}
+  phases:
+    - duration: 10
+      arrivalRate: 5
+    - duration: 15
+      arrivalRate: 5
+      rampTo: 50
+    - duration: 10
+      arrivalRate: 100
+    
+scenarios:
+  - name: 'Test the complete flow'
+    flow:
+      - get:
+          url: '/'
+          expect:
+            - statusCode: 200

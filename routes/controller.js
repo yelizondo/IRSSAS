@@ -25,6 +25,7 @@ module.exports = {
                 res.render('pages/index.ejs', {"rows":rows, "error":""});
                 //res.render('pages/inicio.ejs', {"rows":rows, "error":""});
             }
+            console.log(err)
         });
 
         }

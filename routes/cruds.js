@@ -118,7 +118,7 @@ module.exports = {
         else
             res.redirect('/');
     },
-
+    
     saveComponente: (req, res) => {
         if (req.session.value == 1) {
 
@@ -339,7 +339,7 @@ module.exports = {
             db.query("update INDICADOR i, SUBCOMPONENTE s, COMPONENTE c  set i.valor=(c.Valor*s.valor)/(s.cantpreguntas*10000) where i.ID>0 and i.Subcomponente_ID=s.ID and s.Componente_ID=c.ID;");
         }
     },
-
+    
     newIndicador: (req, res) => {
         if (req.session.value == 1) {
 

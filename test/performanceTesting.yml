@@ -1,0 +1,33 @@
+config:
+  target: 'http://www.irssas-tec.com/'
+  plugins:
+    expect: {}
+    fuzzer: {}
+  phases:
+    - duration: 40
+      arrivalRate: 9
+    
+  ensure:
+    maxErrorRate: 2
+    # latency
+    p95: 200
+    p99: 200 
+scenarios:
+  - name: 'Test the complete flow'
+    flow:
+      - get:
+          url: '/'
+          expect:
+            - statusCode: 200
+
+      - get:
+          url: '/index'
+          expect:
+            - statusCode: 200
+      
+      - post:
+          url: "/api"
+          json:
+            username: "{{ naughtyString }}"
+            password: "secret"
+      - log: "***** naughtyString = {{ naughtyString }}"

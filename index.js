@@ -4,7 +4,7 @@ const express = require('express');
 const fs = require('fs');
 const fileUpload = require('express-fileupload');
 const bodyParser = require('body-parser');
-const mysql = require('mysql');
+const mysql = require('mysql2');
 
 const path = require('path');
 const app = express();
@@ -22,10 +22,7 @@ var transporter = nodemailer.createTransport({
 
 global.transporter = transporter;
 
-
-
-
-const PORT = process.env.PORT || 8000
+const PORT = 8000
 
 //llamar funciones de controller.js
 
@@ -35,17 +32,11 @@ const {getAsadaDefault, getHomePage, login, getMain, getVisor, getComponente, lo
 
 //conexion de BD
 const db = mysql.createConnection ({
-    host     : process.env.DB_URL,
-    user     : process.env.DB_USER,
-    password : process.env.DB_PASS,
-    database : process.env.DB_NAME,
-    port : process.env.DB_PORT,
-    ssl: {
-        ca: process.env.SERVER_CA_PEM
-        ,
-        key: process.env.CLIENT_KEY_PEM, 
-        cert: process.env.CLIENT_CERT_PEM
-    }
+    host     : '172.19.0.2',
+    user     : "root",
+    password : "root123",
+    database : "asadas",
+    port : 3306,
 });
 
 db.connect((err) => {
@@ -72,14 +63,15 @@ app.use(require('express-session')({
         name: '_es_demo', 
         secret: 'Ak1323e2sndwk_JEKFO', 
         resave: false, 
-        saveUninitialized: false 
+        saveUninitialized: false,
+        //httpOnly: true,  // dont let browser javascript access cookie ever
+        //secure: true // only use cookie over https
  
     }));
 
-
-
 // rutas con sus respectivas funciones
 app.get('/', getHomePage);
+app.get('/test', console.log("TEST"));
 app.post('/', [login, getMain]);
 app.get('/visor', getVisor);
 app.get('/main', getMain);

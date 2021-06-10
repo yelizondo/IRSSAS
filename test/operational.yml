@@ -1,0 +1,23 @@
+config:
+  target: 'http://irssas.xyz'
+  plugins:
+    expect: {}
+    fuzzer: {}
+  phases:
+    - duration: 40
+      arrivalRate: 9
+    
+  ensure:
+    maxErrorRate: 2
+scenarios:
+  - name: 'Test the complete flow'
+    flow:
+      - get:
+          url: '/'
+          expect:
+            - statusCode: 304
+
+      - get:
+          url: '/mapa'
+          expect:
+            - statusCode: 304
